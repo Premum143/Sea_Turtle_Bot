@@ -414,25 +414,25 @@
       id: 'exit-resignation-process',
       category: 'Exit Policy',
       keywords: ['how to resign', 'resign process', 'resignation process', 'resignation steps', 'submit resignation', 'resignation email', 'resignation submission', 'how do i resign', 'resignation procedure', 'resign from company', 'leave the company', 'reporting manager resign', 'resignation cc hr'],
-      answer: 'To resign from the company, follow this process:<br><br><strong>Step 1: Submit Resignation</strong><br>• Send a resignation <strong>email</strong> to your Reporting Manager with <strong>hr@zouk.co.in</strong> in CC<br>• Notice period starts from the date of the resignation email<br><br><strong>Step 2: Manager''s Review</strong><br>• Your Reporting Manager reviews and confirms your Last Working Day (LWD)<br>• For Early Relieving: approval from Manager, Function Head, and HR is needed<br><br><strong>Step 3: HR Notification</strong><br>• HR informs Finance to hold salary until exit completion<br>• Final LWD and approval chain are documented<br><br><strong>Step 4: Handover & Closing Meeting</strong><br>• Complete full work and data handover before/on LWD<br>• Exit Form is shared 1 week before LWD<br>• Exit Interview conducted by HR on LWD<br><br><strong>Step 5: Asset & Email Clearance</strong><br>• Return all company assets (laptop, charger, equipment) to HR/Admin<br>• Email, system access, and communication groups (WhatsApp, Teams, Slack) are deactivated<br><br><strong>Step 6: Confidentiality & Record Update</strong><br>• Employee status updated as "Inactive" in HR Master Data<br><br><strong>Step 7: Full & Final Settlement (F&F)</strong><br>• Processed within <strong>30–45 working days</strong> from LWD<br>• Includes pending salary, reimbursements, deductions, and experience letter<br><br>— from Exit Policy'
+      answer: 'To resign from the company, follow this process:<br><br><strong>Step 1: Submit Resignation</strong><br>• Send a resignation <strong>email</strong> to your Reporting Manager with <strong>hr@zouk.co.in</strong> in CC<br>• Notice period starts from the date of the resignation email<br><br><strong>Step 2: Manager\'s Review</strong><br>• Your Reporting Manager reviews and confirms your Last Working Day (LWD)<br>• For Early Relieving: approval from Manager, Function Head, and HR is needed<br><br><strong>Step 3: HR Notification</strong><br>• HR informs Finance to hold salary until exit completion<br>• Final LWD and approval chain are documented<br><br><strong>Step 4: Handover & Closing Meeting</strong><br>• Complete full work and data handover before/on LWD<br>• Exit Form is shared 1 week before LWD<br>• Exit Interview conducted by HR on LWD<br><br><strong>Step 5: Asset & Email Clearance</strong><br>• Return all company assets (laptop, charger, equipment) to HR/Admin<br>• Email, system access, and communication groups (WhatsApp, Teams, Slack) are deactivated<br><br><strong>Step 6: Confidentiality & Record Update</strong><br>• Employee status updated as "Inactive" in HR Master Data<br><br><strong>Step 7: Full & Final Settlement (F&F)</strong><br>• Processed within <strong>30–45 working days</strong> from LWD<br>• Includes pending salary, reimbursements, deductions, and experience letter<br><br>— from Exit Policy'
     },
     {
       id: 'exit-notice-period',
       category: 'Exit Policy',
       keywords: ['notice period exit', 'notice period resignation', 'how long notice period', 'notice period days', '60 days notice', '30 days notice', 'contractual notice period', 'full time notice period', 'notice period duration', 'notice period length', 'how many days notice', 'serving notice period'],
-      answer: 'The standard notice periods are:<br><br>• <strong>Full-time (on-roll) employees:</strong> 60 days<br>• <strong>Contractual employees:</strong> 30 days<br><br>The notice period starts from the date of the resignation email. If you don''t serve the full notice period, the shortfall is recovered from your Full & Final (F&F) settlement — unless waived for verified medical emergencies.<br><br>— from Exit Policy'
+      answer: 'The standard notice periods are:<br><br>• <strong>Full-time (on-roll) employees:</strong> 60 days<br>• <strong>Contractual employees:</strong> 30 days<br><br>The notice period starts from the date of the resignation email. If you don\'t serve the full notice period, the shortfall is recovered from your Full & Final (F&F) settlement — unless waived for verified medical emergencies.<br><br>— from Exit Policy'
     },
     {
       id: 'exit-early-relieving',
       category: 'Exit Policy',
       keywords: ['early relieving', 'short notice', 'leave early', 'before notice period', 'early release', 'release before notice', 'early exit', 'can i leave early', 'early separation', 'less notice period', 'early relieving approval'],
-      answer: '<strong>Early Relieving</strong> is when you request to be relieved before completing the full notice period.<br><br><strong>Requirements:</strong><br>• <strong>Approval needed from:</strong> Reporting Manager, Function Head, and HR<br>• <strong>Notice shortfall:</strong> Will be recovered from your F&F settlement<br>• <strong>Waiver possible:</strong> Yes, for verified medical emergencies supported with documents<br><br>If the manager wants to release you early but you don''t agree, you either serve the full notice or are placed on garden leave.<br><br>— from Exit Policy'
+      answer: '<strong>Early Relieving</strong> is when you request to be relieved before completing the full notice period.<br><br><strong>Requirements:</strong><br>• <strong>Approval needed from:</strong> Reporting Manager, Function Head, and HR<br>• <strong>Notice shortfall:</strong> Will be recovered from your F&F settlement<br>• <strong>Waiver possible:</strong> Yes, for verified medical emergencies supported with documents<br><br>If the manager wants to release you early but you don\'t agree, you either serve the full notice or are placed on garden leave.<br><br>— from Exit Policy'
     },
     {
       id: 'exit-mutual-separation',
       category: 'Exit Policy',
       keywords: ['mutual separation', 'mutual exit', 'mutual agreement', 'mutually agreed exit', 'mutual resignation', 'no penalty exit', 'mutual consent separation', 'both parties agree'],
-      answer: '<strong>Mutual Separation</strong> occurs when both the employee and management agree on an early exit.<br><br><strong>Key points:</strong><br>• No penalty or notice shortfall recovery since it''s mutually approved<br>• Both the employee and management must agree<br>• This is the only exit type where notice shortfall is waived by design<br><br>— from Exit Policy'
+      answer: '<strong>Mutual Separation</strong> occurs when both the employee and management agree on an early exit.<br><br><strong>Key points:</strong><br>• No penalty or notice shortfall recovery since it\'s mutually approved<br>• Both the employee and management must agree<br>• This is the only exit type where notice shortfall is waived by design<br><br>— from Exit Policy'
     },
     {
       id: 'exit-medical-resignation',
@@ -462,7 +462,7 @@
       id: 'exit-termination-cause',
       category: 'Exit Policy',
       keywords: ['termination for cause', 'termination misconduct', 'termination policy breach', 'termination code of conduct', 'fired for misconduct', 'termination investigation', 'fired for cause', 'termination grounds'],
-      answer: '<strong>Termination for Cause</strong> is separation due to proven misconduct, policy breach, or violation of the company code of conduct.<br><br><strong>Key points:</strong><br>• <strong>Grounds:</strong> Disciplinary/ethical violations, poor performance, zero-tolerance issues, or proven POSH cases<br>• <strong>Requires:</strong> Investigation and management approval<br>• <strong>Access:</strong> Revoked immediately upon termination notice<br>• <strong>F&F:</strong> At management''s discretion<br>• <strong>Communication:</strong> Official termination letter approved by management, citing the valid reason<br>• <strong>Employee must:</strong> Complete data handover and asset return<br><br>— from Exit Policy'
+      answer: '<strong>Termination for Cause</strong> is separation due to proven misconduct, policy breach, or violation of the company code of conduct.<br><br><strong>Key points:</strong><br>• <strong>Grounds:</strong> Disciplinary/ethical violations, poor performance, zero-tolerance issues, or proven POSH cases<br>• <strong>Requires:</strong> Investigation and management approval<br>• <strong>Access:</strong> Revoked immediately upon termination notice<br>• <strong>F&F:</strong> At management\'s discretion<br>• <strong>Communication:</strong> Official termination letter approved by management, citing the valid reason<br>• <strong>Employee must:</strong> Complete data handover and asset return<br><br>— from Exit Policy'
     },
     {
       id: 'exit-termination-performance',
@@ -474,7 +474,7 @@
       id: 'exit-disciplinary-termination',
       category: 'Exit Policy',
       keywords: ['disciplinary termination', 'ethical termination', 'zero tolerance', 'fraud termination', 'harassment termination', 'falsification termination', 'unethical behavior fired', 'immediate termination'],
-      answer: '<strong>Disciplinary/Ethical Termination</strong> is triggered by unethical behavior, fraud, harassment, or falsification of records.<br><br><strong>Key points:</strong><br>• <strong>Zero-tolerance policy</strong> — immediate termination is possible<br>• Covers: fraud, harassment, falsification of records, and other ethical violations<br>• F&F is at management''s discretion<br>• No extended process needed for zero-tolerance issues<br><br>— from Exit Policy'
+      answer: '<strong>Disciplinary/Ethical Termination</strong> is triggered by unethical behavior, fraud, harassment, or falsification of records.<br><br><strong>Key points:</strong><br>• <strong>Zero-tolerance policy</strong> — immediate termination is possible<br>• Covers: fraud, harassment, falsification of records, and other ethical violations<br>• F&F is at management\'s discretion<br>• No extended process needed for zero-tolerance issues<br><br>— from Exit Policy'
     },
     {
       id: 'exit-absconding',
@@ -498,7 +498,7 @@
       id: 'exit-death-service',
       category: 'Exit Policy',
       keywords: ['death in service', 'employee death', 'death of employee', 'demise in service', 'statutory benefits death', 'family settlement death'],
-      answer: 'In the case of <strong>Death in Service</strong>:<br><br>• HR coordinates with the <strong>deceased employee''s family</strong><br>• Provides <strong>statutory benefits and settlement</strong><br>• The policy does not specify fixed amounts — it''s handled individually<br><br>Please reach out to HR at <strong>hr@zouk.co.in</strong> for specific guidance in such situations.<br><br>— from Exit Policy'
+      answer: 'In the case of <strong>Death in Service</strong>:<br><br>• HR coordinates with the <strong>deceased employee\'s family</strong><br>• Provides <strong>statutory benefits and settlement</strong><br>• The policy does not specify fixed amounts — it\'s handled individually<br><br>Please reach out to HR at <strong>hr@zouk.co.in</strong> for specific guidance in such situations.<br><br>— from Exit Policy'
     },
     {
       id: 'exit-probation',
@@ -510,31 +510,31 @@
       id: 'exit-garden-leave',
       category: 'Exit Policy',
       keywords: ['garden leave', 'garden leave meaning', 'on payroll not working', 'relieved from duties', 'garden leave during notice', 'paid not working', 'garden leave policy'],
-      answer: '<strong>Garden Leave</strong> is when you remain on payroll but are relieved from duties during the notice period, for business or confidentiality reasons.<br><br><strong>Key points:</strong><br>• You <strong>continue to be paid</strong> (remain on payroll)<br>• You are <strong>relieved from active duties</strong><br>• Used for business or confidentiality reasons<br>• This is NOT the same as termination<br>• Can apply when a manager wants to release you early but you don''t agree to early relieving<br><br>— from Exit Policy'
+      answer: '<strong>Garden Leave</strong> is when you remain on payroll but are relieved from duties during the notice period, for business or confidentiality reasons.<br><br><strong>Key points:</strong><br>• You <strong>continue to be paid</strong> (remain on payroll)<br>• You are <strong>relieved from active duties</strong><br>• Used for business or confidentiality reasons<br>• This is NOT the same as termination<br>• Can apply when a manager wants to release you early but you don\'t agree to early relieving<br><br>— from Exit Policy'
     },
     {
       id: 'exit-ff-settlement',
       category: 'Exit Policy',
       keywords: ['full and final settlement', 'ff settlement', 'f&f settlement', 'final settlement', 'ff payout', 'full and final', 'exit settlement', 'pending salary exit', 'experience letter', 'ff timeline', 'settlement timeline', 'when will i get ff', 'how long ff', 'ff days', 'ff working days', 'how many days ff', 'ff payment', 'salary hold exit'],
-      answer: '<strong>Full & Final (F&F) Settlement</strong> is processed within <strong>30–45 working days</strong> from your Last Working Day (LWD).<br><br><strong>Process:</strong><br>• HR shares monthly input to Finance by the <strong>2nd Monday of the month</strong><br>• Finance processes payout by <strong>Friday of the same week</strong><br>• Includes: pending salary, reimbursements, deductions, and experience letter<br><br><strong>Important:</strong><br>• Salary is <strong>held by Finance</strong> during the exit process (instructed by HR)<br>• Cannot be released before exit completion<br>• F&F is managed by the <strong>Beehive/Finance Team</strong> based on HR''s input<br><br>— from Exit Policy'
+      answer: '<strong>Full & Final (F&F) Settlement</strong> is processed within <strong>30–45 working days</strong> from your Last Working Day (LWD).<br><br><strong>Process:</strong><br>• HR shares monthly input to Finance by the <strong>2nd Monday of the month</strong><br>• Finance processes payout by <strong>Friday of the same week</strong><br>• Includes: pending salary, reimbursements, deductions, and experience letter<br><br><strong>Important:</strong><br>• Salary is <strong>held by Finance</strong> during the exit process (instructed by HR)<br>• Cannot be released before exit completion<br>• F&F is managed by the <strong>Beehive/Finance Team</strong> based on HR\'s input<br><br>— from Exit Policy'
     },
     {
       id: 'exit-roles',
       category: 'Exit Policy',
       keywords: ['exit roles', 'exit responsibilities', 'who does what exit', 'employee responsibility exit', 'manager responsibility exit', 'hr responsibility exit', 'admin responsibility exit', 'finance responsibility exit', 'exit roles and responsibilities'],
-      answer: 'Five distinct roles are defined in the exit process:<br><br><strong>1. Employee:</strong> Submit resignation, serve notice, complete handover, return assets<br><br><strong>2. Reporting Manager:</strong> Approve resignation, confirm LWD, ensure transition and documentation<br><br><strong>3. HR Department:</strong> Manage full exit process, coordinate with Finance, close access, update master data, conduct exit interviews<br><br><strong>4. Admin Team:</strong> Collect company property, assist HR with deactivation and clearance<br><br><strong>5. Beehive/Finance Team:</strong> Hold and release salary/F&F as per HR''s communication within defined timelines<br><br>— from Exit Policy'
+      answer: 'Five distinct roles are defined in the exit process:<br><br><strong>1. Employee:</strong> Submit resignation, serve notice, complete handover, return assets<br><br><strong>2. Reporting Manager:</strong> Approve resignation, confirm LWD, ensure transition and documentation<br><br><strong>3. HR Department:</strong> Manage full exit process, coordinate with Finance, close access, update master data, conduct exit interviews<br><br><strong>4. Admin Team:</strong> Collect company property, assist HR with deactivation and clearance<br><br><strong>5. Beehive/Finance Team:</strong> Hold and release salary/F&F as per HR\'s communication within defined timelines<br><br>— from Exit Policy'
     },
     {
       id: 'exit-asset-clearance',
       category: 'Exit Policy',
       keywords: ['return assets', 'asset clearance', 'return laptop', 'return equipment', 'company assets', 'clearance checklist', 'asset return process', 'email deactivation', 'system access closure', 'groups removal', 'whatsapp teams slack removal', 'deactivate email', 'keep email active', 'confidentiality after exit', 'no company data after exit', 'data breach post exit', 'non disclosure after leaving'],
-      answer: 'Before exiting, you must complete <strong>Asset and Email Clearance</strong>:<br><br><strong>Asset Return:</strong><br>• Return all assigned assets (laptop, charger, equipment) to HR/Admin<br>• No company data should remain with the employee<br><br><strong>Email & Access:</strong><br>• Official email, system access, and shared folders are deactivated<br>• Removed from communication groups (WhatsApp, Teams, Slack)<br>• <strong>Exception:</strong> Email can be kept active if the Manager confirms it''s needed for document transfer<br><br><strong>Confidentiality:</strong><br>• Exiting employees remain bound by confidentiality and non-disclosure obligations post-exit<br>• Data breach or misuse after exit invites legal action<br>• HR and Admin jointly ensure complete closure of access<br><br>— from Exit Policy'
+      answer: 'Before exiting, you must complete <strong>Asset and Email Clearance</strong>:<br><br><strong>Asset Return:</strong><br>• Return all assigned assets (laptop, charger, equipment) to HR/Admin<br>• No company data should remain with the employee<br><br><strong>Email & Access:</strong><br>• Official email, system access, and shared folders are deactivated<br>• Removed from communication groups (WhatsApp, Teams, Slack)<br>• <strong>Exception:</strong> Email can be kept active if the Manager confirms it\'s needed for document transfer<br><br><strong>Confidentiality:</strong><br>• Exiting employees remain bound by confidentiality and non-disclosure obligations post-exit<br>• Data breach or misuse after exit invites legal action<br>• HR and Admin jointly ensure complete closure of access<br><br>— from Exit Policy'
     },
     {
       id: 'exit-documentation',
       category: 'Exit Policy',
       keywords: ['exit documentation', 'exit records', 'exit records retention', 'how long exit records', 'exit record years', 'hr master data', 'clearance certificate', 'ff computation sheet', 'exit form', 'exit interview record', 'retention period', 'exit recordkeeping'],
-      answer: 'HR must maintain the following exit documentation:<br><br><strong>Required records:</strong><br>• Resignation or termination emails<br>• Exit form and interview records<br>• Clearance certificate<br>• F&F computation sheet<br>• Updated HR Master Data<br><br><strong>Retention period:</strong><br>• Minimum <strong>3 years</strong> from the employee''s LWD<br>• Longer if legally required<br><br>Covers both voluntary and involuntary exits.<br><br>— from Exit Policy'
+      answer: 'HR must maintain the following exit documentation:<br><br><strong>Required records:</strong><br>• Resignation or termination emails<br>• Exit form and interview records<br>• Clearance certificate<br>• F&F computation sheet<br>• Updated HR Master Data<br><br><strong>Retention period:</strong><br>• Minimum <strong>3 years</strong> from the employee\'s LWD<br>• Longer if legally required<br><br>Covers both voluntary and involuntary exits.<br><br>— from Exit Policy'
     },
     {
       id: 'exit-leave-during-notice',
@@ -913,13 +913,13 @@
       id: 'about-bot',
       category: null,
       keywords: ['codebase', 'source code', 'how do you work', 'how you work', 'how are you built', 'your code', 'github', 'repository', 'backend', 'frontend', 'api', 'technology stack', 'your architecture', 'technical details', 'tell me about yourself', 'who created you', 'who built you'],
-      answer: 'I''m here to help you with questions about Sea Turtle''s HR policies — specifically our <strong>Leave Policy</strong>, <strong>POSH Policy</strong>, <strong>Exit Policy</strong>, <strong>Salary Advance Policy</strong>, <strong>Code of Conduct</strong>, and <strong>Grievance Redressal Policy</strong>.<br><br>I can''t share technical details about how I work, but I''m happy to answer any questions you have about:<br>• Leave entitlements and processes<br>• POSH (Prevention of Sexual Harassment) procedures<br>• Exit process, resignation, F&F, and more<br>• Salary advance eligibility, limits, and repayment<br>• Code of Conduct, ethical standards, and misconduct classification<br>• Grievance redressal process and committee details<br><br>Is there something specific about our company policies I can help you with?'
+      answer: 'I\'m here to help you with questions about Sea Turtle\'s HR policies — specifically our <strong>Leave Policy</strong>, <strong>POSH Policy</strong>, <strong>Exit Policy</strong>, <strong>Salary Advance Policy</strong>, <strong>Code of Conduct</strong>, and <strong>Grievance Redressal Policy</strong>.<br><br>I can\'t share technical details about how I work, but I\'m happy to answer any questions you have about:<br>• Leave entitlements and processes<br>• POSH (Prevention of Sexual Harassment) procedures<br>• Exit process, resignation, F&F, and more<br>• Salary advance eligibility, limits, and repayment<br>• Code of Conduct, ethical standards, and misconduct classification<br>• Grievance redressal process and committee details<br><br>Is there something specific about our company policies I can help you with?'
     },
     {
       id: 'capabilities',
       category: null,
       keywords: ['what can i do', 'what can you do', 'what can i ask', 'how can you help', 'what do you do', 'help me', 'capabilities', 'features', 'options', 'i need help', 'what should i ask', 'guide me', 'not sure what to ask', 'help', 'confused', 'what to ask'],
-      answer: 'Here''s what I can help you with:<br><br><strong>Leave Policy Questions:</strong><br>• Different types of leave (Annual, Medical, Maternity, Paternity, and more)<br>• How many days you''re entitled to<br>• How to apply for leave<br>• Carry-forward rules<br>• Special leave types (Marriage, Bereavement, Adoption, Celebratory Off, etc.)<br><br><strong>POSH Policy Questions:</strong><br>• What constitutes sexual harassment<br>• How to file a complaint<br>• Who to contact (ICC members)<br>• The investigation process and timelines<br>• Your rights and protections<br><br><strong>Exit Policy Questions:</strong><br>• How to resign and the notice period<br>• Types of exits (voluntary and involuntary)<br>• Full & Final settlement timeline<br>• Asset clearance and documentation<br>• Leaves during notice period<br><br><strong>Salary Advance Policy Questions:</strong><br>• Advance eligibility and limits<br>• Permissible reasons for requesting an advance<br>• How to apply and approval process<br>• Recovery and repayment through salary deduction<br>• Rules during separation or termination<br><br><strong>Code of Conduct Questions:</strong><br>• Ethical standards and expected behavior<br>• Anti-corruption and anti-fraud rules<br>• Misconduct classification (Level 1, 2, 3)<br>• Escalation matrix and reporting process<br>• Confidentiality and investigation procedures<br><br><strong>Grievance Redressal Policy Questions:</strong><br>• How to raise a workplace grievance<br>• Grievance Redressal Committee details<br>• Confidentiality and protection against retaliation<br>• Resolution timelines and documentation<br>• What''s covered and what''s excluded<br><br>Example questions:<br>• "How much maternity leave am I entitled to?"<br>• "What happens during a POSH investigation?"<br>• "How do I resign from the company?"<br>• "Can I get a salary advance?"<br>• "What is considered gross misconduct?"<br>• "How do I raise a grievance?"<br><br>Just ask me anything about these policies!'
+      answer: 'Here\'s what I can help you with:<br><br><strong>Leave Policy Questions:</strong><br>• Different types of leave (Annual, Medical, Maternity, Paternity, and more)<br>• How many days you\'re entitled to<br>• How to apply for leave<br>• Carry-forward rules<br>• Special leave types (Marriage, Bereavement, Adoption, Celebratory Off, etc.)<br><br><strong>POSH Policy Questions:</strong><br>• What constitutes sexual harassment<br>• How to file a complaint<br>• Who to contact (ICC members)<br>• The investigation process and timelines<br>• Your rights and protections<br><br><strong>Exit Policy Questions:</strong><br>• How to resign and the notice period<br>• Types of exits (voluntary and involuntary)<br>• Full & Final settlement timeline<br>• Asset clearance and documentation<br>• Leaves during notice period<br><br><strong>Salary Advance Policy Questions:</strong><br>• Advance eligibility and limits<br>• Permissible reasons for requesting an advance<br>• How to apply and approval process<br>• Recovery and repayment through salary deduction<br>• Rules during separation or termination<br><br><strong>Code of Conduct Questions:</strong><br>• Ethical standards and expected behavior<br>• Anti-corruption and anti-fraud rules<br>• Misconduct classification (Level 1, 2, 3)<br>• Escalation matrix and reporting process<br>• Confidentiality and investigation procedures<br><br><strong>Grievance Redressal Policy Questions:</strong><br>• How to raise a workplace grievance<br>• Grievance Redressal Committee details<br>• Confidentiality and protection against retaliation<br>• Resolution timelines and documentation<br>• What\'s covered and what\'s excluded<br><br>Example questions:<br>• "How much maternity leave am I entitled to?"<br>• "What happens during a POSH investigation?"<br>• "How do I resign from the company?"<br>• "Can I get a salary advance?"<br>• "What is considered gross misconduct?"<br>• "How do I raise a grievance?"<br><br>Just ask me anything about these policies!'
     },
     {
       id: 'what-policies',
@@ -937,25 +937,25 @@
       id: 'howareyou',
       category: null,
       keywords: ['how are you', 'how are you doing', 'how do you do', 'how is it going', 'you good', 'you alright', 'how are things', 'whats up'],
-      answer: 'I''m doing great, thanks for asking! Ready and waiting to help you with any questions about our Leave Policy, POSH Policy, Exit Policy, Salary Advance Policy, Code of Conduct, or Grievance Redressal Policy. What''s on your mind?'
+      answer: 'I\'m doing great, thanks for asking! Ready and waiting to help you with any questions about our Leave Policy, POSH Policy, Exit Policy, Salary Advance Policy, Code of Conduct, or Grievance Redressal Policy. What\'s on your mind?'
     },
     {
       id: 'goodbye',
       category: null,
       keywords: ['bye', 'goodbye', 'see you', 'talk later', 'see ya', 'cya', 'gotta go', 'leaving', 'signing off'],
-      answer: 'Take care! It was lovely chatting with you. If you ever need help with our policies again, I''m always here. Have a great one!'
+      answer: 'Take care! It was lovely chatting with you. If you ever need help with our policies again, I\'m always here. Have a great one!'
     },
     {
       id: 'hr-email',
       category: null,
       keywords: ['hr email', 'email hr', 'hr contact', 'contact hr', 'hr team', 'hr helpline', 'hr address', 'reach hr', 'hr email id', 'mail hr', 'hr support', 'human resources', 'hr department'],
-      answer: 'You can reach the HR team at <strong>hr@zouk.co.in</strong> — they''ll help you with anything that''s beyond what I can answer here!'
+      answer: 'You can reach the HR team at <strong>hr@zouk.co.in</strong> — they\'ll help you with anything that\'s beyond what I can answer here!'
     },
     {
       id: 'out-of-scope',
       category: null,
       keywords: ['appraisal', 'increment', 'promotion', 'it support', 'remote work', 'work from home', 'wfh', 'reimbursement', 'travel expense', 'payslip', 'salary slip', 'pf', 'provident fund', 'gratuity', 'bonus', 'variable pay', 'comp off', 'compensatory off', 'overtime', 'training policy', 'nda', 'medical insurance', 'health insurance', 'payroll', 'tax'],
-      answer: 'That''s not something I have info on in our current policies, but no worries — reach out to the HR team at <strong>hr@zouk.co.in</strong> and they''ll sort you out!'
+      answer: 'That\'s not something I have info on in our current policies, but no worries — reach out to the HR team at <strong>hr@zouk.co.in</strong> and they\'ll sort you out!'
     },
     {
       id: 'meta-policy-effective-dates',
@@ -973,7 +973,7 @@
       id: 'meta-bot-scope',
       category: null,
       keywords: ['what can this bot do', 'bot limitations', 'non policy questions', 'bot scope', 'things not covered'],
-      answer: 'I''m designed to answer questions about <strong>Leave Policy</strong>, <strong>POSH Policy</strong>, <strong>Exit Policy</strong>, <strong>Salary Advance Policy</strong>, <strong>Code of Conduct</strong>, and <strong>Grievance Redressal Policy</strong> only. For other HR matters like salary, IT support, payroll, reimbursements, or any other topics, please reach out to the HR team at <strong>hr@zouk.co.in</strong>.'
+      answer: 'I\'m designed to answer questions about <strong>Leave Policy</strong>, <strong>POSH Policy</strong>, <strong>Exit Policy</strong>, <strong>Salary Advance Policy</strong>, <strong>Code of Conduct</strong>, and <strong>Grievance Redressal Policy</strong> only. For other HR matters like salary, IT support, payroll, reimbursements, or any other topics, please reach out to the HR team at <strong>hr@zouk.co.in</strong>.'
     },
     {
       id: 'meta-policy-creators',
@@ -996,8 +996,8 @@
   ];
 
   var GREETINGS = ['hi', 'hello', 'hey', 'good morning', 'good afternoon', 'good evening', 'greetings', 'namaste'];
-  var GREETING_RESPONSE = 'Hey there! Great to see you! I''m <strong>Turtle</strong>, your HR Policy Assistant. Ask me anything about our <strong>Leave Policy</strong>, <strong>POSH Policy</strong>, <strong>Exit Policy</strong>, <strong>Salary Advance Policy</strong>, <strong>Code of Conduct</strong>, or <strong>Grievance Redressal Policy</strong> — I''m here to help!';
-  var FALLBACK = 'That''s not something covered in our current HR policies, but no worries — please reach out to our HR team at <strong>hr@zouk.co.in</strong> and they''ll help you out!';
+  var GREETING_RESPONSE = 'Hey there! Great to see you! I\'m <strong>Turtle</strong>, your HR Policy Assistant. Ask me anything about our <strong>Leave Policy</strong>, <strong>POSH Policy</strong>, <strong>Exit Policy</strong>, <strong>Salary Advance Policy</strong>, <strong>Code of Conduct</strong>, or <strong>Grievance Redressal Policy</strong> — I\'m here to help!';
+  var FALLBACK = 'That\'s not something covered in our current HR policies, but no worries — please reach out to our HR team at <strong>hr@zouk.co.in</strong> and they\'ll help you out!';
 
   var REDIRECT_KEYWORDS = ['my complaint', 'my case', 'my icc', 'my posh case', 'disciplinary', 'terminate', 'firing', 'termination', 'suspension', 'show cause', 'my manager is', 'my coworker', 'my colleague is', 'active complaint', 'pending complaint', 'specific case', 'individual case'];
   var REDIRECT_RESPONSE = 'Thank you for reaching out. For active complaints, disciplinary matters, or individual cases, please connect with the <strong>HR team</strong> at <strong>hr@zouk.co.in</strong> or reach out to the <strong>POSH Internal Committee</strong> members listed in the policy. They are best equipped to assist you with your specific situation.';
@@ -1018,8 +1018,198 @@
     return div.innerHTML;
   }
 
+  var STOP_WORDS = new Set([
+    'a', 'an', 'and', 'are', 'as', 'at', 'be', 'by', 'can', 'could', 'did', 'do', 'does',
+    'for', 'from', 'had', 'has', 'have', 'how', 'i', 'if', 'in', 'is', 'it', 'me', 'my',
+    'of', 'on', 'or', 'our', 'please', 'pls', 'plz', 'should', 'tell', 'that', 'the',
+    'their', 'there', 'this', 'to', 'was', 'we', 'what', 'when', 'where', 'which', 'who',
+    'why', 'will', 'with', 'you', 'your', 'kya', 'ka', 'ki', 'ke', 'hai', 'hain', 'hoga',
+    'hogi', 'mujhe', 'mera', 'meri', 'main', 'mein'
+  ]);
+
+  var ALIASES = {
+    al: 'annual leave earned leave',
+    el: 'annual leave earned leave',
+    cl: 'casual leave medical leave',
+    ml: 'medical leave sick leave',
+    sl: 'sick leave medical leave',
+    lwp: 'leave without pay unpaid leave absent',
+    lop: 'loss of pay leave without pay',
+    wo: 'weekly off weekend',
+    ph: 'public holiday company holiday',
+    np: 'notice period resignation exit',
+    lwd: 'last working day exit resignation',
+    fnf: 'full and final settlement final settlement',
+    ff: 'full and final settlement final settlement',
+    ffs: 'full and final settlement final settlement',
+    posh: 'prevention sexual harassment workplace harassment',
+    icc: 'internal complaints committee posh committee',
+    ic: 'internal complaints committee posh committee',
+    coc: 'code of conduct misconduct ethics discipline',
+    grc: 'grievance redressal committee grievance',
+    gred: 'grievance redressal grievance',
+    hrbp: 'hr reporting manager approval',
+    pip: 'performance improvement plan termination performance',
+    ctc: 'salary compensation advance limit',
+    emi: 'repayment deduction recovery installment',
+    chutti: 'leave',
+    chhutti: 'leave',
+    leaves: 'leave',
+    bimar: 'sick medical illness',
+    bimaar: 'sick medical illness',
+    tabiyat: 'sick medical illness',
+    shadi: 'marriage wedding',
+    shaadi: 'marriage wedding',
+    vivah: 'marriage wedding',
+    paisa: 'salary advance money',
+    paise: 'salary advance money',
+    loan: 'salary advance',
+    resign: 'resignation exit leave company',
+    quit: 'resignation exit leave company',
+    fired: 'termination exit misconduct',
+    fire: 'termination exit misconduct',
+    nikal: 'termination exit',
+    complaint: 'grievance report complaint',
+    complain: 'grievance report complaint',
+    harassment: 'posh sexual harassment code conduct',
+    fraud: 'code conduct misconduct whistleblower',
+    theft: 'code conduct misconduct stealing',
+    chori: 'theft stealing misconduct'
+  };
+
   function normalize(text) {
-    return text.toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, ' ').replace(/\s+/g, ' ').trim();
+    return text
+      .toLowerCase()
+      .replace(/&/g, ' and ')
+      .replace(/[^\p{L}\p{N}\s]/gu, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  function stem(word) {
+    if (word.length > 5 && word.slice(-3) === 'ies') return word.slice(0, -3) + 'y';
+    if (word.length > 5 && word.slice(-3) === 'ing') return word.slice(0, -3);
+    if (word.length > 4 && word.slice(-2) === 'ed') return word.slice(0, -2);
+    if (word.length > 4 && word.slice(-1) === 's') return word.slice(0, -1);
+    return word;
+  }
+
+  function expandAliases(text) {
+    var words = normalize(text).split(' ').filter(Boolean);
+    var expanded = words.slice();
+    for (var i = 0; i < words.length; i++) {
+      if (ALIASES[words[i]]) expanded = expanded.concat(ALIASES[words[i]].split(' '));
+    }
+    return expanded.join(' ');
+  }
+
+  function tokenize(text, keepStopWords) {
+    return expandAliases(text)
+      .split(' ')
+      .map(stem)
+      .filter(function(w) {
+        return w && (keepStopWords || (!STOP_WORDS.has(w) && (w.length > 1 || /\d/.test(w))));
+      });
+  }
+
+  function tokenSet(tokens) {
+    return new Set(tokens);
+  }
+
+  function editDistance(a, b) {
+    if (Math.abs(a.length - b.length) > 1) return 2;
+    if (a === b) return 0;
+    var edits = 0;
+    var i = 0;
+    var j = 0;
+    while (i < a.length && j < b.length) {
+      if (a[i] === b[j]) {
+        i++;
+        j++;
+      } else {
+        edits++;
+        if (edits > 1) return edits;
+        if (a.length > b.length) i++;
+        else if (b.length > a.length) j++;
+        else {
+          i++;
+          j++;
+        }
+      }
+    }
+    if (i < a.length || j < b.length) edits++;
+    return edits;
+  }
+
+  function hasToken(set, token) {
+    if (set.has(token)) return true;
+    if (token.length < 5) return false;
+    var found = false;
+    set.forEach(function(candidate) {
+      if (!found && candidate.length >= 5 && editDistance(token, candidate) <= 1) found = true;
+    });
+    return found;
+  }
+
+  function stripHtml(html) {
+    return html.replace(/<[^>]*>/g, ' ');
+  }
+
+  function categoryWords(category) {
+    return category ? tokenize(category, false) : [];
+  }
+
+  KB.forEach(function(entry) {
+    var searchable = [entry.id.replace(/-/g, ' '), entry.category || '', stripHtml(entry.answer)]
+      .concat(entry.keywords)
+      .join(' ');
+    entry._tokens = tokenize(searchable, false);
+    entry._tokenSet = tokenSet(entry._tokens);
+    entry._categorySet = tokenSet(categoryWords(entry.category));
+    entry._keywordData = entry.keywords.map(function(keyword) {
+      return {
+        raw: normalize(keyword),
+        expanded: expandAliases(keyword),
+        tokens: tokenize(keyword, false)
+      };
+    });
+  });
+
+  function findEntryById(id) {
+    for (var i = 0; i < KB.length; i++) {
+      if (KB[i].id === id) return KB[i];
+    }
+    return null;
+  }
+
+  function hasAny(text, terms) {
+    return terms.some(function(term) { return text.indexOf(term) !== -1; });
+  }
+
+  function intentMatch(question) {
+    var text = ' ' + expandAliases(question) + ' ';
+    var entry = null;
+
+    if (hasAny(text, [' lwp ', ' lop ', ' leave without pay ', ' unpaid leave ', ' without pay '])) entry = findEntryById('lwp');
+    else if (hasAny(text, [' fnf ', ' ff ', ' full final ', ' full and final ', ' final settlement '])) entry = findEntryById('exit-ff-settlement');
+    else if (hasAny(text, [' notice period ', ' np ', ' serving notice ']) && hasAny(text, [' day ', ' days ', ' duration ', ' length ', ' long ', ' kitna ', ' kitne '])) entry = findEntryById('exit-notice-period');
+    else if (hasAny(text, [' icc ', ' internal complaints committee ', ' posh committee ']) && hasAny(text, [' member ', ' members ', ' contact ', ' kaun ', ' who '])) entry = findEntryById('posh-icc');
+    else if ((hasAny(text, [' false ', ' malicious ', ' fake ', ' wrongful ', ' fabricated ']) && hasAny(text, [' complaint ', ' allegation ', ' accusation '])) || hasAny(text, [' false complaint ', ' malicious complaint ', ' fake complaint ', ' wrongful allegation ', ' false accusation ', ' fabricated complaint '])) entry = findEntryById('posh-false-complaint');
+    else if (hasAny(text, [' level 3 ', ' gross misconduct ', ' theft ', ' stealing ', ' chori ', ' physical violence ', ' drugs ', ' alcohol ', ' data breach ', ' hacking ', ' forgery ', ' police '])) entry = findEntryById('coc-level3-gross');
+    else if (hasAny(text, [' level 2 ', ' moderate misconduct ', ' abusive language ', ' unauthorized information ', ' repeated level 1 '])) entry = findEntryById('coc-level2-moderate');
+    else if (hasAny(text, [' level 1 ', ' minor misconduct ', ' late coming ', ' early leaving ', ' poor attendance '])) entry = findEntryById('coc-level1-minor');
+    else if (hasAny(text, [' joined mid year ', ' mid year ', ' pro rata ', ' prorated ', ' joined in ', ' join after ', ' joining after '])) entry = findEntryById('leave-mid-year-pro-rata');
+    else if (hasAny(text, [' weekend count ', ' sunday count ', ' holiday count ', ' weekly off count ', ' public holiday leave ', ' do weekends count ', ' do holidays count '])) entry = findEntryById('leave-count-weekends');
+    else if (hasAny(text, [' shadi ', ' shaadi ', ' vivah ', ' marriage ', ' wedding '])) entry = findEntryById('marriage-leave');
+    else if (hasAny(text, [' advance ', ' salary advance ', ' advance salary ', ' salary loan ', ' advance money ', ' paisa ', ' paise ']) && hasAny(text, [' reason ', ' purpose ', ' medical ', ' emergency ', ' wedding ', ' marriage ', ' education ', ' home repair ', ' travel ', ' family '])) entry = findEntryById('sa-reasons');
+    else if (hasAny(text, [' advance ', ' salary advance ', ' advance salary ', ' salary loan ', ' advance money ', ' paisa ', ' paise ']) && hasAny(text, [' limit ', ' maximum ', ' how much ', ' kitna ', ' amount ', ' cap ', ' ctc '])) entry = findEntryById('sa-limit');
+    else if (hasAny(text, [' advance ', ' salary advance ', ' advance salary ', ' salary loan ', ' advance money ', ' paisa ', ' paise ']) && hasAny(text, [' eligible ', ' eligibility ', ' probation ', ' intern ', ' contractor ', ' new employee ', ' tenure '])) entry = findEntryById('sa-eligibility');
+    else if (hasAny(text, [' advance ', ' salary advance ', ' advance salary ', ' salary loan ', ' advance money ', ' paisa ', ' paise ']) && hasAny(text, [' apply ', ' application ', ' form ', ' portal ', ' process ', ' kaise '])) entry = findEntryById('sa-application-process');
+    else if (hasAny(text, [' unfair treatment ', ' supervisor ', ' manager ', ' workload ', ' workplace conflict ', ' payroll ', ' infrastructure ', ' facilities ', ' role clarity ']) && hasAny(text, [' grievance ', ' complaint ', ' complain ', ' where ', ' how ', ' kahan ', ' kisko '])) {
+      entry = hasAny(text, [' where ', ' how ', ' kahan ', ' kisko ', ' raise ', ' submit ']) ? findEntryById('grievance-procedure') : findEntryById('grievance-types');
+    }
+
+    return entry ? { answer: entry.answer, tag: entry.category } : null;
   }
 
   function addMessage(text, role, sourceTag) {
@@ -1051,8 +1241,10 @@
 
   function getAnswer(question) {
     var q = normalize(question);
+    var expandedQ = expandAliases(question);
     var words = q.split(' ').filter(function(w) { return w; });
-    var wordSet = new Set(words);
+    var queryTokens = tokenize(question, false);
+    var querySet = tokenSet(queryTokens);
 
     var isEngGreeting = words.length <= 5 && (
       words.some(function(w) { return GREETINGS.indexOf(w) !== -1; }) ||
@@ -1064,34 +1256,50 @@
       if (q.indexOf(REDIRECT_KEYWORDS[i]) !== -1) return { answer: REDIRECT_RESPONSE, tag: null };
     }
 
+    if (!queryTokens.length) return { answer: FALLBACK, tag: null };
+
+    var intentResult = intentMatch(question);
+    if (intentResult) return intentResult;
+
     var bestScore = 0;
     var bestEntry = null;
 
     for (var ki = 0; ki < KB.length; ki++) {
       var entry = KB[ki];
-      var bestKwScore = 0;
-      for (var kj = 0; kj < entry.keywords.length; kj++) {
-        var kw = entry.keywords[kj];
-        var kwScore = 0;
-        var kwWords = kw.toLowerCase().split(' ').filter(function(w) { return w; });
-        if (kwWords.length > 1) {
-          if (q.indexOf(kw) !== -1) {
-            kwScore = kw.length * 3;
-          } else {
-            var matchCount = kwWords.filter(function(w) { return wordSet.has(w); }).length;
-            if (matchCount === kwWords.length) kwScore = kw.length * 2;
-            else if (matchCount > 0) kwScore = (matchCount / kwWords.length) * kw.length;
-          }
-        } else {
-          if (wordSet.has(kw)) kwScore = kw.length;
-        }
-        if (kwScore > bestKwScore) bestKwScore = kwScore;
+      var score = 0;
+      var matchedTokens = 0;
+      var categoryMatches = 0;
+
+      querySet.forEach(function(token) {
+        if (hasToken(entry._tokenSet, token)) matchedTokens++;
+        if (hasToken(entry._categorySet, token)) categoryMatches++;
+      });
+
+      if (matchedTokens) {
+        score += (matchedTokens / queryTokens.length) * 8;
+        score += Math.min(matchedTokens, 6) * 0.55;
       }
-      if (bestKwScore > 0) bestKwScore = bestKwScore / Math.max(1, words.length);
-      if (bestKwScore > bestScore) { bestScore = bestKwScore; bestEntry = entry; }
+
+      if (categoryMatches) score += categoryMatches * 1.4;
+
+      for (var kj = 0; kj < entry._keywordData.length; kj++) {
+        var kw = entry._keywordData[kj];
+        if (!kw.tokens.length) continue;
+        var kwMatches = kw.tokens.filter(function(token) { return hasToken(querySet, token); }).length;
+        var coverage = kwMatches / kw.tokens.length;
+
+        if (kw.raw && q.indexOf(kw.raw) !== -1) score += 14 + Math.min(kw.tokens.length, 8);
+        else if (kw.expanded && expandedQ.indexOf(kw.expanded) !== -1) score += 10 + Math.min(kw.tokens.length, 6);
+        else if (coverage === 1) score += 7 + Math.min(kw.tokens.length, 6);
+        else if (coverage >= 0.67 && kwMatches >= 2) score += 4 * coverage;
+        else if (coverage >= 0.5 && kwMatches >= 2) score += 2.2 * coverage;
+      }
+
+      if (entry.category === null && matchedTokens < 2 && queryTokens.length > 2) score *= 0.7;
+      if (score > bestScore) { bestScore = score; bestEntry = entry; }
     }
 
-    if (bestEntry && bestScore > 0.2) return { answer: bestEntry.answer, tag: bestEntry.category };
+    if (bestEntry && bestScore >= 3.2) return { answer: bestEntry.answer, tag: bestEntry.category };
     return { answer: FALLBACK, tag: null };
   }
 
