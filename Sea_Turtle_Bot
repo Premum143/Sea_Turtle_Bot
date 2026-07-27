@@ -1005,7 +1005,8 @@
 
   var GREETINGS = ['hi', 'hello', 'hey', 'good morning', 'good afternoon', 'good evening', 'greetings', 'namaste'];
   var GREETING_RESPONSE = 'Hey there! Great to see you! I\'m <strong>Turtle</strong>, your HR Policy Assistant. Ask me anything about our <strong>Leave Policy</strong>, <strong>POSH Policy</strong>, <strong>Exit Policy</strong>, <strong>Salary Advance Policy</strong>, <strong>Code of Conduct</strong>, or <strong>Grievance Redressal Policy</strong> — I\'m here to help!';
-  var FALLBACK = 'That\'s not something covered in our current HR policies, but no worries — please reach out to our HR team at <strong>hr@zouk.co.in</strong> and they\'ll help you out!';
+  var FALLBACK = 'I could not find a confident match in the current HR policies. Please ask with a little more detail, or reach out to HR at <strong>hr@zouk.co.in</strong> for confirmation.';
+  var LOW_CONFIDENCE_RESPONSE = 'I found related policy information, but I\'m not confident enough to answer accurately from the current wording. Please rephrase with the policy area or a few more details, or contact HR at <strong>hr@zouk.co.in</strong> for confirmation.';
 
   var REDIRECT_KEYWORDS = ['my complaint', 'my case', 'my icc', 'my posh case', 'disciplinary', 'terminate', 'firing', 'termination', 'suspension', 'show cause', 'my manager is', 'my coworker', 'my colleague is', 'active complaint', 'pending complaint', 'specific case', 'individual case'];
   var REDIRECT_RESPONSE = 'Thank you for reaching out. For active complaints, disciplinary matters, or individual cases, please connect with the <strong>HR team</strong> at <strong>hr@zouk.co.in</strong> or reach out to the <strong>POSH Internal Committee</strong> members listed in the policy. They are best equipped to assist you with your specific situation.';
@@ -1076,6 +1077,37 @@
     proccess: 'process apply application procedure steps',
     prosses: 'process apply application procedure steps',
     procedure: 'process steps application',
+    procedur: 'process steps application',
+    eligiblity: 'eligibility eligible',
+    elgibility: 'eligibility eligible',
+    eligibile: 'eligibility eligible',
+    elegible: 'eligibility eligible',
+    aproval: 'approval approve authority',
+    approval: 'approval approve authority',
+    aproove: 'approve approval authority',
+    disbursment: 'disbursement disburse credited processing',
+    disbursemnt: 'disbursement disburse credited processing',
+    reimbursment: 'reimbursement',
+    doc: 'document documents proof',
+    docs: 'document documents proof',
+    pruf: 'proof document',
+    aplicaton: 'application apply process',
+    applicaton: 'application apply process',
+    applyng: 'apply application process',
+    recoveri: 'recovery recover repayment deduction',
+    repaymnt: 'repayment recover deduction',
+    deducton: 'deduction recover repayment',
+    notic: 'notice period',
+    probaton: 'probation',
+    maternaty: 'maternity leave',
+    paternaty: 'paternity leave',
+    miscariage: 'miscarriage leave',
+    grivance: 'grievance complaint',
+    grevance: 'grievance complaint',
+    harrassment: 'harassment posh sexual harassment',
+    harasment: 'harassment posh sexual harassment',
+    termnation: 'termination exit',
+    resignaton: 'resignation exit',
     resign: 'resignation exit leave company',
     quit: 'resignation exit leave company',
     fired: 'termination exit misconduct',
@@ -1224,7 +1256,11 @@
     else if (hasAny(text, [' level 2 ', ' moderate misconduct ', ' abusive language ', ' unauthorized information ', ' repeated level 1 '])) entry = findEntryById('coc-level2-moderate');
     else if (hasAny(text, [' level 1 ', ' minor misconduct ', ' late coming ', ' early leaving ', ' poor attendance '])) entry = findEntryById('coc-level1-minor');
     else if (hasAny(text, [' joined mid year ', ' mid year ', ' pro rata ', ' prorated ', ' joined in ', ' join after ', ' joining after '])) entry = findEntryById('leave-mid-year-pro-rata');
+    else if (hasAny(text, [' carry forward ', ' carry over ', ' carryforward ', ' balance ', ' unused ', ' lapse ', ' expire ']) && hasAny(text, [' leave ', ' chutti ', ' chhutti '])) entry = findEntryById('leave-balance');
     else if (hasAny(text, [' weekend count ', ' sunday count ', ' holiday count ', ' weekly off count ', ' public holiday leave ', ' do weekends count ', ' do holidays count '])) entry = findEntryById('leave-count-weekends');
+    else if (hasAny(text, [' miscarriage ', ' miscariage ', ' medical termination pregnancy ', ' pregnancy loss ', ' mtp '])) entry = findEntryById('miscarriage-leave');
+    else if (hasAny(text, [' maternity ', ' maternaty ', ' pregnancy ', ' delivery '])) entry = findEntryById('maternity-leave');
+    else if (hasAny(text, [' paternity ', ' paternaty ', ' father leave ', ' new dad '])) entry = findEntryById('paternity-leave');
     else if (hasAny(text, [' shadi ', ' shaadi ', ' vivah ', ' marriage ', ' wedding '])) entry = findEntryById('marriage-leave');
     else if (hasAny(text, [' advance ', ' salary advance ', ' advance salary ', ' salary loan ', ' advance money ', ' paisa ', ' paise ']) && hasAny(text, [' reason ', ' purpose ', ' medical ', ' emergency ', ' wedding ', ' marriage ', ' education ', ' home repair ', ' travel ', ' family '])) entry = findEntryById('sa-reasons');
     else if (hasAny(text, [' advance ', ' salary advance ', ' advance salary ', ' salary loan ', ' advance money ', ' paisa ', ' paise ']) && hasAny(text, [' limit ', ' maximum ', ' how much ', ' kitna ', ' amount ', ' cap ', ' ctc '])) entry = findEntryById('sa-limit');
@@ -1235,8 +1271,15 @@
     else if (hasAny(text, [' advance ', ' salary advance ', ' advance salary ', ' salary loan ', ' advance money ', ' paisa ', ' paise ']) && hasAny(text, [' document ', ' documents ', ' proof ', ' bill ', ' bills ', ' receipt ', ' receipts ', ' evidence ', ' attach ', ' attachment '])) entry = findEntryById('sa-documentation');
     else if (hasAny(text, [' advance ', ' salary advance ', ' advance salary ', ' salary loan ', ' advance money ', ' paisa ', ' paise ']) && hasAny(text, [' tax ', ' taxable ', ' tds ', ' compliance ', ' statutory '])) entry = findEntryById('sa-tax');
     else if (hasAny(text, [' advance ', ' salary advance ', ' advance salary ', ' salary loan ', ' advance money ', ' paisa ', ' paise ']) && hasAny(text, [' portal ', ' form ', ' annexure ', ' request form '])) entry = findEntryById('sa-portal-access');
+    else if (hasAny(text, [' advance ', ' salary advance ', ' advance salary ', ' salary loan ', ' advance money ', ' paisa ', ' paise ']) && hasAny(text, [' misuse ', ' misrepresentation ', ' false ', ' forged ', ' fraudulent ', ' concealment ', ' wrong information '])) entry = findEntryById('sa-misconduct');
+    else if (hasAny(text, [' advance ', ' salary advance ', ' advance salary ', ' salary loan ', ' advance money ', ' paisa ', ' paise ']) && hasAny(text, [' resign ', ' resignation ', ' separation ', ' terminate ', ' termination ', ' retirement ', ' abscond ', ' outstanding ', ' leaving ', ' notice period '])) entry = findEntryById('sa-separation');
     else if (hasAny(text, [' advance ', ' salary advance ', ' advance salary ', ' salary loan ', ' advance money ', ' paisa ', ' paise ']) && hasAny(text, [' apply ', ' application ', ' form ', ' portal ', ' process ', ' kaise '])) entry = findEntryById('sa-application-process');
-    else if (hasAny(text, [' unfair treatment ', ' supervisor ', ' manager ', ' workload ', ' workplace conflict ', ' payroll ', ' infrastructure ', ' facilities ', ' role clarity ']) && hasAny(text, [' grievance ', ' complaint ', ' complain ', ' where ', ' how ', ' kahan ', ' kisko '])) {
+    else if (hasAny(text, [' staring ', ' stare ', ' leering ', ' ogling ', ' unwanted gaze ', ' unwanted attention ']) && hasAny(text, [' harassment ', ' posh ', ' uncomfortable '])) entry = findEntryById('posh-staring');
+    else if (hasAny(text, [' fraud ', ' theft ', ' misconduct ', ' violation ', ' data breach ']) && hasAny(text, [' report ', ' escalate ', ' where ', ' kahan ', ' whom ', ' email '])) entry = findEntryById('coc-escalation');
+    else if (hasAny(text, [' grievance ', ' grivance ', ' grevance ']) && hasAny(text, [' confidential ', ' confidentiality ', ' private ', ' identity ', ' anonymous '])) entry = findEntryById('grievance-confidentiality');
+    else if (hasAny(text, [' grievance ', ' grivance ', ' grevance ']) && hasAny(text, [' committee ', ' members ', ' who ', ' kaun '])) entry = findEntryById('grievance-committee');
+    else if (hasAny(text, [' grievance ', ' grivance ', ' grevance ']) && hasAny(text, [' timeline ', ' acknowledge ', ' acknowledgement ', ' resolve ', ' resolution ', ' 2 working ', ' 7 10 '])) entry = findEntryById('grievance-timeline');
+    else if (hasAny(text, [' unfair treatment ', ' supervisor ', ' manager ', ' workload ', ' workplace conflict ', ' payroll ', ' infrastructure ', ' facilities ', ' role clarity ']) && hasAny(text, [' grievance ', ' grivance ', ' grevance ', ' complaint ', ' complain ', ' where ', ' how ', ' kahan ', ' kisko '])) {
       entry = hasAny(text, [' where ', ' how ', ' kahan ', ' kisko ', ' raise ', ' submit ']) ? findEntryById('grievance-procedure') : findEntryById('grievance-types');
     }
 
@@ -1281,6 +1324,9 @@
       words.some(function(w) { return GREETINGS.indexOf(w) !== -1; }) ||
       GREETINGS.some(function(g) { return g.indexOf(' ') !== -1 && q.indexOf(g) !== -1; })
     );
+    if (q.indexOf('how are thing') !== -1 || q.indexOf('how are you') !== -1 || q.indexOf('how is it going') !== -1 || q.indexOf('whats up') !== -1) {
+      return { answer: GREETING_RESPONSE, tag: null };
+    }
     if (isEngGreeting) return { answer: GREETING_RESPONSE, tag: null };
 
     for (var i = 0; i < REDIRECT_KEYWORDS.length; i++) {
@@ -1288,6 +1334,11 @@
     }
 
     if (!queryTokens.length) return { answer: FALLBACK, tag: null };
+
+    if (q === 'policy' || q === 'policies' || q === 'policy list' || q === 'list policy' || q === 'list policies') {
+      var policyListEntry = findEntryById('what-policies');
+      if (policyListEntry) return { answer: policyListEntry.answer, tag: policyListEntry.category, id: policyListEntry.id };
+    }
 
     var intentResult = intentMatch(question);
     if (intentResult) return intentResult;
@@ -1299,9 +1350,17 @@
 
     var bestScore = 0;
     var bestEntry = null;
+    var secondBestScore = 0;
 
     for (var ki = 0; ki < KB.length; ki++) {
       var entry = KB[ki];
+      if (entry.category === null) {
+        var hasExactMetaMatch = entry.keywords.some(function(keyword) {
+          var normalizedKeyword = normalize(keyword);
+          return normalizedKeyword && (q === normalizedKeyword || q.indexOf(normalizedKeyword) !== -1);
+        });
+        if (!hasExactMetaMatch) continue;
+      }
       var score = 0;
       var matchedTokens = 0;
       var categoryMatches = 0;
@@ -1332,10 +1391,19 @@
       }
 
       if (entry.category === null && matchedTokens < 2 && queryTokens.length > 2) score *= 0.7;
-      if (score > bestScore) { bestScore = score; bestEntry = entry; }
+      if (score > bestScore) {
+        secondBestScore = bestScore;
+        bestScore = score;
+        bestEntry = entry;
+      } else if (score > secondBestScore) {
+        secondBestScore = score;
+      }
     }
 
-    if (bestEntry && bestScore >= 3.2) return { answer: bestEntry.answer, tag: bestEntry.category };
+    if (bestEntry && bestScore >= 6 && (bestScore - secondBestScore >= 1.2 || bestScore >= 12)) {
+      return { answer: bestEntry.answer, tag: bestEntry.category };
+    }
+    if (bestEntry && bestScore >= 3.2) return { answer: LOW_CONFIDENCE_RESPONSE, tag: null };
     return { answer: FALLBACK, tag: null };
   }
 
