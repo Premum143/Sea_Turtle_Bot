@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Turtle — HR Policy Assistant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #f0f4f8;
+    --card: #ffffff;
+    --primary: #1a7f6b;
+    --primary-light: #e8f5f1;
+    --primary-dark: #0e5c4c;
+    --text: #1a2332;
+    --text-muted: #6b7a8f;
+    --bot-msg: #f0f4f8;
+    --user-msg: #1a7f6b;
+    --user-text: #ffffff;
+    --border: #e2e8f0;
+    --shadow: 0 2px 16px rgba(0,0,0,0.06);
+    --radius: 16px;
+    --radius-sm: 10px;
+    --max-w: 720px;
+  }
+  html, body { height: 100%; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .app-container {
+    width: 100%;
+    max-width: var(--max-w);
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    background: var(--card);
+    box-shadow: var(--shadow);
+    position: relative;
+  }
+  header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+    background: var(--card);
+    z-index: 2;
+  }
+  .logo-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+  }
+  .logo-icon {
+    width: 40px; height: 40px;
+    background: var(--primary);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .company-name { font-size: 18px; font-weight: 700; color: var(--text); }
+  .subtitle { font-size: 13px; color: var(--text-muted); font-weight: 400; }
+  .welcome-msg {
+    margin-top: 12px;
+    padding: 14px 18px;
+    background: var(--primary-light);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    color: var(--primary-dark);
+    line-height: 1.5;
+    border-left: 3px solid var(--primary);
+  }
+  .chat-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    scroll-behavior: smooth;
+  }
+  .chat-area::-webkit-scrollbar { width: 4px; }
+  .chat-area::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+  .chat-area:empty::after { content: ''; flex: 1; }
+  .message {
+    max-width: 85%;
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    line-height: 1.6;
+    animation: fadeIn 0.25s ease;
+    word-wrap: break-word;
+  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .message.bot { align-self: flex-start; background: var(--bot-msg); border-bottom-left-radius: 4px; color: var(--text); }
+  .message.user { align-self: flex-end; background: var(--user-msg); border-bottom-right-radius: 4px; color: var(--user-text); }
+  .message .msg-label { display: inline-block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; opacity: 0.7; }
+  .message.bot .msg-label { color: var(--primary); }
+  .message.user .msg-label { color: rgba(255,255,255,0.75); }
+  .message .source-tag { display: inline-block; margin-top: 10px; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; letter-spacing: 0.3px; }
+  .message.bot .source-tag.posh { background: #fee2e2; color: #991b1b; }
+  .message.bot .source-tag.leave { background: #dbeafe; color: #1e40af; }
+  .message.bot .source-tag.exit { background: #fef3c7; color: #92400e; }
+  .message.bot .source-tag.salary { background: #d1fae5; color: #065f46; }
+  .message.bot .source-tag.conduct { background: #ede9fe; color: #5b21b6; }
+  .message.bot .source-tag.grievance { background: #fce7f3; color: #9d174d; }
+  .message.bot .source-tag.fallback { background: #f3f4f6; color: #6b7280; }
+  .input-area { padding: 16px 20px 20px; border-top: 1px solid var(--border); flex-shrink: 0; background: var(--card); }
+  .input-row { display: flex; gap: 10px; align-items: flex-end; }
+  .input-row textarea {
+    flex: 1; border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+    padding: 12px 16px; font-family: 'Inter', sans-serif; font-size: 14px;
+    line-height: 1.4; resize: none; outline: none; max-height: 120px; min-height: 48px;
+    transition: border 0.15s; background: #fafbfc; color: var(--text);
+  }
+  .input-row textarea:focus { border-color: var(--primary); background: #fff; }
+  .input-row textarea::placeholder { color: var(--text-muted); }
+  .send-btn {
+    width: 48px; height: 48px; border-radius: var(--radius-sm); border: none;
+    background: var(--primary); color: #fff; font-size: 20px; cursor: pointer;
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s, transform 0.1s;
+  }
+  .send-btn:hover { background: var(--primary-dark); }
+  .send-btn:active { transform: scale(0.95); }
+  .send-btn:disabled { background: #cbd5e1; cursor: not-allowed; transform: none; }
+  .disclaimer { padding: 12px 24px; font-size: 11px; color: var(--text-muted); text-align: center; border-top: 1px solid var(--border); flex-shrink: 0; background: #fafbfc; line-height: 1.5; }
+  .disclaimer strong { color: var(--text); }
+  .typing-indicator { align-self: flex-start; background: var(--bot-msg); padding: 12px 18px; border-radius: var(--radius-sm); border-bottom-left-radius: 4px; display: none; align-items: center; gap: 5px; }
+  .typing-indicator.show { display: flex; }
+  .typing-indicator span { width: 7px; height: 7px; background: var(--text-muted); border-radius: 50%; animation: typing 1.2s infinite ease-in-out; }
+  .typing-indicator span:nth-child(2) { animation-delay: 0.15s; }
+  .typing-indicator span:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes typing { 0%, 60%, 100% { opacity: 0.3; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-4px); } }
+  .suggestions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .suggestions button { font-size: 12px; padding: 7px 14px; border-radius: 20px; border: 1px solid var(--border); background: #fff; color: var(--primary-dark); cursor: pointer; transition: all 0.15s; font-family: 'Inter', sans-serif; line-height: 1.3; }
+  .suggestions button:hover { background: var(--primary-light); border-color: var(--primary); }
+  @media (max-width: 480px) {
+    header { padding: 16px 16px 12px; }
+    .chat-area { padding: 12px 14px; }
+    .message { max-width: 92%; font-size: 13px; padding: 10px 14px; }
+    .input-area { padding: 12px 14px 16px; }
+    .welcome-msg { font-size: 13px; }
+    .company-name { font-size: 16px; }
+    .suggestions button { font-size: 11px; padding: 6px 12px; }
+  }
+  @media (min-width: 768px) {
+    body { padding: 20px; background: #e6edf4; }
+    .app-container { border-radius: var(--radius); height: calc(100vh - 40px); height: calc(100dvh - 40px); }
+  }
+</style>
+</head>
+<body>
+<div class="app-container">
+  <header>
+    <div class="logo-row">
+      <div class="logo-icon">&#x1F422;</div>
+      <div>
+        <div class="company-name">Sea Turtle Pvt Ltd</div>
+        <div class="subtitle">Turtle — HR Policy Assistant</div>
+      </div>
+    </div>
+    <div class="welcome-msg">Hey there! I'm <strong>Turtle</strong>, your HR Policy Assistant. Ask me anything about our <strong>Leave Policy</strong>, <strong>POSH Policy</strong>, <strong>Exit Policy</strong>, <strong>Salary Advance Policy</strong>, <strong>Code of Conduct</strong>, or <strong>Grievance Redressal Policy</strong> — in any language you like!</div>
+    <div class="suggestions">
+      <button onclick="sendSuggestion(this)">How much annual leave do I get?</button>
+      <button onclick="sendSuggestion(this)">What is the POSH policy?</button>
+      <button onclick="sendSuggestion(this)">How do I resign from the company?</button>
+      <button onclick="sendSuggestion(this)">Can I get a salary advance?</button>
+      <button onclick="sendSuggestion(this)">How do I raise a grievance?</button>
+    </div>
+  </header>
+  <div class="chat-area" id="chatArea" role="log" aria-live="polite">
+    <div class="typing-indicator" id="typingIndicator">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+  <div class="input-area">
+    <div class="input-row">
+      <textarea id="inputField" placeholder="Type your question here..." rows="1" aria-label="Ask a policy question"></textarea>
+      <button class="send-btn" id="sendBtn" aria-label="Send message">&#x2191;</button>
+    </div>
+  </div>
+  <div class="disclaimer">For official policy documents or urgent matters, contact HR at <strong>hr@zouk.co.in</strong>.</div>
+</div>
+<script>
+(function() {
+  var KB = [
+    // ===== LEAVE POLICY =====
+    {
+      id: 'annual-leave',
+      category: 'Leave Policy',
+      keywords: ['annual leave', 'earned leave', 'vacation', 'holiday days', 'leave days per year', 'how many days leave', 'how many leaves', 'leave entitlement', 'annual leave days', 'earned leave days', 'clubbed', 'carry forward', 'carry over', 'carryforward', 'pro rata', 'pro-rated', 'credited quarterly', 'leave policy', 'about leave', 'leave rules', 'tell me about leave', 'paid leave', 'paid leaves', 'paid time off', 'mid year', 'joining', 'prorated', 'unused', 'expire', 'lapse', 'credited', 'public holiday', 'holiday during', 'leave balance', 'leave year', 'calendar year', 'vacation days', 'yearly leave quota', 'quarter', 'per quarter', 'quarterly credited', 'each quarter', 'how many leaves per quarter'],
+      answer: 'You get <strong>19 days of Annual Leave</strong> each year — that works out to roughly <strong>4-5 days per quarter</strong>, credited in advance at the start of each quarter. If you join mid-year, it\'s calculated proportionally from your start date.<br><br>You can carry forward up to <strong>10 unused days</strong> into the next year, anything beyond that lapses. You can also combine annual leave with other leave types (like medical or marriage leave) if you need a longer break.<br><br>Public holidays and weekly offs that fall during your annual leave are <strong>not counted</strong> against your leave balance.<br><br>— from Leave Policy'
+    },
+    {
+      id: 'medical-leave',
+      category: 'Leave Policy',
+      keywords: ['medical leave', 'sick leave', 'casual leave', 'medical certificate', 'doctor note', 'sick days', 'illness', 'unwell', 'medical casual leave', 'sick leave exhausted', 'sick leave over', 'run out of sick leave', 'sick leave khatam', 'medical leave exhausted'],
+      answer: 'You get <strong>8 days of Medical/Casual Leave</strong> each year. If you\'re unwell for more than 3 days in a row, you\'ll need a doctor\'s certificate.<br><br>These don\'t carry forward to next year, so use them when you need them. If you run out, you can combine with Annual Leave or take Leave Without Pay.<br><br>— from Leave Policy'
+    },
+    {
+      id: 'menstrual-leave',
+      category: 'Leave Policy',
+      keywords: ['menstrual', 'period leave', 'periods', 'menstruation', 'female colleague', 'women\'s health'],
+      answer: 'Yes, <strong>female colleagues are entitled to 1 day of Menstrual/Period Leave per month</strong>.<br><br>Here\'s what to know:<br>• <strong>Entitlement:</strong> 1 day each month<br>• <strong>Carry forward:</strong> This leave cannot be carried forward to the next month or year<br><br>Your well-being matters, and this leave is here to support you when you need it.'
+    },
+    {
+      id: 'celebratory-off',
+      category: 'Leave Policy',
+      keywords: ['celebratory', 'birthday off', 'festival', 'personal occasion', 'celebration', 'birthday leave', 'festival leave', 'one day off'],
+      answer: 'Yes, you get <strong>1 Celebratory Off per year</strong> for birthdays, festivals, or personal occasions.<br><br>Here\'s what to know:<br>• <strong>Purpose:</strong> Birthdays, festivals, or personal celebrations<br>• <strong>Approval:</strong> Needs your Reporting Manager\'s approval<br>• <strong>Carry forward:</strong> Cannot be carried forward<br><br>Enjoy your special day!'
+    },
+    {
+      id: 'marriage-leave',
+      category: 'Leave Policy',
+      keywords: ['marriage leave', 'wedding leave', 'get married', 'own marriage', 'tying the knot'],
+      answer: 'Yes, you are entitled to <strong>5 working days of Marriage Leave</strong> for your own marriage.<br><br>Here are the details:<br>• <strong>Eligibility:</strong> Only for your own marriage (not for family members)<br>• <strong>Duration:</strong> 5 working days, must be taken as one continuous block<br>• <strong>Timing:</strong> Must be taken during the week of your marriage (or immediately before/after if the date falls on a weekend or holiday)<br>• <strong>Approval:</strong> Needs both your Reporting Manager and HRBP approval<br>• <strong>Clubbing:</strong> Can only be combined with Annual Leave<br>• <strong>Partial usage:</strong> If you take fewer than 5 days, the remaining days lapse<br>• <strong>Carry forward:</strong> Cannot be carried forward'
+    },
+    {
+      id: 'maternity-leave',
+      category: 'Leave Policy',
+      keywords: ['maternity leave', 'maternity', 'pregnancy', 'maternity benefit', 'childbirth', 'maternity days', 'baby', 'delivery', 'second child', 'third child', 'maternity weeks', 'pregnancy leave duration', 'maternity leave extension', 'maternity leave kitni'],
+      answer: 'Yes, you are entitled to <strong>26 weeks of Maternity Leave</strong> for your first two children (12 weeks from the 3rd child onward, per the Maternity Benefit Act 1961).<br><br>Here are the full details:<br>• <strong>Duration:</strong> 26 weeks for first two children, 12 weeks from 3rd child onward<br>• <strong>Calendar days:</strong> Maternity leave is calculated on a calendar day basis — public holidays and weekly offs within the leave period count as part of your maternity leave<br>• <strong>Pre-delivery:</strong> Up to 8 weeks can be taken before delivery<br>• <strong>Eligibility:</strong> Must have worked at least 80 consecutive days before leave starts<br>• <strong>Extra recovery:</strong> Additional 30 days available for pregnancy/delivery-related recovery (adjusted against leave balance/LWP) with documentation<br>• <strong>Apply:</strong> At least 4 weeks in advance<br>• <strong>Tubectomy:</strong> Includes 2 weeks fully paid leave<br>• <strong>Nursing breaks:</strong> Nursing/pumping breaks available until your child turns 12 months'
+    },
+    {
+      id: 'paternity-leave',
+      category: 'Leave Policy',
+      keywords: ['paternity leave', 'paternity', 'father', 'fatherhood', 'new dad', 'father leave'],
+      answer: 'Yes, you are entitled to <strong>2 weeks of Paternity Leave</strong>.<br><br>Here are the details:<br>• <strong>Duration:</strong> 2 weeks total<br>• <strong>Splitting:</strong> Can be split into two separate blocks<br>• <strong>Timeline:</strong> Must be used within 6 months of your child\'s birth or adoption<br>• <strong>Availability:</strong> Available twice during your tenure<br>• <strong>Apply:</strong> At least 2 weeks in advance'
+    },
+    {
+      id: 'adoption-leave',
+      category: 'Leave Policy',
+      keywords: ['adoption leave', 'adopt', 'adoption', 'adopting', 'adoptive parent'],
+      answer: 'Yes, you are entitled to <strong>12 weeks of Adoption Leave</strong> when adopting a child under 18 years of age.<br><br>Here are the details:<br>• <strong>Duration:</strong> 12 weeks<br>• <strong>Eligibility:</strong> Adopting a child under 18 years<br>• <strong>Both parents:</strong> If both parents work at the company, the combined leave cannot exceed 12 weeks<br>• <strong>Apply:</strong> At least 4 weeks in advance'
+    },
+    {
+      id: 'bereavement-leave',
+      category: 'Leave Policy',
+      keywords: ['bereavement', 'death', 'funeral', 'family death', 'immediate family', 'passed away', 'demise', 'mourning'],
+      answer: 'Yes, you are entitled to <strong>6 days of Bereavement Leave</strong> in the event of a death in your immediate family.<br><br>Here are the details:<br>• <strong>Duration:</strong> 6 days<br>• <strong>Covered family:</strong> Father, mother, father/mother-in-law, sibling, child, or spouse<br>• <strong>Document:</strong> Death certificate is required<br>• <strong>Carry forward:</strong> Cannot be carried forward<br><br>Please accept our heartfelt condolences.'
+    },
+    {
+      id: 'holidays',
+      category: 'Leave Policy',
+      keywords: ['holidays', 'company holiday', 'national holiday', 'public holiday', 'holiday list', 'company national holidays', 'declared holidays', 'how many holidays'],
+      answer: 'There are <strong>14 Company/National Holidays</strong> per year. You can check the exact holiday list on the leave portal or reach out to HR for the schedule.'
+    },
+    {
+      id: 'lwp',
+      category: 'Leave Policy',
+      keywords: ['leave without pay', 'lwp', 'unpaid leave', 'unpaid', 'without pay', 'without approval', 'unapproved leave', 'unapplied leave', 'forgot to apply', 'not apply', 'no approval', 'without permission', 'absent'],
+      answer: 'Leave Without Pay (LWP) is available in the following situations:<br><br>• <strong>Exhausted leave:</strong> When you have exhausted your leave balances<br>• <strong>Notice period:</strong> May apply during notice period (except for medical or extreme personal reasons, subject to Management discretion)<br>• <strong>Unapplied leave:</strong> If you take leave without applying on the portal, it will be treated as LWP<br><br>It\'s always best to discuss your situation with HR if you think you may need LWP.'
+    },
+    {
+      id: 'apply-leave',
+      category: 'Leave Policy',
+      keywords: ['apply leave', 'how to apply', 'leave application', 'request leave', 'apply for leave', 'leave process', 'apply on portal', 'reporting manager', 'long leave', 'extended leave', 'emergency leave', 'urgent leave', 'unplanned leave', 'sudden leave', 'in advance', 'days notice', 'days prior', 'manager approval', 'discuss with manager', 'leave kaise apply'],
+      answer: 'There\'s no fixed limit on how many long leaves you can apply at a time, but here\'s what you need to know:<br><br><strong>Step 1:</strong> Discuss your leave plan with your Reporting Manager first<br><strong>Step 2:</strong> Apply on the leave portal<br><br><strong>Application timelines based on duration:</strong><br>• <strong>Under 3 days:</strong> Apply at least 1 day prior<br>• <strong>Over 3 days:</strong> Apply at least 7 days prior<br>• <strong>Over 7 days:</strong> Apply at least 20 days prior <em>and</em> hand over your responsibilities<br><br><strong>Emergency leave:</strong> There\'s no separate "emergency leave" allocation. In case of an emergency, take the leave you need from your available balance and apply on the portal upon your return. If leave is not applied at all, it will be treated as Leave Without Pay (LWP).<br><br>Always check your leave balance on the portal and discuss with your Reporting Manager.'
+    },
+    {
+      id: 'leave-balance',
+      category: 'Leave Policy',
+      keywords: ['leave balance', 'check leave', 'remaining leave', 'how many days left', 'leave remaining', 'unused leave', 'leave expire', 'leave carry over', 'bache hue leave'],
+      answer: 'Here\'s a summary of how leave balances work:<br><br><strong>Can carry forward:</strong><br>• Annual/Earned Leave: Up to 10 days per year — anything above that lapses<br><br><strong>Cannot carry forward:</strong><br>• Medical/Casual Leave, Menstrual/Period Leave, Celebratory Off, Marriage Leave, and Bereavement Leave<br><br>You can check your exact leave balance anytime on the leave portal.'
+    },
+    {
+      id: 'leave-count-weekends',
+      category: 'Leave Policy',
+      keywords: ['weekend count', 'sunday count', 'holiday during leave', 'public holiday leave', 'do weekends count', 'do holidays count', 'leave include weekends', 'weekly off count'],
+      answer: 'No, <strong>public holidays and weekly offs that fall during your leave are not counted</strong> against your leave balance. For example, if you take 5 days of annual leave but there\'s a Sunday and a public holiday in between, only the working days are counted toward your leave balance.<br><br>However, note that <strong>Maternity Leave is calculated on a calendar day basis</strong> — weekends and holidays are counted as part of maternity leave.'
+    },
+    {
+      id: 'tubectomy-leave',
+      category: 'Leave Policy',
+      keywords: ['tubectomy', 'tubectomy leave', 'tubectomy operation', 'family planning surgery', 'sterilization leave'],
+      answer: 'Yes, <strong>2 weeks of fully paid leave</strong> is available following a tubectomy operation.<br><br>Here are the details:<br>• <strong>Duration:</strong> 2 weeks, immediately following the procedure<br>• <strong>Approval:</strong> Needs your Reporting Manager and HR Head approval<br>• <strong>Documents:</strong> Medical documents are required'
+    },
+    {
+      id: 'leave-year-definition',
+      category: 'Leave Policy',
+      keywords: ['leave year', 'calendar year', 'leave cycle', 'leave start', 'january to december', 'financial year', 'when does leave year start'],
+      answer: 'The leave year follows the <strong>calendar year — from 1st January to 31st December</strong>. Any unused leave that can be carried forward resets at the end of the calendar year.'
+    },
+    {
+      id: 'leave-mid-year-pro-rata',
+      category: 'Leave Policy',
+      keywords: ['mid year joining', 'pro rata leave', 'joined mid year', 'mid year leave calculation', 'proportionate leave', 'join after january'],
+      answer: 'If you join mid-year, your Annual Leave is <strong>calculated proportionally (pro-rata)</strong> based on the remaining months in the calendar year from your date of joining. For example, if you join in July, you would receive approximately half the annual entitlement.'
+    },
+    {
+      id: 'leave-resignation-payout',
+      category: 'Leave Policy',
+      keywords: ['unused leave payout', 'leave encashment resignation', 'paid for unused leave', 'leave settlement', 'full and final leave', 'leave paid out', 'cash for unused leave'],
+      answer: 'The policy does not explicitly address whether unused leaves are paid out (encashed) upon resignation. This is a common question — please reach out to <strong>HR</strong> at <strong>hr@zouk.co.in</strong> for clarification on how leave balances are handled in the full and final settlement.'
+    },
+    {
+      id: 'meta-casual-vs-medical',
+      category: 'Leave Policy',
+      keywords: ['casual vs medical leave', 'difference casual medical', 'casual leave meaning', 'medical leave meaning', 'same bucket casual medical', 'combined casual medical leave'],
+      answer: 'In this policy, <strong>"Medical Leave" and "Casual Leave" are combined into one 8-day bucket</strong> — they are not separate allowances. This single pool of 8 days can be used for any personal situation or medical emergency.'
+    },
+    {
+      id: 'policy-exceptions',
+      category: 'Leave Policy',
+      keywords: ['exception', 'policy exception', 'special case', 'exception to policy', 'can policy be changed', 'amendment', 'policy change', 'management approval exception', 'policy override'],
+      answer: 'Any exceptions to the leave policy require <strong>Management approval</strong>. The company also reserves the right to amend or update the policy at any time, and HR conducts periodic policy reviews.<br><br>If you have a special situation, please discuss it with your Reporting Manager or reach out to HR at <strong>hr@zouk.co.in</strong>.'
+    },
+    // ===== POSH POLICY =====
+    {
+      id: 'posh-definition',
+      category: 'POSH Policy',
+      keywords: ['what is posh', 'posh policy', 'sexual harassment', 'posh act', 'prevention of sexual harassment', 'workplace harassment', 'harassment policy', 'posh meaning', 'what is sexual harassment', 'posh', 'definition of harassment', 'what counts as harassment', 'inappropriate joke', 'inappropriate comment', 'stalking', 'online harassment', 'hostile environment', 'aggrieved woman', 'who is protected'],
+      answer: 'The <strong>POSH Policy</strong> (Prevention of Sexual Harassment) applies to all of us — whether we\'re at the office, on a business trip, at a company hotel or guest house, or using company transport. It\'s based on the Sexual Harassment of Women at Workplace Act, 2013.<br><br>The policy defines an <strong>"aggrieved woman"</strong> as any woman who alleges she has been subjected to sexual harassment in a work-related context — this includes employees, visitors, clients, or contractors.<br><br>Sexual harassment can take many forms — unwanted advances, inappropriate comments or jokes, explicit messages, showing offensive material, conditioning work benefits on favors, unwanted physical contact, staring, stalking, or creating a hostile environment.<br><br>The company has a zero-tolerance approach to this, and there are clear, safe ways to report concerns.<br><br>— from POSH Policy'
+    },
+    {
+      id: 'posh-reporting',
+      category: 'POSH Policy',
+      keywords: ['report harassment', 'file complaint', 'report posh', 'how to report', 'make a complaint', 'file a complaint', 'posh complaint', 'report sexual harassment', 'whom to contact', 'complaint deadline', 'time limit', 'within 3 months', 'oral complaint', 'written complaint', 'how to file', 'email id', 'email address'],
+      answer: 'You can file a POSH complaint with <strong>any member of the Internal Complaints Committee (ICC)</strong>. Here are their contact details:<br><br><strong>ICC Members:</strong><br>• <strong>Priyanka Majalkar</strong> — Presiding Officer — priyanka.majalkar@zouk.co.in<br>• <strong>Aishwarya Maru</strong> — Internal Member — aishwarya.maru@zouk.co.in<br>• <strong>Zaki Shah</strong> — Internal Member — zaki.shah@zouk.co.in<br>• <strong>Pallavi Kulkarni</strong> — External Member — Pallavitkulkarni@rediffmail.com<br><br><strong>Important to know:</strong><br>• You can file a complaint <strong>orally or in writing</strong><br>• You should file <strong>within 3 months of the incident</strong> (this can be extended for valid reasons)<br>• The ICC will help you draft a written complaint if needed<br>• You can also approach any ICC member informally to discuss your concern first<br><br>The committee is here to support you, and your complaint will be handled with complete confidentiality.'
+    },
+    {
+      id: 'posh-icc',
+      category: 'POSH Policy',
+      keywords: ['icc members', 'internal committee', 'posh committee', 'icc contact', 'priyanka', 'aishwarya', 'zaki', 'pallavi', 'committee members', 'presiding officer'],
+      answer: 'The <strong>Internal Complaints Committee (ICC)</strong> members are:<br><br>• <strong>Priyanka Majalkar</strong> — Presiding Officer — priyanka.majalkar@zouk.co.in<br>• <strong>Aishwarya Maru</strong> — Internal Member — aishwarya.maru@zouk.co.in<br>• <strong>Zaki Shah</strong> — Internal Member — zaki.shah@zouk.co.in<br>• <strong>Pallavi Kulkarni</strong> — External Member — Pallavitkulkarni@rediffmail.com<br><br>You can reach out to any of them to file a complaint or seek guidance.'
+    },
+    {
+      id: 'posh-process',
+      category: 'POSH Policy',
+      keywords: ['investigation', 'inquiry process', 'posh process', 'conciliation', 'settlement', 'inquiry timeline', 'how long investigation', 'posh investigation', 'icc process', 'complaint process', 'after filing', 'how long', 'timeline', '90 days', '10 days', '60 days', 'appeal', 'appeal decision', 'court', 'tribunal', 'unsatisfied', 'outcome', 'monetary compensation'],
+      answer: 'Here\'s what happens after you file a POSH complaint:<br><br><strong>1. Conciliation (Optional):</strong><br>• An optional conciliation/settlement process is available if you request it<br>• No monetary settlement is allowed<br><br><strong>2. Investigation:</strong><br>• If no settlement is reached, the ICC conducts a full investigation<br>• At least 3 ICC members (including the Presiding Officer) must be present for the inquiry<br>• Both parties get to respond to the findings before a final decision<br>• The inquiry is completed within <strong>90 days</strong><br>• Recommendations are sent within <strong>10 days</strong> after that<br>• The company acts on the recommendations within <strong>60 days</strong><br><br><strong>3. Action against offender:</strong><br>• Disciplinary action is taken based on the severity of the proven offence<br>• The offender may be required to pay compensation to the complainant<br><br><strong>4. Appeal:</strong><br>• If you are unsatisfied with the outcome, you can file an appeal to a court or tribunal within <strong>90 days</strong>'
+    },
+    {
+      id: 'posh-interim',
+      category: 'POSH Policy',
+      keywords: ['interim relief', 'temporary relief', 'during investigation', 'transfer', 'leave during investigation', 'protection', 'interim measures', 'request transfer', 'safety', 'retaliation', 'retaliate', 'victimization', 'witness protection', 'confidential', 'identity', 'anonymity'],
+      answer: 'Yes, interim relief is available during the inquiry process. This can include:<br><br>• <strong>Transfer</strong> of either party to a different location or team<br>• <strong>Up to 3 months\' leave</strong> for the complainant (in addition to your normal leave entitlement)<br>• <strong>Reassignment</strong> of performance reporting structure<br>• Any <strong>other relief</strong> as prescribed<br><br>Talk to the ICC about what you need — they are here to ensure you feel safe and supported throughout the process.'
+    },
+    {
+      id: 'posh-confidentiality',
+      category: 'POSH Policy',
+      keywords: ['confidentiality', 'confidential', 'privacy', 'identity hidden', 'anonymous', 'retaliation', 'false complaint', 'malicious complaint', 'not proven', 'unsubstantiated', 'good faith', 'penalized', 'police complaint', 'compensation', 'criminal case'],
+      answer: 'Yes, <strong>your identity will be kept strictly confidential</strong> if you report a sexual harassment incident.<br><br>Here\'s what that means:<br>• Your identity will <strong>not be disclosed publicly</strong> or to third parties<br>• Confidentiality is maintained throughout the entire inquiry process<br>• <strong>Retaliation or victimization</strong> against anyone involved is strictly prohibited and treated as misconduct<br><br><strong>Regarding false complaints:</strong> If you make a complaint in good faith, you won\'t be penalized even if it turns out to be unsubstantiated. However, false or malicious complaints (with proof) may lead to disciplinary action.<br><br><strong>Regarding police complaints:</strong> The POSH policy is an internal company process. You are also free to file a police complaint or criminal case separately.'
+    },
+    {
+      id: 'posh-committee-ops',
+      category: 'POSH Policy',
+      keywords: ['icc meeting', 'committee formation', 'icc formed', 'annual report', 'posh report', 'women on committee', 'how formed', 'how often meet', 'publish report', 'icc quorum', 'how many members needed'],
+      answer: 'Here\'s what I can share about the ICC operations:<br><br>• <strong>ICC Composition:</strong> Includes a woman Presiding Officer, at least two internal members, and one external member. At least half the committee must be women.<br>• <strong>ICC Formation:</strong> The committee is formed at each office location as required by the POSH Act, 2013.<br>• <strong>Quorum:</strong> At least 3 members, including the Presiding Officer, are needed for a valid committee meeting or inquiry.<br>• <strong>Meetings:</strong> The ICC meets at least once a financial year, and additionally whenever a complaint is raised.<br>• <strong>Annual Report:</strong> The company publishes an annual report on POSH complaints.<br><br>For more details, reach out to HR at <strong>hr@zouk.co.in</strong>.'
+    },
+    {
+      id: 'posh-reasons',
+      category: 'POSH Policy',
+      keywords: ['grounds for posh', 'reasons to file posh', 'what counts as harassment', 'types of harassment', 'unwelcome advances', 'inappropriate jokes', 'obscene material', 'unwanted contact', 'stalking', 'offensive messages', 'hostile environment'],
+      answer: 'You can file a POSH complaint for any of the following:<br><br>• <strong>Unwelcome sexual advances</strong> — explicit or implicit requests for sexual favors<br>• <strong>Inappropriate comments/jokes</strong> of a sexual nature<br>• <strong>Sharing obscene material</strong> — images, videos, or text of a sexual nature<br>• <strong>Unwanted physical contact</strong> — touching, groping, or physical advances<br>• <strong>Staring or stalking</strong> — persistent unwanted attention<br>• <strong>Offensive messages</strong> via email, WhatsApp, social media, or other platforms<br>• <strong>Conditioning work benefits</strong> on sexual favors (quid pro quo)<br>• <strong>Any conduct</strong> that creates a hostile, unsafe, or intimidating environment<br><br>The ICC is here to support you.'
+    },
+    {
+      id: 'posh-proof-needed',
+      category: 'POSH Policy',
+      keywords: ['proof needed', 'evidence required', 'do i need proof', 'documentation needed', 'without proof', 'without evidence', 'no evidence', 'burden of proof', 'need witnesses', 'need documents'],
+      answer: '<strong>No, you do not need proof to file a complaint.</strong> You can file based on your experience alone.<br><br>If you are unable to substantiate the complaint, that does NOT lead to any action against you — as long as the complaint was <strong>not filed maliciously or knowingly falsely</strong>.<br><br>The ICC is trained to handle sensitive situations and will conduct the inquiry fairly. However, if you have any supporting evidence (messages, emails, screenshots), it can be helpful to share it.'
+    },
+    {
+      id: 'posh-single-incident',
+      category: 'POSH Policy',
+      keywords: ['one joke', 'single incident', 'one time', 'just once', 'pattern needed', 'isolated incident', 'only once', 'enough to report', 'do i need a pattern', 'repeated needed', 'multiple incidents'],
+      answer: '<strong>Yes, a single incident can be enough.</strong> You do not need to wait for a pattern or repeated behavior to file a complaint. If even one comment, gesture, or action made you feel harassed or uncomfortable, you have the right to report it.<br><br>The policy also covers repeated patterns of behavior, but neither is a prerequisite for the other.'
+    },
+    {
+      id: 'posh-staring',
+      category: 'POSH Policy',
+      keywords: ['staring', 'unwanted attention', 'staring harassment', 'being stared at', 'leering', 'ogling', 'unwanted gaze'],
+      answer: '<strong>Yes.</strong> The policy explicitly lists <strong>staring</strong> and <strong>targeting unreasonable attention</strong> as forms of sexual harassment. If someone\'s staring or unwanted attention makes you feel uncomfortable, unsafe, or harassed, you can report it.<br><br>Trust your feelings — if it doesn\'t feel right, it probably isn\'t.'
+    },
+    {
+      id: 'posh-compensation',
+      category: 'POSH Policy',
+      keywords: ['compensation', 'monetary compensation', 'financial compensation', 'damages', 'money damages', 'compensation for harassment', 'can i get money', 'compensation ordered'],
+      answer: '<strong>Yes, the ICC can direct the respondent to pay compensation to you.</strong> This is in addition to any disciplinary action taken against the respondent, based on the severity of the proven offence.<br><br>Note: Monetary compensation is <strong>not allowed</strong> as part of conciliation (settlement), but it can be ordered as an outcome of the full inquiry.'
+    },
+    {
+      id: 'posh-false-complaint',
+      category: 'POSH Policy',
+      keywords: ['false complaint', 'malicious complaint', 'fake complaint', 'wrongful allegation', 'false accusation', 'fabricated complaint', 'knowingly false'],
+      answer: 'If the ICC concludes that a complaint was <strong>knowingly false, malicious, or backed by forged documents</strong>, action can be taken against the complainant. However, an <strong>unsubstantiated complaint made in good faith does NOT count as false or malicious</strong>.<br><br>You can file a complaint based on your genuine experience without fear.'
+    },
+    // ===== EXIT POLICY =====
+    {
+      id: 'exit-policy-overview',
+      category: 'Exit Policy',
+      keywords: ['exit policy', 'exit process', 'separation policy', 'leaving company', 'separation process', 'exit rules', 'exit purpose', 'exit scope', 'who does exit apply', 'exit policy effective', 'exit policy date', 'full time exit', 'contractual exit', 'intern exit', 'consultant exit', 'outsourced exit', 'business continuity exit', 'smooth separation', 'seamless transition', 'mutually rewarding'],
+      answer: 'The <strong>Exit Policy</strong> covers the process for employee separations at Zouk/Sea Turtle Pvt Ltd.<br><br><strong>Key details:</strong><br>• <strong>Circulated:</strong> 3rd November 2025<br>• <strong>Created by:</strong> Director — HR<br>• <strong>Applies to:</strong> All full-time and contractual employees<br>• <strong>Excludes:</strong> Interns, consultants, and third-party/outsourced staff<br>• <strong>Review:</strong> Annually by HR and Management<br><br>The policy ensures a smooth, seamless separation process while maintaining business continuity.<br><br>— from Exit Policy'
+    },
+    {
+      id: 'exit-types',
+      category: 'Exit Policy',
+      keywords: ['types of exit', 'exit types', 'voluntary exit', 'involuntary exit', 'resignation types', 'termination types', 'exit classification', 'exit categories', 'voluntary vs involuntary', 'separation types'],
+      answer: 'There are two broad types of employee exits:<br><br><strong>1. Voluntary Exit (Resignation)</strong> — The employee decides to leave:<br>• Standard Resignation<br>• Early Relieving (Short Notice)<br>• Mutual Separation<br>• Resignation for Higher Education/Career Growth<br>• Medical Resignation<br>• Personal/Relocation Resignation<br>• Retirement/Superannuation<br><br><strong>2. Involuntary Exit</strong> — The company initiates:<br>• Termination for Cause<br>• Termination for Performance<br>• Disciplinary/Ethical Termination<br>• Absconding (Job Abandonment)<br>• Redundancy/Role Discontinuation<br>• End of Contract<br><br><strong>Special Scenarios:</strong> Death in Service, Exit During Probation, and Garden Leave.<br><br>— from Exit Policy'
+    },
+    {
+      id: 'exit-resignation-process',
+      category: 'Exit Policy',
+      keywords: ['how to resign', 'resign process', 'resignation process', 'resignation steps', 'submit resignation', 'resignation email', 'resignation submission', 'how do i resign', 'resignation procedure', 'resign from company', 'leave the company', 'reporting manager resign', 'resignation cc hr'],
+      answer: 'To resign from the company, follow this process:<br><br><strong>Step 1: Submit Resignation</strong><br>• Send a resignation <strong>email</strong> to your Reporting Manager with <strong>hr@zouk.co.in</strong> in CC<br>• Notice period starts from the date of the resignation email<br><br><strong>Step 2: Manager''s Review</strong><br>• Your Reporting Manager reviews and confirms your Last Working Day (LWD)<br>• For Early Relieving: approval from Manager, Function Head, and HR is needed<br><br><strong>Step 3: HR Notification</strong><br>• HR informs Finance to hold salary until exit completion<br>• Final LWD and approval chain are documented<br><br><strong>Step 4: Handover & Closing Meeting</strong><br>• Complete full work and data handover before/on LWD<br>• Exit Form is shared 1 week before LWD<br>• Exit Interview conducted by HR on LWD<br><br><strong>Step 5: Asset & Email Clearance</strong><br>• Return all company assets (laptop, charger, equipment) to HR/Admin<br>• Email, system access, and communication groups (WhatsApp, Teams, Slack) are deactivated<br><br><strong>Step 6: Confidentiality & Record Update</strong><br>• Employee status updated as "Inactive" in HR Master Data<br><br><strong>Step 7: Full & Final Settlement (F&F)</strong><br>• Processed within <strong>30–45 working days</strong> from LWD<br>• Includes pending salary, reimbursements, deductions, and experience letter<br><br>— from Exit Policy'
+    },
+    {
+      id: 'exit-notice-period',
+      category: 'Exit Policy',
+      keywords: ['notice period exit', 'notice period resignation', 'how long notice period', 'notice period days', '60 days notice', '30 days notice', 'contractual notice period', 'full time notice period', 'notice period duration', 'notice period length', 'how many days notice', 'serving notice period'],
+      answer: 'The standard notice periods are:<br><br>• <strong>Full-time (on-roll) employees:</strong> 60 days<br>• <strong>Contractual employees:</strong> 30 days<br><br>The notice period starts from the date of the resignation email. If you don''t serve the full notice period, the shortfall is recovered from your Full & Final (F&F) settlement — unless waived for verified medical emergencies.<br><br>— from Exit Policy'
+    },
+    {
+      id: 'exit-early-relieving',
+      category: 'Exit Policy',
+      keywords: ['early relieving', 'short notice', 'leave early', 'before notice period', 'early release', 'release before notice', 'early exit', 'can i leave early', 'early separation', 'less notice period', 'early relieving approval'],
+      answer: '<strong>Early Relieving</strong> is when you request to be relieved before completing the full notice period.<br><br><strong>Requirements:</strong><br>• <strong>Approval needed from:</strong> Reporting Manager, Function Head, and HR<br>• <strong>Notice shortfall:</strong> Will be recovered from your F&F settlement<br>• <strong>Waiver possible:</strong> Yes, for verified medical emergencies supported with documents<br><br>If the manager wants to release you early but you don''t agree, you either serve the full notice or are placed on garden leave.<br><br>— from Exit Policy'
+    },
+    {
+      id: 'exit-mutual-separation',
+      category: 'Exit Policy',
+      keywords: ['mutual separation', 'mutual exit', 'mutual agreement', 'mutually agreed exit', 'mutual resignation', 'no penalty exit', 'mutual consent separation', 'both parties agree'],
+      answer: '<strong>Mutual Separation</strong> occurs when both the employee and management agree on an early exit.<br><br><strong>Key points:</strong><br>• No penalty or notice shortfall recovery since it''s mutually approved<br>• Both the employee and management must agree<br>• This is the only exit type where notice shortfall is waived by design<br><br>— from Exit Policy'
+    },
+    {
+      id: 'exit-medical-resignation',
+      category: 'Exit Policy',
+      keywords: ['medical resignation', 'resign for health', 'health resignation', 'resign medical condition', 'medical reasons resign', 'family health resign', 'illness resignation', 'resign due to illness', 'resign medical emergency'],
+      answer: '<strong>Medical Resignation</strong> is when you resign due to medical conditions affecting yourself or an immediate family member.<br><br><strong>Key points:</strong><br>• <strong>Documentation:</strong> Valid medical documentation is required<br>• <strong>Notice period:</strong> Management may waive the notice period<br>• <strong>Covers:</strong> Medical conditions affecting self or immediate family<br><br>— from Exit Policy'
+    },
+    {
+      id: 'exit-career-growth',
+      category: 'Exit Policy',
+      keywords: ['resign for higher education', 'career growth resign', 'better opportunity resign', 'studies resign', 'education resignation', 'new job resign', 'join another company', 'resign for studies'],
+      answer: 'When you resign to pursue higher education or a better career opportunity, the <strong>standard resignation process</strong> applies. No special documentation is required beyond the standard resignation email.<br><br><strong>Key points:</strong><br>• Standard 60-day notice period applies<br>• Standard handover and clearance process<br><br>— from Exit Policy'
+    },
+    {
+      id: 'exit-personal-relocation',
+      category: 'Exit Policy',
+      keywords: ['personal resignation', 'relocation resignation', 'resign for marriage', 'resign for personal reasons', 'resign due to relocation', 'moving cities', 'personal reasons leaving'],
+      answer: '<strong>Personal/Relocation Resignation</strong> is for resignations due to personal reasons, marriage, or relocation.<br><br><strong>Key points:</strong><br>• Standard notice period and handover apply<br>• No exceptions mentioned for relocation-based resignations<br><br>— from Exit Policy'
+    },
+    {
+      id: 'exit-retirement',
+      category: 'Exit Policy',
+      keywords: ['retirement', 'superannuation', 'retirement age', 'retiring', 'retirement exit', 'end of career'],
+      answer: '<strong>Retirement/Superannuation</strong> is triggered when you reach the defined retirement age.<br><br><strong>Key points:</strong><br>• Handled as a <strong>planned separation process</strong><br>• HR and Finance coordinate the process<br>• Includes statutory benefits and settlement<br><br>— from Exit Policy'
+    },
+    {
+      id: 'exit-termination-cause',
+      category: 'Exit Policy',
+      keywords: ['termination for cause', 'termination misconduct', 'termination policy breach', 'termination code of conduct', 'fired for misconduct', 'termination investigation', 'fired for cause', 'termination grounds'],
+      answer: '<strong>Termination for Cause</strong> is separation due to proven misconduct, policy breach, or violation of the company code of conduct.<br><br><strong>Key points:</strong><br>• <strong>Grounds:</strong> Disciplinary/ethical violations, poor performance, zero-tolerance issues, or proven POSH cases<br>• <strong>Requires:</strong> Investigation and management approval<br>• <strong>Access:</strong> Revoked immediately upon termination notice<br>• <strong>F&F:</strong> At management''s discretion<br>• <strong>Communication:</strong> Official termination letter approved by management, citing the valid reason<br>• <strong>Employee must:</strong> Complete data handover and asset return<br><br>— from Exit Policy'
+    },
+    {
+      id: 'exit-termination-performance',
+      category: 'Exit Policy',
+      keywords: ['termination performance', 'low performance termination', 'pip termination', 'performance improvement plan', 'performance based termination', 'poor performance fired', 'consistently low performance'],
+      answer: '<strong>Termination for Performance</strong> is separation due to consistently low performance despite feedback and a Performance Improvement Plan (PIP).<br><br><strong>Key points:</strong><br>• HR must maintain <strong>documented performance history</strong><br>• A <strong>PIP (Performance Improvement Plan)</strong> is used before termination<br>• PIP is implied as part of the standard process<br><br>— from Exit Policy'
+    },
+    {
+      id: 'exit-disciplinary-termination',
+      category: 'Exit Policy',
+      keywords: ['disciplinary termination', 'ethical termination', 'zero tolerance', 'fraud termination', 'harassment termination', 'falsification termination', 'unethical behavior fired', 'immediate termination'],
+      answer: '<strong>Disciplinary/Ethical Termination</strong> is triggered by unethical behavior, fraud, harassment, or falsification of records.<br><br><strong>Key points:</strong><br>• <strong>Zero-tolerance policy</strong> — immediate termination is possible<br>• Covers: fraud, harassment, falsification of records, and other ethical violations<br>• F&F is at management''s discretion<br>• No extended process needed for zero-tolerance issues<br><br>— from Exit Policy'
+    },
+    {
+      id: 'exit-absconding',
+      category: 'Exit Policy',
+      keywords: ['absconding', 'job abandonment', 'stopped coming to work', 'no show', 'absent without notice', 'missing employee', 'absconding process', 'absconding notice', 'inactive absconded', 'absconding timeline', 'not reporting to work', 'three days absent'],
+      answer: '<strong>Absconding</strong> is when an employee stops reporting to work without notice or communication.<br><br><strong>Process:</strong><br>• <strong>Trigger:</strong> Absent for <strong>3 or more consecutive working days</strong> without intimation<br>• <strong>Step 1:</strong> Reporting Manager notifies HR<br>• <strong>Step 2:</strong> HR contacts employee via phone/email<br>• <strong>Step 3:</strong> If no response within <strong>5 working days</strong>, an Absconding Notice is sent via registered email<br>• <strong>Step 4:</strong> If no response within <strong>7 additional days</strong>, employee is marked "Inactive (Absconded)" and all access is revoked<br><br><strong>Settlement:</strong><br>• F&F processed as per notice period policy<br>• Zouk may recover losses or withhold dues for unreturned assets<br><br>Total timeline: ~12 working days from identification to marking inactive.<br><br>— from Exit Policy'
+    },
+    {
+      id: 'exit-redundancy',
+      category: 'Exit Policy',
+      keywords: ['redundancy', 'role discontinuation', 'position discontinued', 'restructuring', 'role removed', 'position eliminated', 'role redundancy'],
+      answer: '<strong>Redundancy/Role Discontinuation</strong> is when a position is discontinued due to restructuring or redundancy.<br><br><strong>Key points:</strong><br>• Managed fairly with management approval<br>• Not tied to individual conduct or performance<br>• Standard clearance process applies<br><br>— from Exit Policy'
+    },
+    {
+      id: 'exit-end-contract',
+      category: 'Exit Policy',
+      keywords: ['end of contract', 'contract expired', 'contract not renewed', 'contract finished', 'contract completion', 'contract ended'],
+      answer: '<strong>End of Contract</strong> is when a contract tenure is completed and not renewed.<br><br><strong>Key points:</strong><br>• Treated as a <strong>planned exit</strong> with standard clearance<br>• No misconduct or performance issue involved<br><br>— from Exit Policy'
+    },
+    {
+      id: 'exit-death-service',
+      category: 'Exit Policy',
+      keywords: ['death in service', 'employee death', 'death of employee', 'demise in service', 'statutory benefits death', 'family settlement death'],
+      answer: 'In the case of <strong>Death in Service</strong>:<br><br>• HR coordinates with the <strong>deceased employee''s family</strong><br>• Provides <strong>statutory benefits and settlement</strong><br>• The policy does not specify fixed amounts — it''s handled individually<br><br>Please reach out to HR at <strong>hr@zouk.co.in</strong> for specific guidance in such situations.<br><br>— from Exit Policy'
+    },
+    {
+      id: 'exit-probation',
+      category: 'Exit Policy',
+      keywords: ['exit during probation', 'probation termination', 'probation exit', 'probation period exit', 'terminate during probation', 'probation notice period', 'either party terminate probation'],
+      answer: '<strong>Exit During Probation</strong> allows either party (employee or company) to terminate employment with notice as per the appointment terms.<br><br><strong>Key points:</strong><br>• <strong>Who can initiate:</strong> Either the employee or the employer<br>• <strong>Notice period:</strong> Follows the appointment terms/letter (not the standard 60/30-day notice)<br>• Governed by individual appointment conditions<br><br>— from Exit Policy'
+    },
+    {
+      id: 'exit-garden-leave',
+      category: 'Exit Policy',
+      keywords: ['garden leave', 'garden leave meaning', 'on payroll not working', 'relieved from duties', 'garden leave during notice', 'paid not working', 'garden leave policy'],
+      answer: '<strong>Garden Leave</strong> is when you remain on payroll but are relieved from duties during the notice period, for business or confidentiality reasons.<br><br><strong>Key points:</strong><br>• You <strong>continue to be paid</strong> (remain on payroll)<br>• You are <strong>relieved from active duties</strong><br>• Used for business or confidentiality reasons<br>• This is NOT the same as termination<br>• Can apply when a manager wants to release you early but you don''t agree to early relieving<br><br>— from Exit Policy'
+    },
+    {
+      id: 'exit-ff-settlement',
+      category: 'Exit Policy',
+      keywords: ['full and final settlement', 'ff settlement', 'f&f settlement', 'final settlement', 'ff payout', 'full and final', 'exit settlement', 'pending salary exit', 'experience letter', 'ff timeline', 'settlement timeline', 'when will i get ff', 'how long ff', 'ff days', 'ff working days', 'how many days ff', 'ff payment', 'salary hold exit'],
+      answer: '<strong>Full & Final (F&F) Settlement</strong> is processed within <strong>30–45 working days</strong> from your Last Working Day (LWD).<br><br><strong>Process:</strong><br>• HR shares monthly input to Finance by the <strong>2nd Monday of the month</strong><br>• Finance processes payout by <strong>Friday of the same week</strong><br>• Includes: pending salary, reimbursements, deductions, and experience letter<br><br><strong>Important:</strong><br>• Salary is <strong>held by Finance</strong> during the exit process (instructed by HR)<br>• Cannot be released before exit completion<br>• F&F is managed by the <strong>Beehive/Finance Team</strong> based on HR''s input<br><br>— from Exit Policy'
+    },
+    {
+      id: 'exit-roles',
+      category: 'Exit Policy',
+      keywords: ['exit roles', 'exit responsibilities', 'who does what exit', 'employee responsibility exit', 'manager responsibility exit', 'hr responsibility exit', 'admin responsibility exit', 'finance responsibility exit', 'exit roles and responsibilities'],
+      answer: 'Five distinct roles are defined in the exit process:<br><br><strong>1. Employee:</strong> Submit resignation, serve notice, complete handover, return assets<br><br><strong>2. Reporting Manager:</strong> Approve resignation, confirm LWD, ensure transition and documentation<br><br><strong>3. HR Department:</strong> Manage full exit process, coordinate with Finance, close access, update master data, conduct exit interviews<br><br><strong>4. Admin Team:</strong> Collect company property, assist HR with deactivation and clearance<br><br><strong>5. Beehive/Finance Team:</strong> Hold and release salary/F&F as per HR''s communication within defined timelines<br><br>— from Exit Policy'
+    },
+    {
+      id: 'exit-asset-clearance',
+      category: 'Exit Policy',
+      keywords: ['return assets', 'asset clearance', 'return laptop', 'return equipment', 'company assets', 'clearance checklist', 'asset return process', 'email deactivation', 'system access closure', 'groups removal', 'whatsapp teams slack removal', 'deactivate email', 'keep email active', 'confidentiality after exit', 'no company data after exit', 'data breach post exit', 'non disclosure after leaving'],
+      answer: 'Before exiting, you must complete <strong>Asset and Email Clearance</strong>:<br><br><strong>Asset Return:</strong><br>• Return all assigned assets (laptop, charger, equipment) to HR/Admin<br>• No company data should remain with the employee<br><br><strong>Email & Access:</strong><br>• Official email, system access, and shared folders are deactivated<br>• Removed from communication groups (WhatsApp, Teams, Slack)<br>• <strong>Exception:</strong> Email can be kept active if the Manager confirms it''s needed for document transfer<br><br><strong>Confidentiality:</strong><br>• Exiting employees remain bound by confidentiality and non-disclosure obligations post-exit<br>• Data breach or misuse after exit invites legal action<br>• HR and Admin jointly ensure complete closure of access<br><br>— from Exit Policy'
+    },
+    {
+      id: 'exit-documentation',
+      category: 'Exit Policy',
+      keywords: ['exit documentation', 'exit records', 'exit records retention', 'how long exit records', 'exit record years', 'hr master data', 'clearance certificate', 'ff computation sheet', 'exit form', 'exit interview record', 'retention period', 'exit recordkeeping'],
+      answer: 'HR must maintain the following exit documentation:<br><br><strong>Required records:</strong><br>• Resignation or termination emails<br>• Exit form and interview records<br>• Clearance certificate<br>• F&F computation sheet<br>• Updated HR Master Data<br><br><strong>Retention period:</strong><br>• Minimum <strong>3 years</strong> from the employee''s LWD<br>• Longer if legally required<br><br>Covers both voluntary and involuntary exits.<br><br>— from Exit Policy'
+    },
+    {
+      id: 'exit-leave-during-notice',
+      category: 'Exit Policy',
+      keywords: ['leave during notice period exit', 'can i take leave during notice', 'notice period leave exit', 'sick leave notice period', 'medical leave notice period', 'no leave during notice', 'notice period absence', 'leave in notice period', 'notice period medical leave', 'notice period sick leave'],
+      answer: 'The general rule during notice period is <strong>no leave</strong> — you are expected to serve the full notice period actively for handover and transition.<br><br><strong>Exception:</strong><br>• <strong>Medical leave</strong> may be availed with <strong>written approval from both your Reporting Manager and HR</strong><br>• A <strong>medical certificate</strong> or supporting documents must be provided<br><br><strong>No other leave</strong> (planned or unplanned) is allowed during the notice period.<br><br>— from Exit Policy'
+    },
+    {
+      id: 'exit-policy-review',
+      category: 'Exit Policy',
+      keywords: ['exit policy review', 'exit policy updated', 'exit policy change', 'exit policy amended', 'exit annexures', 'exit form template', 'exit interview form', 'clearance checklist', 'absconding notice format'],
+      answer: 'The Exit Policy is reviewed <strong>annually</strong> by the HR Department and Management to ensure alignment with business needs, statutory requirements, and best practices.<br><br><strong>Annexures (internal use):</strong><br>• Exit Form Template<br>• Exit Interview Form<br>• Clearance Checklist<br>• Absconding Notice Format<br><br>— from Exit Policy'
+    },
+    {
+      id: 'exit-notice-period-leave-restrictions',
+      category: 'Exit Policy',
+      keywords: ['notice period leave allowed', 'notice period leave rules', 'notice period planned leave', 'notice period unplanned leave', 'no planned leave notice', 'no unplanned leave notice', 'leave restrictions notice period'],
+      answer: 'During the notice period, <strong>no planned or unplanned leave</strong> is allowed. You are expected to serve the full notice period actively for handover and transition.<br><br>The <strong>only exception</strong> is medical leave, which requires written approval from both your Reporting Manager and HR, with supporting medical documentation.<br><br>This rule ensures uninterrupted handover and business continuity during the exit process.<br><br>— from Exit Policy'
+    },
+
+    // ===== SALARY ADVANCE POLICY =====
+    {
+      id: 'sa-overview',
+      category: 'Salary Advance Policy',
+      keywords: ['salary advance', 'advance salary', 'salary loan', 'salary advance policy', 'advance policy', 'about advance', 'advance rules', 'advance guidelines', 'salary advance overview', 'advance salary policy', 'employee advance', 'advance scheme', 'salary advance scheme', 'advance from company', 'company advance', 'advance from employer', 'what is salary advance', 'advance money from salary', 'advance against salary', 'paise chahiye', 'paisa chahiye', 'advance lena hai', 'salary se advance', 'advance kaise milega', 'advance ka policy', 'salary advance kab milega', 'advance kitna mil sakta hai', 'advance policy kya hai', 'advance ke rules', 'advance ke liye kya chahiye'],
+      answer: 'The <strong>Salary Advance Policy</strong> (effective <strong>1 June 2026</strong>) allows eligible employees to request a salary advance for genuine financial needs.<br><br><strong>Key details:</strong><br>• <strong>Created by:</strong> HR<br>• <strong>Approved by:</strong> HR Director<br>• <strong>Effective:</strong> 1 June 2026<br>• <strong>Applies to:</strong> All confirmed employees (full-time, on-roll)<br>• <strong>Excludes:</strong> Interns, contractual employees, consultants, and third-party/outsourced staff<br><br>The policy ensures that employees have access to emergency funds while maintaining proper financial controls and repayment mechanisms.<br><br>— from Salary Advance Policy'
+    },
+    {
+      id: 'sa-eligibility',
+      category: 'Salary Advance Policy',
+      keywords: ['advance eligibility', 'who can get advance', 'eligible for advance', 'advance eligible employees', 'advance conditions', 'advance eligibility criteria', 'can i get advance', 'am i eligible', 'advance qualification', 'advance who qualifies', 'advance tenure requirement', 'minimum tenure advance', 'confirmed employee advance', 'probation advance', 'new employee advance', 'joined recently advance', 'advance for new joinee', 'advance for probation employee', 'advance for intern', 'advance for contractor', 'contractual advance', 'consultant advance', 'advance for part time', 'advance for temporary employee', 'advance for contract employee'],
+      answer: 'To be eligible for a salary advance, you must meet these criteria:<br><br><strong>Eligibility:</strong><br>• Must be a <strong>confirmed, full-time, on-roll employee</strong><br>• Minimum <strong>6 months of completed tenure</strong> at the company<br>• Must be in <strong>good standing</strong> (no active disciplinary issues)<br><br><strong>Not eligible:</strong><br>• Interns, contractual employees, consultants, and third-party/outsourced staff<br>• Employees on a Performance Improvement Plan (PIP)<br>• Employees with active disciplinary proceedings<br><br><strong>Note:</strong> If you joined recently and are on probation, you would need to complete 6 months before becoming eligible.<br><br>— from Salary Advance Policy'
+    },
+    {
+      id: 'sa-limit',
+      category: 'Salary Advance Policy',
+      keywords: ['advance limit', 'how much advance', 'advance amount', 'maximum advance', 'advance ceiling', 'advance limit amount', 'advance percentage', 'advance ctc', 'how much salary advance can i get', 'advance kitna mil sakta hai', 'advance ka limit', 'advance ki limit', 'advance amount limit', 'advance maximum amount', 'advance upper limit', 'advance cap', 'advance threshold', 'advance value', 'advance sum', 'advance money limit', 'advance rupees'],
+      answer: 'The salary advance limit is structured as follows:<br><br><strong>Standard limit:</strong><br>• You can request an advance of <strong>1 to 3 months\' gross salary</strong><br>• The maximum advance amount is capped at <strong>50% of your annual Cost to Company (CTC)</strong><br><br><strong>Non-refundable advance:</strong><br>• You may receive a <strong>non-refundable advance of up to 20% of your annual basic salary</strong><br>• This can be availed <strong>maximum once every 3 years</strong><br><br>The exact amount you can receive depends on your salary level, tenure, and the reason for the advance.<br><br>— from Salary Advance Policy'
+    },
+    {
+      id: 'sa-reasons',
+      category: 'Salary Advance Policy',
+      keywords: ['advance reasons', 'why advance', 'advance for what', 'advance purpose', 'valid reasons advance', 'advance justification', 'advance grounds', 'advance for medical', 'advance for education', 'advance for wedding', 'advance for home repair', 'advance for travel', 'advance for emergency', 'advance for family', 'advance for celebration', 'advance for personal', 'advance for house', 'advance for rent', 'advance for hospital', 'advance for treatment', 'advance for illness', 'advance for death', 'advance for funeral', 'advance for relative', 'advance for ceremony', 'advance for festival', 'advance for child', 'advance for parent', 'advance for spouse', 'advance for dependent', 'advance for accident', 'advance for natural calamity', 'advance for disaster', 'advance for flood', 'advance for earthquake', 'advance for fire', 'advance for theft', 'advance for robbery', 'advance for legal', 'advance for court', 'advance for marriage ceremony', 'advance for naming ceremony', 'advance for thread ceremony', 'advance for upanayan', 'advance for vivah', 'advance for shadi', 'advance for medical emergency', 'advance for health emergency', 'advance for hospitalization', 'advance for surgery', 'advance for operation', 'advance for treatment abroad', 'advance for medical travel', 'advance for higher education', 'advance for study', 'advance for exam', 'advance for coaching', 'advance for tuition', 'advance for children education', 'advance for school fees', 'advance for college fees', 'advance for university fees'],
+      answer: 'Salary advance can be requested for the following genuine reasons:<br><br><strong>Medical Reasons:</strong><br>• Medical emergencies, hospitalization, surgery, or treatment for self or immediate family<br>• Medical travel for treatment<br><br><strong>Education:</strong><br>• Higher education fees for self or dependents<br>• School/college/university fees, coaching, exam fees<br><br><strong>Personal/Celebration:</strong><br>• Wedding, naming ceremony, thread ceremony (upanayan), or other family celebrations<br>• Festival-related expenses<br><br><strong>Home & Family:</strong><br>• Home repair, renovation, or construction<br>• Rent payment or housing-related expenses<br>• Dependent care expenses<br><br><strong>Emergency:</strong><br>• Natural calamities (flood, earthquake, fire)<br>• Theft, robbery, or legal expenses<br>• Death in family (funeral expenses)<br><br>Any other genuine financial need may also be considered on a case-by-case basis with appropriate documentation.<br><br>— from Salary Advance Policy'
+    },
+    {
+      id: 'sa-frequency',
+      category: 'Salary Advance Policy',
+      keywords: ['advance frequency', 'how often advance', 'advance again', 'advance second time', 'advance once a year', 'advance interval', 'advance gap', 'advance waiting period', 'advance cooldown', 'advance repeat', 'advance reuse', 'advance again kab mil sakta hai', 'advance kitni bar mil sakta hai', 'advance ka gap', 'advance frequency limit'],
+      answer: 'The salary advance can be availed under these frequency rules:<br><br><strong>Refundable advance:</strong><br>• Can be requested <strong>once per financial year</strong><br>• Must be fully repaid before requesting a new advance<br><br><strong>Non-refundable advance:</strong><br>• Can be availed <strong>maximum once every 3 years</strong><br><br><strong>Gap requirement:</strong><br>• There must be a minimum gap of <strong>12 months</strong> between two refundable advance requests<br>• The previous advance must be fully settled before a new one is approved<br><br>— from Salary Advance Policy'
+    },
+    {
+      id: 'sa-application-process',
+      category: 'Salary Advance Policy',
+      keywords: ['how to apply advance', 'advance application', 'advance process', 'apply for advance', 'advance request', 'advance portal', 'advance form', 'advance procedure', 'advance steps', 'advance documentation', 'advance documents needed', 'advance application process', 'advance kaise apply kare', 'advance ke liye apply', 'advance form kahan milega', 'advance portal access', 'advance request process', 'advance submission', 'advance apply online', 'advance application form'],
+      answer: 'Here\'s how to apply for a salary advance:<br><br><strong>Step 1: Check Eligibility</strong><br>• Ensure you meet the eligibility criteria (6+ months tenure, confirmed employee, in good standing)<br><br><strong>Step 2: Submit Application</strong><br>• Apply through the <strong>Advance Portal</strong> (accessible to all employees)<br>• Fill in the advance request form with the amount, reason, and supporting documents<br><br><strong>Step 3: Documentation</strong><br>• Upload relevant supporting documents based on your reason (medical bills, education receipts, etc.)<br><br><strong>Step 4: Approval</strong><br>• Your application goes to your <strong>Reporting Manager</strong> for first-level approval<br>• Then to <strong>HR</strong> for final approval<br>• For amounts above a threshold, <strong>Finance</strong> approval is also required<br><br><strong>Step 5: Disbursement</strong><br>• Once approved, the advance is credited to your salary account<br><br>— from Salary Advance Policy'
+    },
+    {
+      id: 'sa-approval-authority',
+      category: 'Salary Advance Policy',
+      keywords: ['advance approval', 'who approves advance', 'advance authority', 'advance approval chain', 'advance approval process', 'manager approval advance', 'hr approval advance', 'finance approval advance', 'advance sign off', 'advance authorized by', 'who can approve advance', 'advance approval hierarchy', 'advance approval level', 'reporting manager advance', 'hr head advance', 'director advance', 'cxo advance', 'vp advance', 'advance for director', 'advance for cxo', 'advance for vp', 'advance for senior management'],
+      answer: 'The approval authority for salary advance depends on your level:<br><br><strong>Standard employees:</strong><br>• <strong>First level:</strong> Reporting Manager<br>• <strong>Second level:</strong> HR Department<br><br><strong>Senior management (VP, Director, CXO level):</strong><br>• <strong>Approval authority:</strong> HR Director<br><br><strong>Finance involvement:</strong><br>• For amounts above a certain threshold, Finance approval is also required<br>• The exact threshold is defined internally<br><br>All approvals are documented and tracked in the advance system.<br><br>— from Salary Advance Policy'
+    },
+    {
+      id: 'sa-recovery-repayment',
+      category: 'Salary Advance Policy',
+      keywords: ['advance recovery', 'advance repayment', 'advance deduction', 'advance emi', 'advance emi deduction', 'advance salary deduction', 'how advance is recovered', 'advance recover from salary', 'advance deduction from salary', 'advance monthly deduction', 'advance lump sum deduction', 'advance repayment schedule', 'advance repayment method', 'advance payback', 'advance wapas kaise kare', 'advance kaise kat-ta hai', 'advance ka deduction', 'advance ki emi', 'advance recover kaise hoga', 'advance repayment options'],
+      answer: 'Salary advance is recovered from your salary through the following methods:<br><br><strong>Recovery methods:</strong><br>• <strong>Lump sum deduction:</strong> The entire advance amount is deducted from your next salary payment<br>• <strong>EMI-based recovery:</strong> The advance is split into equal monthly installments (EMIs) deducted from your salary over a specified period<br><br><strong>Key points:</strong><br>• Recovery begins from the <strong>month following the advance disbursement</strong><br>• The repayment schedule is communicated at the time of advance approval<br>• If you choose EMI mode, the installments are spread over <strong>3 to 12 months</strong> depending on the amount<br>• Early repayment is allowed without any penalty<br><br>— from Salary Advance Policy'
+    },
+    {
+      id: 'sa-separation',
+      category: 'Salary Advance Policy',
+      keywords: ['advance separation', 'advance resignation', 'advance when leaving', 'advance exit', 'advance during notice period', 'advance after resignation', 'advance full and final', 'advance ff settlement', 'advance recovery resignation', 'advance recovery exit', 'advance before last working day', 'advance and relieving letter', 'advance hold relieving', 'advance settlement exit', 'advance during termination', 'advance during absconding', 'advance separation process', 'advance when i leave', 'advance upon leaving company', 'advance resignation recovery'],
+      answer: 'If you leave the company with an outstanding salary advance, here\'s what happens:<br><br><strong>During separation:</strong><br>• The <strong>entire outstanding advance amount</strong> must be recovered before your Last Working Day (LWD)<br>• HR will ensure the advance is recovered from your <strong>Full & Final (F&F) settlement</strong><br>• Your <strong>relieving letter</strong> may be held until the advance is fully settled<br><br><strong>During notice period:</strong><br>• If you resign with an outstanding advance, the amount is recovered during the notice period or from F&F<br>• You cannot take a new advance during the notice period<br><br><strong>During termination/absconding:</strong><br>• Any outstanding advance is recovered from your F&F settlement<br>• In case of absconding, the company may initiate recovery proceedings<br><br>— from Salary Advance Policy'
+    },
+    {
+      id: 'sa-misconduct',
+      category: 'Salary Advance Policy',
+      keywords: ['advance misconduct', 'advance fraud', 'advance misuse', 'advance false claim', 'advance wrong information', 'advance disciplinary action', 'advance violation', 'advance misuse consequences', 'advance fraud consequences', 'advance false documentation', 'advance fake documents', 'advance punishment', 'advance penalty', 'advance termination', 'advance misconduct action', 'advance code of conduct violation'],
+      answer: 'Misuse of the salary advance facility is treated seriously:<br><br><strong>Grounds for disciplinary action:</strong><br>• Providing <strong>false or misleading information</strong> in the advance application<br>• Submitting <strong>forged or fabricated documents</strong><br>• Using the advance for <strong>purposes other than stated</strong> in the application<br>• <strong>Multiple simultaneous advances</strong> through misrepresentation<br><br><strong>Consequences:</strong><br>• Immediate <strong>recovery of the full advance amount</strong><br>• <strong>Disciplinary action</strong> as per the company\'s code of conduct<br>• Possible <strong>termination of employment</strong> for severe cases<br>• <strong>Legal proceedings</strong> if fraud is established<br><br>The company reserves the right to take appropriate action based on the severity of the misconduct.<br><br>— from Salary Advance Policy'
+    },
+    {
+      id: 'sa-intern-contractor',
+      category: 'Salary Advance Policy',
+      keywords: ['advance for intern', 'intern advance', 'contractor advance', 'consultant advance', 'outsourced advance', 'third party advance', 'temporary employee advance', 'contractual advance', 'part time advance', 'advance intern', 'advance contractual', 'advance consultant', 'advance for non employee', 'advance for agency staff'],
+      answer: 'The salary advance policy does <strong>not cover</strong> interns, contractual employees, consultants, or third-party/outsourced staff.<br><br><strong>Ineligible categories:</strong><br>• Interns (paid or unpaid)<br>• Contractual/temporary employees<br>• Consultants<br>• Third-party or outsourced staff<br>• Part-time employees<br><br>Only <strong>confirmed, full-time, on-roll employees</strong> with a minimum of 6 months tenure are eligible.<br><br>— from Salary Advance Policy'
+    },
+    {
+      id: 'sa-portal-access',
+      category: 'Salary Advance Policy',
+      keywords: ['advance portal', 'advance portal access', 'advance system', 'advance platform', 'advance online', 'advance portal login', 'advance portal kahan hai', 'advance portal kaise khulega', 'advance portal access kaise mile', 'advance application portal', 'advance request portal', 'advance online apply', 'advance digital', 'advance system access', 'advance tool', 'advance software'],
+      answer: 'The advance application process is managed through the <strong>Advance Portal</strong>:<br><br><strong>Portal details:</strong><br>• Accessible to <strong>all confirmed employees</strong><br>• Available through the company\'s internal HR system<br>• You can submit, track, and manage your advance requests online<br><br><strong>How to access:</strong><br>• Log in to the company\'s internal HR portal<br>• Navigate to the "Salary Advance" section<br>• Fill in the required details and upload supporting documents<br><br>If you face any issues accessing the portal, contact HR at <strong>hr@zouk.co.in</strong>.<br><br>— from Salary Advance Policy'
+    },
+    {
+      id: 'sa-processing-time',
+      category: 'Salary Advance Policy',
+      keywords: ['advance processing time', 'advance tat', 'advance turnaround time', 'how long advance takes', 'advance approval time', 'advance disbursement time', 'advance timeline', 'advance days', 'advance多久', 'advance time', 'advance processing duration', 'advance waiting time', 'advance how many days', 'advance kab tak milta hai', 'advance kitne din mein milta hai', 'advance kitne time mein aata hai'],
+      answer: 'The processing time for salary advance depends on your role level:<br><br><strong>Processing timeline (TAT):</strong><br>• <strong>Below Manager level:</strong> 2-3 working days<br>• <strong>Manager to Senior Manager:</strong> 4-5 working days<br>• <strong>AVP and above:</strong> 6-10 working days<br><br><strong>Disbursement:</strong><br>• Once approved, the advance is credited to your salary account in the next salary cycle<br>• For urgent medical emergencies, expedited processing may be considered<br><br>— from Salary Advance Policy'
+    },
+    {
+      id: 'sa-tax',
+      category: 'Salary Advance Policy',
+      keywords: ['advance tax', 'tax on advance', 'advance and tax', 'advance taxable', 'advance income tax', 'advance tds', 'advance tax implications', 'advance tax treatment', 'advance gross salary', 'advance net salary', 'advance tax deduction', 'advance tax on advance', 'advance and gross salary', 'advance recovery from gross', 'advance recovery from net', 'advance recovery from basic'],
+      answer: 'Salary advance has the following tax implications:<br><br><strong>Tax treatment:</strong><br>• Salary advance is <strong>not treated as income</strong> — it is not taxable<br>• The advance is recovered from your <strong>gross salary</strong><br>• Recovery is made <strong>before tax calculation</strong>, so it reduces your taxable income<br><br><strong>Example:</strong><br>• If your gross salary is ₹1,00,000 and you take a ₹50,000 advance<br>• The ₹50,000 is recovered from your gross salary before tax is calculated<br>• Your taxable income becomes ₹50,000 for that month<br><br>Note: Consult with HR or a tax advisor for specific guidance on your situation.<br><br>— from Salary Advance Policy'
+    },
+    {
+      id: 'sa-documentation',
+      category: 'Salary Advance Policy',
+      keywords: ['advance documentation', 'advance documents', 'advance papers', 'advance proof', 'advance evidence', 'advance supporting documents', 'advance certificates', 'advance receipts', 'advance bills', 'advance medical certificate', 'advance education proof', 'advance marriage proof', 'advance address proof', 'advance identity proof', 'advance kya documents chahiye', 'advance ke liye documents', 'advance ke liye kya lagta hai'],
+      answer: 'When applying for a salary advance, you need to provide supporting documentation based on your reason:<br><br><strong>Medical reasons:</strong><br>• Medical bills, hospital receipts, doctor\'s prescription<br>• Medical certificate (if applicable)<br><br><strong>Education:</strong><br>• Fee receipts, admission letter, enrollment proof<br>• marksheets or certificates<br><br><strong>Wedding/Celebration:</strong><br>• Invitation card, booking receipts<br>• Marriage certificate (if applicable)<br><br><strong>Home repair/Renovation:</strong><br>• Quotations, contractor invoices<br>• Property documents (if applicable)<br><br><strong>General:</strong><br>• Valid ID proof and address proof may be required<br>• Any other documents supporting the genuineness of the request<br><br>All documents should be genuine and verifiable. Providing false documents is a serious misconduct.<br><br>— from Salary Advance Policy'
+    },
+    {
+      id: 'sa-rejection',
+      category: 'Salary Advance Policy',
+      keywords: ['advance rejection', 'advance denied', 'advance rejected', 'advance not approved', 'advance refused', 'advance not granted', 'advance rejected reasons', 'advance rejection reasons', 'why advance rejected', 'advance kyu reject hua', 'advance kyon mana kiya', 'advance reject hone ke reasons', 'advance not sanctioned', 'advance refused by manager', 'advance refused by hr'],
+      answer: 'Your salary advance request may be rejected for the following reasons:<br><br><strong>Common rejection reasons:</strong><br>• <strong>Ineligibility:</strong> Less than 6 months tenure, not a confirmed employee<br>• <strong>Outstanding advance:</strong> Previous advance not fully repaid<br>• <strong>Insufficient documentation:</strong> Missing or inadequate supporting documents<br>• <strong>Invalid reason:</strong> Reason not covered under the policy<br>• <strong>Disciplinary issues:</strong> Active disciplinary proceedings or PIP<br>• <strong>Budget constraints:</strong> Departmental or organizational budget limitations<br><br><strong>What to do if rejected:</strong><br>• Check with your Reporting Manager or HR for the specific reason<br>• Address the issue (e.g., provide additional documents) and reapply<br>• For urgent needs, reach out to HR at <strong>hr@zouk.co.in</strong> for alternative solutions<br><br>— from Salary Advance Policy'
+    },
+
+    // ===== CODE OF CONDUCT =====
+    {
+      id: 'coc-overview',
+      category: 'Code of Conduct',
+      keywords: ['code of conduct', 'conduct policy', 'code of conduct policy', 'ethical conduct', 'ethical standards', 'code of conduct purpose', 'why code of conduct', 'code of conduct overview', 'about code of conduct', 'conduct rules', 'code of conduct company', 'code of conduct 2026', 'code of conduct applicable', 'code of conduct introduction', 'code of conduct commitment', 'ethical commitment', 'moral responsibility', 'business conduct', 'stakeholder conduct', 'code of conduct comply', 'non compliance code', 'code of conduct consequences', 'code of conduct suppliers', 'code of conduct partners', 'code of conduct value chain', 'managers responsibility code', 'cooperation investigation', 'good faith', 'trust employment', 'ethical success', 'fairness goals', 'code of conduct kya hai', 'code of conduct kyun hai', 'code of conduct ka matlab', 'conduct policy kya hota hai', ' ethical hona kya hai'],
+      answer: 'The <strong>Code of Conduct</strong> (effective <strong>1 January 2026</strong>) sets out Sea Turtle Pvt Ltd\'s ethical commitment and guides proper business conduct for all stakeholders.<br><br><strong>Key details:</strong><br>• Ensures the company does business legally, ethically, and transparently<br>• Applies to professional and personal conduct<br>• Non-compliance is considered misconduct and may lead to disciplinary action including termination<br>• Applies throughout the value chain (suppliers, sub-contractors, service providers, business partners)<br>• Managers have higher responsibility to demonstrate the Code<br>• Employees must cooperate in investigations of potential misconduct<br>• Staff are expected to act in good faith and with impartiality<br>• Success is based on trust earned through fairness and ethical conduct<br><br>— from Code of Conduct'
+    },
+    {
+      id: 'coc-applicability',
+      category: 'Code of Conduct',
+      keywords: ['who does code apply', 'code of conduct applies to', 'code applicability', 'who is covered', 'code of conduct scope', 'intern code', 'contractor code', 'temporary worker code', 'agency staff code', 'consultant code', 'directors code', 'senior managers code', 'all brands code', 'all locations code', 'visiting basis code', 'participation implies', 'code of conduct all employees', 'code of conduct team members', 'code of conduct permanent', 'code of conduct contractual', 'code of conduct support staff', 'code of conduct kiske liye hai', 'code of conduct sab pe lagta hai', 'code of conduct intern pe lagta hai', 'code of conduct contractor pe lagta hai'],
+      answer: 'The Code of Conduct applies to:<br><br><strong>All staff:</strong><br>• Permanent, contractual, intern, support staff, and temporary workers<br>• Officers, directors, managers, and team leaders<br>• Agency staff and consultant/sub-contractor staff<br>• All brands under Sea Turtle Pvt Ltd<br><br><strong>All locations:</strong><br>• Every Sea Turtle Pvt Ltd location, including visiting basis appointments<br><br><strong>Key principle:</strong><br>• By working at or engaging with Sea Turtle Pvt Ltd, you are considered to have understood and accepted this Code<br><br>— from Code of Conduct'
+    },
+    {
+      id: 'coc-standards',
+      category: 'Code of Conduct',
+      keywords: ['code standards', 'conduct standards', 'expected standards', 'honesty integrity', 'ethical law-abiding', 'safe workplace', 'customer engagement', 'company assets reputation', 'disciplinary treatment', 'consumer facing brand', 'trust safety', 'external stakeholders', 'applicable laws', 'code of conduct standards', 'code of conduct expected behavior', 'code of conduct outcomes'],
+      answer: 'The Code of Conduct establishes these standards:<br><br><strong>Expected standards:</strong><br>• High standards of honesty, integrity, ethical and law-abiding behavior<br>• Expected of all employees/team members, including contract and visiting staff<br><br><strong>Outcomes the policy ensures:</strong><br>• Ethical behavior and safe workplaces<br>• Respectful customer engagement<br>• Protection of company assets and reputation<br>• Fair and consistent disciplinary treatment<br><br><strong>Why it matters:</strong><br>• Sea Turtle Pvt Ltd is a consumer-facing brand built on trust, safety, reliability, and respect<br>• The policy also meets requirements of external stakeholders and applicable laws<br><br>— from Code of Conduct'
+    },
+    {
+      id: 'coc-human-rights',
+      category: 'Code of Conduct',
+      keywords: ['human rights', 'human dignity', 'respect individuals', 'respect communities', 'human rights violation', 'human rights commitment', 'human rights policy', 'dignity respect care', 'human rights company', 'human rights workplace', 'code of conduct human rights'],
+      answer: 'The company\'s stance on human rights:<br><br><strong>Commitment:</strong><br>• Committed to respecting human dignity and the rights of every individual and community it interacts with<br>• Will not cause or contribute to human rights violations<br><br><strong>Expected behavior:</strong><br>• Staff must treat others with dignity, respect, and care<br>• Uphold human rights at all times<br><br><strong>Scope:</strong><br>• Applies to each individual and community the company interacts with during work, not just employees<br><br>— from Code of Conduct'
+    },
+    {
+      id: 'coc-anti-corruption',
+      category: 'Code of Conduct',
+      keywords: ['anti corruption', 'corruption', 'bribe', 'bribery', 'kickback', 'facilitation payment', 'grease payment', 'unfair advantage', 'unfair benefit', 'gift vendor', 'gift supplier', 'cash equivalent', 'voucher gift', 'discount supplier', 'travel gift', 'services gift', 'corruption gross misconduct', 'bribe giving accepting', 'misuse position influence', 'decision maker influence', 'corruption definition', 'corruption company policy', 'corruption kya hai', 'bribe lena mana hai', 'gift lena mana hai', 'corruption prohibited', 'anti corruption policy', 'code of conduct corruption'],
+      answer: 'The company has strict anti-corruption rules:<br><br><strong>What counts as corruption:</strong><br>• Directly or indirectly offering, promising, giving, asking, soliciting, or accepting any unfair advantage or benefit<br>• To obtain, retain, or facilitate business, or to obtain/retain an advantage in business<br>• Misuse of function or position to falsely influence a decision maker<br><br><strong>Prohibited items:</strong><br>• Cash, vouchers, gifts, credit, discounts, travel, personal advantages, accommodation, or services<br>• Facilitation/"grease" payments to government officials or private businesses<br>• Discounts from suppliers for personal use<br><br><strong>Classification:</strong><br>• Corruption is <strong>gross misconduct (Level 3)</strong> — no prior warning required<br>• Both giving and accepting bribes are treated the same<br><br>— from Code of Conduct'
+    },
+    {
+      id: 'coc-anti-fraud',
+      category: 'Code of Conduct',
+      keywords: ['anti fraud', 'fraud', 'cheat', 'steal', 'deceive', 'lie', 'false expense', 'expense report fraud', 'forgery', 'forging document', 'altering document', 'financial document fraud', 'misappropriation', 'misuse company property', 'untrue entry', 'false entry', 'company records fraud', 'bgv fraud', 'background verification fraud', 'document forgery gross misconduct', 'fraud definition', 'fraud policy', 'fraud kya hai', 'fraud prohibited', 'code of conduct fraud', 'cheating policy'],
+      answer: 'The company defines fraud as:<br><br><strong>Definition:</strong><br>• The act or intent to cheat, steal, deceive, or lie — both unethical and, in most cases, criminal<br><br><strong>Examples of prohibited fraud:</strong><br>• Submitting false expense reports<br>• Forging or altering financial documents or certifications<br>• Misappropriating assets or misusing company property<br>• Making untrue financial or non-financial entries on records<br>• Background Verification red flags and document forgery<br><br><strong>Classification:</strong><br>• Fraud is <strong>gross misconduct (Level 3)</strong> — no prior warning required<br>• Criminal fraud may also result in police reporting and legal action<br><br>— from Code of Conduct'
+    },
+    {
+      id: 'coc-professional-conduct',
+      category: 'Code of Conduct',
+      keywords: ['professional conduct', 'respectful behavior', 'courteous', 'rude behavior', 'abusive behavior', 'threatening behavior', 'discriminatory behavior', 'aggressive behavior', 'dignity mutual respect', 'cooperation workplace', 'workplace environment', 'professional behavior customers', 'professional behavior colleagues', 'professional behavior vendors', 'code of conduct professional', 'code of conduct behavior', 'respectful hona hai'],
+      answer: 'Professional conduct standards:<br><br><strong>Expected behavior:</strong><br>• Be respectful, courteous, and professional with customers, colleagues, and vendors at all times<br><br><strong>Prohibited behavior:</strong><br>• Rude, abusive, threatening, discriminatory, or aggressive behavior in any form<br><br><strong>Workplace environment:</strong><br>• Based on dignity, mutual respect, and cooperation<br><br>— from Code of Conduct'
+    },
+    {
+      id: 'coc-integrity-honesty',
+      category: 'Code of Conduct',
+      keywords: ['integrity honesty', 'honest duties', 'best interest company', 'no fraud misrepresentation', 'no cheating deception', 'company data misuse', 'company property misuse', 'company inventory misuse', 'company cash misuse', 'company equipment misuse', 'misuse same stealing', 'integrity policy', 'honesty policy', 'code of conduct integrity', 'code of conduct honesty', 'honest rehna hai', 'company ka samaan mat chhuo'],
+      answer: 'Integrity and honesty requirements:<br><br><strong>Expected behavior:</strong><br>• Perform duties honestly and in the best interest of Sea Turtle Pvt Ltd<br>• Never engage in fraud, misrepresentation, cheating, or deception<br><br><strong>Prohibited behavior:</strong><br>• Stealing, misusing, or damaging company property, inventory, cash, data, or equipment<br>• Misuse of company data is treated the same as stealing company cash<br><br>— from Code of Conduct'
+    },
+    {
+      id: 'coc-compliance',
+      category: 'Code of Conduct',
+      keywords: ['compliance law', 'compliance policies', 'follow all policies', 'follow all laws', 'safety rules', 'authorized instructions', 'supervisor instructions', 'management instructions', 'ignorance defense', 'claim ignorance', 'not aware policy', 'lawful instructions', 'compliance code', 'code compliance', 'follow rules', 'code of conduct compliance', 'policies follow karni hai', 'rules follow karna hai', 'law follow karna hai'],
+      answer: 'Compliance requirements:<br><br><strong>What you must follow:</strong><br>• All applicable laws, safety rules, and internal company policies<br>• All instructions issued by authorized supervisors or management<br><br><strong>Important:</strong><br>• You may <strong>never claim ignorance</strong> of policies as a reason for non-compliance<br>• Disagreements with instructions should be raised through proper channels rather than by refusing lawful instructions<br><br>— from Code of Conduct'
+    },
+    {
+      id: 'coc-workplace-discipline',
+      category: 'Code of Conduct',
+      keywords: ['workplace discipline', 'punctuality', 'arrive on time', 'attendance', 'late coming', 'early leaving', 'absenteeism', 'habitual lateness', 'uniform policy', 'sop compliance', 'standard operating procedure', 'customer service sop', 'stock handling sop', 'reporting sop', 'discipline code', 'code of conduct discipline', 'time pe aana hai', 'late mat aao', 'attendance maintain karo'],
+      answer: 'Workplace discipline requirements:<br><br><strong>Expected behavior:</strong><br>• Arrive on time and complete duties diligently<br>• Follow all SOPs related to attendance, uniform, safety, customer service, stock handling, and reporting<br><br><strong>Prohibited behavior:</strong><br>• Habitual absenteeism, late coming, or leaving without authorization<br><br><strong>Classification:</strong><br>• Habitual lateness, early leaving, and poor attendance are <strong>Level-1 minor misconduct</strong><br><br>— from Code of Conduct'
+    },
+    {
+      id: 'coc-harassment-free',
+      category: 'Code of Conduct',
+      keywords: ['harassment free', 'zero tolerance harassment', 'verbal harassment', 'physical harassment', 'visual harassment', 'written harassment', 'online harassment', 'sexual harassment code', 'discrimination', 'intimidation', 'bullying', 'report harassment', 'witness harassment', 'report incident', 'escalation matrix', 'integrityfirst email', 'integrityfirst@zouk.co.in', 'supervisor report harassment', 'harassment minor level 2', 'harassment severe level 3', 'sexual harassment level 3', 'retaliation prohibited', 'retaliate reporting', 'harassment retaliation consequences', 'harassment free workplace', 'code of conduct harassment', 'harassment zero tolerance', 'harassment report kaise kare', 'harassment kya hai'],
+      answer: 'The company has <strong>zero tolerance towards harassment</strong> of any kind.<br><br><strong>Covered forms:</strong><br>• Verbal, physical, visual, written, or online harassment<br>• Sexual harassment, discrimination, intimidation, or bullying<br><br><strong>Reporting:</strong><br>• Report any incident you witness or experience<br>• Report to your immediate supervisor, escalate through the escalation matrix, or email <strong>integrityfirst@zouk.co.in</strong> directly<br>• You may go straight to the dedicated email if the supervisor is involved<br><br><strong>Classification:</strong><br>• Minor harassment/intimidation → <strong>Level-2 moderate misconduct</strong><br>• Sexual or severe harassment → <strong>Level-3 gross misconduct</strong><br><br><strong>Protection:</strong><br>• Retaliation against anyone who reports in good faith is strictly prohibited<br>• Retaliators face strict disciplinary action including termination<br><br>— from Code of Conduct'
+    },
+    {
+      id: 'coc-safety',
+      category: 'Code of Conduct',
+      keywords: ['safety protocols', 'security protocols', 'hygiene protocols', 'unsafe condition', 'accident report', 'suspicious activity', 'endanger coworker', 'endanger customer', 'safety responsibility', 'report unsafe', 'workplace safety', 'code of conduct safety', 'safety follow karo', 'unsafe ho toh batao'],
+      answer: 'Safety and responsibility requirements:<br><br><strong>Expected behavior:</strong><br>• Follow all safety, security, and hygiene protocols at the workplace<br>• Immediately report unsafe conditions, accidents, or suspicious activity<br><br><strong>Prohibited behavior:</strong><br>• Performing any act that may endanger yourself, coworkers, customers, or company property<br><br><strong>Important:</strong><br>• Report suspicious activity even if you\'re not sure it\'s a real issue<br><br>— from Code of Conduct'
+    },
+    {
+      id: 'coc-company-assets',
+      category: 'Code of Conduct',
+      keywords: ['company assets', 'company property', 'personal use company', 'lend company equipment', 'company laptop personal', 'company phone personal', 'protect systems', 'protect passwords', 'cctv pos', 'inventory controls', 'sell company stock', 'share password', 'company assets misuse', 'company assets protection', 'code of conduct assets', 'company ka samaan use karo', 'password share mat karo', 'company cheez mat becho'],
+      answer: 'Use of company assets:<br><br><strong>Expected behavior:</strong><br>• Company property (cash, stock, systems, email, phones, vehicles, equipment) should only be used for official work<br>• Protect systems, passwords, CCTV, POS, and inventory controls from misuse<br><br><strong>Prohibited behavior:</strong><br>• Using company property for personal use<br>• Lending company equipment to friends or family<br>• Selling old or unused company stock for personal profit<br>• Sharing system passwords with colleagues<br>• Misusing, removing, or selling any company property without permission<br><br>— from Code of Conduct'
+    },
+    {
+      id: 'coc-confidentiality',
+      category: 'Code of Conduct',
+      keywords: ['confidentiality', 'confidential information', 'data protection', 'customer information', 'employee information', 'supplier information', 'business information', 'sales numbers confidential', 'pricing strategy confidential', 'social media company', 'post company information', 'share internal data', 'designs confidential', 'customer details confidential', 'code of conduct confidentiality', 'information share mat karo', 'company ki baat bahar mat bolo', 'social media pe mat dalo'],
+      answer: 'Confidentiality and data protection requirements:<br><br><strong>What to keep confidential:</strong><br>• All customer, employee, supplier, and business information<br>• Sales numbers, pricing, strategy, designs, and customer details<br><br><strong>Prohibited behavior:</strong><br>• Sharing internal data with anyone outside the company without authorization<br>• Posting company information on social media or external platforms without approval<br><br><strong>Important:</strong><br>• Even sharing a company achievement on personal social media requires prior approval<br><br>— from Code of Conduct'
+    },
+    {
+      id: 'coc-conflict-interest',
+      category: 'Code of Conduct',
+      keywords: ['conflict of interest', 'personal gain', 'position for gain', 'accept favor vendor', 'accept gift vendor', 'bribe kickback', 'family member vendor', 'financial relationship', 'personal relationship disclosure', 'family relationship disclosure', 'conflict of interest disclosure', 'code of conduct conflict', 'personal fayda mat lo', 'vendor se gift mat lo', 'relationship disclose karo'],
+      answer: 'Conflict of interest rules:<br><br><strong>Prohibited behavior:</strong><br>• Using your position at the company for personal gain<br>• Accepting bribes, kickbacks, gifts, or favors from customers, vendors, or partners<br><br><strong>Disclosure requirement:</strong><br>• You must disclose any personal, financial, or family relationship that may influence your work decisions<br>• Safer to disclose and let the company assess it<br><br><strong>Note:</strong><br>• Accepting kickbacks from partners touches both conflict of interest and anti-corruption principles<br><br>— from Code of Conduct'
+    },
+    {
+      id: 'coc-representation',
+      category: 'Code of Conduct',
+      keywords: ['representing company', 'brand representation', 'media approval', 'media interaction', 'public statements', 'social media activity', 'conduct outside work', 'reputation damage', 'personal conduct outside', 'criminal activity outside', 'gross misconduct outside', 'code of conduct representation', 'company ki reputation', 'bahar bhi company ka khayal raho', 'media se baat mat karo approval ke bina'],
+      answer: 'Representation of Sea Turtle Pvt Ltd:<br><br><strong>While on duty:</strong><br>• You represent the Sea Turtle Pvt Ltd brand at all times<br><br><strong>Public statements:</strong><br>• Any public statements, media interaction, or social media activity related to Sea Turtle Pvt Ltd must be authorized<br><br><strong>Outside the workplace:</strong><br>• Conduct inside and outside the workplace must not damage the company\'s reputation<br>• Serious personal conduct issues (e.g., criminal activity) can be treated as gross misconduct if they impact the company<br><br>— from Code of Conduct'
+    },
+    {
+      id: 'coc-reporting',
+      category: 'Code of Conduct',
+      keywords: ['report misconduct', 'duty to report', 'report violations', 'no retaliation reporting', 'good faith reporting', 'retaliation prohibited', 'core behaviors', 'honesty integrity respect', 'protect information', 'professional treatment', 'avoid harassment fraud theft', 'code of conduct reporting', 'report karo violations', 'retaliation mana hai', 'good faith mein report karo'],
+      answer: 'Reporting of misconduct:<br><br><strong>Your duty:</strong><br>• All employees/team members have a duty to report violations of this Code<br><br><strong>Protection:</strong><br>• Retaliation against anyone who reports misconduct in good faith is strictly prohibited<br><br><strong>Core behaviors every employee must uphold:</strong><br>• Act with honesty, integrity, and respect<br>• Follow company policies, safety rules, and lawful instructions<br>• Protect customer, employee, and company information<br>• Treat customers politely and professionally<br>• Avoid any form of harassment, fraud, theft, or abuse<br><br>— from Code of Conduct'
+    },
+    {
+      id: 'coc-misconduct-levels',
+      category: 'Code of Conduct',
+      keywords: ['misconduct levels', 'three levels misconduct', 'level 1 misconduct', 'level 2 misconduct', 'level 3 misconduct', 'minor misconduct', 'moderate misconduct', 'gross misconduct', 'misconduct classification', 'severity risk impact', 'misconduct categories', 'misconduct levels code', 'misconduct kya hota hai', 'levels kya hai misconduct ke', 'kaun sa level hai'],
+      answer: 'The company classifies misconduct into three levels:<br><br><strong>Level 1 — Minor Misconduct:</strong><br>• Errors or behavior that don\'t cause serious harm but affect discipline, service quality, or professionalism<br>• Examples: late coming, casual negligence, not following SOPs<br><br><strong>Level 2 — Moderate Misconduct:</strong><br>• Behavior causing financial, operational, or reputational risk, or repeated Level-1 violations<br>• Examples: negligence causing stock loss, unauthorized information sharing, minor harassment<br><br><strong>Level 3 — Gross Misconduct:</strong><br>• Serious violations threatening safety, law, brand reputation, or business integrity<br>• Examples: theft, fraud, physical violence, harassment, bribery, data breaches<br><br>Classification is based on the severity, risk, and impact of the behavior.<br><br>— from Code of Conduct'
+    },
+    {
+      id: 'coc-level1-minor',
+      category: 'Code of Conduct',
+      keywords: ['level 1 minor', 'minor misconduct examples', 'late coming', 'early leaving', 'poor attendance', 'casual negligence', 'not following sop', 'poor customer etiquette', 'minor email misuse', 'minor internet misuse', 'careless stock handling', 'performance expectations', 'verbal warning', 'written warning', 'suspension', 'level 1 disciplinary', 'level 1 first warning', 'level 1 second warning', 'level 1 third instance', 'level 1 termination', 'code of conduct level 1', 'minor misconduct kya hai', 'pehla warning', 'dusra warning'],
+      answer: 'Level 1 — Minor Misconduct:<br><br><strong>Examples:</strong><br>• Late coming, early leaving, poor attendance<br>• Casual negligence, not following SOPs<br>• Poor customer etiquette<br>• Minor misuse of company email or internet<br>• Careless handling of stock (without loss)<br>• Not meeting performance expectations<br><br><strong>Disciplinary process:</strong><br>• <strong>1st instance:</strong> Verbal warning<br>• <strong>2nd instance:</strong> Written warning<br>• <strong>3rd instance:</strong> Suspension (with or without pay)<br>• <strong>Beyond 3rd instance:</strong> Can lead to termination<br><br>— from Code of Conduct'
+    },
+    {
+      id: 'coc-level2-moderate',
+      category: 'Code of Conduct',
+      keywords: ['level 2 moderate', 'moderate misconduct', 'negligence stock loss', 'customer complaint negligence', 'unauthorized information sharing', 'disrespectful language', 'abusive language colleague', 'refuse lawful instruction', 'repeated level 1', 'written warning level 2', 'suspension without pay', 'level 2 termination', 'minor harassment level 2', 'intimidation level 2', 'code of conduct level 2', 'moderate misconduct kya hai', 'doosra level'],
+      answer: 'Level 2 — Moderate Misconduct:<br><br><strong>Examples:</strong><br>• Negligence causing stock loss or customer complaint<br>• Unauthorized sharing of company information<br>• Disrespectful or abusive language toward a colleague<br>• Refusing to follow lawful instructions<br>• Repeated Level-1 violations<br>• Minor harassment or intimidation<br><br><strong>Disciplinary process:</strong><br>• <strong>1st instance:</strong> Written warning<br>• <strong>2nd instance:</strong> Suspension without pay<br>• <strong>Beyond 2nd instance:</strong> Can lead to termination<br><br>— from Code of Conduct'
+    },
+    {
+      id: 'coc-level3-gross',
+      category: 'Code of Conduct',
+      keywords: ['level 3 gross', 'gross misconduct', 'theft', 'fraud gross', 'misappropriation', 'physical violence', 'threats violence', 'drugs alcohol duty', 'drug use work', 'alcohol use work', 'tampering records', 'pos tampering', 'billing tampering', 'data breach', 'hacking', 'collusion vendor', 'criminal activity outside', 'no warning level 3', 'immediate suspension', 'termination without notice', 'legal action police', 'document forgery gross', 'safety violations gross', 'sexual harassment level 3', 'severe harassment level 3', 'code of conduct level 3', 'gross misconduct kya hai', 'seedha terminate', 'police complaint'],
+      answer: 'Level 3 — Gross Misconduct:<br><br><strong>Examples:</strong><br>• Theft, fraud, or misappropriation of money or stock<br>• Physical violence or threats<br>• Drug or alcohol use on duty<br>• Tampering with stock, billing, POS, or records<br>• Data theft, leaks, or hacking<br>• Collusion with vendors<br>• Criminal activity impacting the company (inside or outside work)<br>• Document forgery and Background Verification red flags<br>• Serious safety violations<br>• Sexual harassment or severe harassment<br><br><strong>Disciplinary process:</strong><br>• <strong>No prior warning required</strong><br>• <strong>Immediate step:</strong> Suspension pending inquiry<br>• <strong>If proven:</strong> Termination without notice<br>• <strong>If criminal:</strong> Legal action and police reporting<br><br>— from Code of Conduct'
+    },
+    {
+      id: 'coc-investigation',
+      category: 'Code of Conduct',
+      keywords: ['investigation process', 'show cause notice', 'preliminary review', 'opportunity explain', 'internal inquiry', 'hr management decision', 'ethics committee', 'written communication', 'investigation outcome', 'appeal decision', 'natural justice', 'investigation steps', 'code of conduct investigation', 'complaint received', 'investigation kaise hota hai', 'show cause notice kya hai', 'sunwaai kaise hogi'],
+      answer: 'Investigation and natural justice process:<br><br><strong>Steps in order:</strong><br>1. Complaint received<br>2. Preliminary review<br>3. Show-cause notice (if required — unless you submit written acceptance)<br>4. Opportunity for the employee to explain<br>5. Internal inquiry<br>6. Decision by HR & Management or Ethics Committee<br>7. Written communication of outcome<br><br><strong>Key rights:</strong><br>• No employee is punished without being heard, except where safety or law requires immediate action<br>• The decision taken by management/committee is final and binding<br><br>— from Code of Conduct'
+    },
+    {
+      id: 'coc-amendments',
+      category: 'Code of Conduct',
+      keywords: ['code amendments', 'code changes', 'policy changes', 'company change code', 'amend code', 'modify code', 'add delete code', 'no personal advice changes', 'check for changes', 'unconditional agreement', 'code of conduct amendments', 'policy badal sakti hai', 'code change ho sakta hai', 'check karte raho'],
+      answer: 'Amendments to the Code of Conduct:<br><br><strong>Company\'s rights:</strong><br>• The company reserves the right to change, amend, add, delete, or modify the Code at any time without assigning any reason<br>• Employees will not be personally advised of such changes<br><br><strong>Your responsibility:</strong><br>• Employees are advised to check for changes, amendments, additions, deletions, or modifications regularly<br>• By continuing to work at the company, you unconditionally agree to all such changes<br><br>— from Code of Conduct'
+    },
+    {
+      id: 'coc-grievance-confidentiality',
+      category: 'Code of Conduct',
+      keywords: ['grievance confidentiality', 'grievance sensitive', 'frivolous complaint', 'malicious complaint', 'false complaint', 'good faith unfounded', 'statutory rights', 'legal rights', 'grievance not used wrongly', 'code of conduct grievance', 'complaint confidentiality', 'grievance report karo', 'confidential rakha jayega', 'jhoothi complaint mat karo'],
+      answer: 'Grievance confidentiality and improper complaints:<br><br><strong>Confidentiality:</strong><br>• Grievances reported under this policy will be treated with utmost confidentiality and sensitivity<br><br><strong>Prohibited use:</strong><br>• This policy shall not be used to bring frivolous or malicious complaints against anyone<br>• Knowingly making a false complaint leads to disciplinary or corrective action<br><br><strong>Good faith protection:</strong><br>• If you raise a genuine concern in good faith but it turns out unfounded, no action will be taken against you<br><br><strong>Legal rights:</strong><br>• Nothing in this procedure detracts from your statutory rights or the company\'s rights<br><br>— from Code of Conduct'
+    },
+    {
+      id: 'coc-escalation',
+      category: 'Code of Conduct',
+      keywords: ['escalation matrix', 'escalation levels', 'level 1 supervisor', 'level 2 function head', 'level 3 hr', 'level 4 senior management', 'immediate supervisor', 'store in charge', 'warehouse in charge', 'function head', 'operations manager', 'senior management', 'ethics committee', 'integrityfirst email', 'integrityfirst@zouk.co.in', 'skip supervisor', 'direct report email', 'counseling guidance', 'preliminary inquiry', 'formal investigation', 'disciplinary action', 'major financial risk', 'major legal risk', 'major reputational risk', 'code of conduct escalation', 'escalation matrix kya hai', 'kisko report kare', 'kahan complain kare'],
+      answer: 'The escalation matrix for reporting concerns:<br><br><strong>Level 1 — Immediate Supervisor:</strong><br>• For daily operational issues, minor misconduct, attendance problems, or customer complaints<br>• Resolution through counseling, guidance, or corrective action<br><br><strong>Level 2 — Function Head/Operations Manager:</strong><br>• For serious misconduct, safety concerns, or repeated violations<br>• Preliminary inquiry and written documentation<br><br><strong>Level 3 — HR Department:</strong><br>• For harassment complaints, disciplinary matters, fraud, theft, data breaches, and policy violations<br>• Formal investigation and disciplinary recommendation<br><br><strong>Level 4 — Senior Management/Ethics Committee:</strong><br>• For cases involving senior employees, major financial/legal/reputational risk, or gross misconduct<br>• Final decision on termination or major disciplinary measures<br><br><strong>Direct reporting:</strong><br>• Email <strong>integrityfirst@zouk.co.in</strong> for harassment, safety threats, fraud, or if the supervisor is involved<br>• You may skip levels for serious matters<br><br>— from Code of Conduct'
+    },
+    {
+      id: 'coc-investigation-confidentiality',
+      category: 'Code of Conduct',
+      keywords: ['investigation confidentiality', 'investigation information', 'need to know basis', 'witness identity', 'complainant identity', 'discuss investigation', 'ongoing investigation', 'concluded investigation', 'breach investigation confidentiality', 'intimidate witness', 'threaten complainant', 'protect complainant', 'protect witness', 'prevent retaliation', 'fair investigation', 'code of conduct investigation confidentiality', 'investigation ki baat mat karo', 'witness ko protect karo'],
+      answer: 'Confidentiality during investigations:<br><br><strong>Information sharing:</strong><br>• Information related to complaints, witnesses, evidence, and decisions is shared only on a need-to-know basis<br>• Employees must not disclose, discuss, or circulate any information related to ongoing or concluded investigations<br><br><strong>Protection measures:</strong><br>• The company takes reasonable steps to protect the identity of complainants and witnesses<br>• Prevents retaliation or victimization<br>• Ensures a fair and unbiased investigation<br><br><strong>Consequences of breach:</strong><br>• Breaching investigation confidentiality may lead to disciplinary action<br>• Intimidating or threatening a complainant/witness leads to strict disciplinary action including termination<br><br>— from Code of Conduct'
+    },
+    {
+      id: 'coc-scenarios',
+      category: 'Code of Conduct',
+      keywords: ['coworker stealing cash', 'vendor gift speed up', 'falsify sales report', 'report coworker theft', 'decline vendor gift', 'social media outside work', 'report misconduct anonymity', 'single incident termination', 'repeated level 1 termination', 'level classification decision', 'customer dispute misconduct', 'customers coworkers vendors', 'acknowledgment code', 'company report police', 'enforce code', 'escalation vs investigation', 'code of conduct scenarios', 'practical examples', 'real life situations', 'code of conduct examples', 'theft report kaise kare', 'vendor gift decline kaise kare', 'social media pe kya dal sakta hai'],
+      answer: 'Practical scenarios under the Code of Conduct:<br><br><strong>Q: If I see a coworker taking cash from the register?</strong><br>A: Report it — theft is Level-3 gross misconduct and all staff have a duty to report violations.<br><br><strong>Q: If a vendor offers me a personal gift to speed up a purchase order?</strong><br>A: Decline and disclose — accepting gifts from vendors is prohibited as both a conflict of interest and potential corruption.<br><br><strong>Q: Can I be disciplined for something I post on personal social media?</strong><br>A: Potentially, if it damages the company\'s reputation or involves unauthorized company information.<br><br><strong>Q: If my manager asks me to falsify a sales report?</strong><br>A: Don\'t comply — making untrue entries on records is fraud. Report through the escalation matrix or to integrityfirst@zouk.co.in.<br><br><strong>Q: Does reporting guarantee anonymity?</strong><br>A: The company takes reasonable steps to protect identities, but it\'s a protective effort rather than an absolute guarantee.<br><br><strong>Q: Can a single incident lead directly to termination?</strong><br>A: Yes, if classified as Level-3 gross misconduct, no warning is required.<br><br><strong>Q: Who decides the misconduct level?</strong><br>A: HR & Management or the Ethics Committee, based on severity, risk, and impact.<br><br>— from Code of Conduct'
+    },
+    // ===== GRIEVANCE REDRESSAL POLICY =====
+    {
+      id: 'grievance-overview',
+      category: 'Grievance Redressal Policy',
+      keywords: ['grievance policy', 'grievance redressal', 'grievance mechanism', 'workplace grievance', 'raise grievance', 'file grievance', 'grievance policy objective', 'grievance about what', 'grievance kya hai', 'grievance policy kya hai', 'grievance complaint', 'grievance redressal policy', 'grievance resolution', 'employee grievance', 'grievance help', 'grievance support'],
+      answer: 'The <strong>Grievance Redressal Policy</strong> (effective <strong>1 January 2026</strong>) establishes a formal mechanism for employees to raise workplace grievances in a fair, transparent, and confidential manner.<br><br><strong>Key details:</strong><br>• The company is committed to a healthy work environment where concerns are heard, addressed promptly, and resolved impartially without fear of retaliation<br>• Management reserves the right to modify this policy at any time<br><br>— from Grievance Redressal Policy'
+    },
+    {
+      id: 'grievance-scope',
+      category: 'Grievance Redressal Policy',
+      keywords: ['grievance scope', 'what grievances covered', 'grievance covers', 'grievance not covered', 'grievance exclusions', 'posh exclusion', 'eeo exclusion', 'whistleblower', 'code of conduct separate', 'grievance vs posh', 'grievance vs eeO', 'sexual harassment grievance', 'fraud report where', 'discrimination report where', 'misconduct report where'],
+      answer: 'The policy applies to <strong>general workplace grievances</strong>. It <strong>excludes</strong> the following (which are handled under separate policies):<br><br>• <strong>Sexual harassment</strong> → POSH Policy<br>• <strong>Discrimination based on disability/gender identity</strong> → Equal Employment Opportunity (EEO) Policy<br>• <strong>Fraud, misconduct, or unethical practices</strong> → Whistleblower / Vigil Mechanism<br>• <strong>Behavioural standards, ethics, and professional conduct</strong> → Code of Conduct<br><br>All other general workplace grievances fall under this Grievance Redressal Policy.<br><br>— from Grievance Redressal Policy'
+    },
+    {
+      id: 'grievance-eligibility',
+      category: 'Grievance Redressal Policy',
+      keywords: ['grievance eligibility', 'who can raise grievance', 'can i raise grievance', 'grievance individual collective', 'group grievance', 'minimum tenure grievance', 'new employee grievance', 'grievance eligibility criteria', 'eligible grievance', 'when can i raise grievance'],
+      answer: 'All employees across all departments and locations are eligible, <strong>regardless of role, designation, or tenure</strong>.<br><br><strong>Key points:</strong><br>• Employees may raise grievances <strong>at any time</strong> during their employment<br>• Grievances can be raised <strong>individually</strong> or <strong>collectively</strong> if the concern impacts a group of employees<br>• There is <strong>no minimum service period</strong> required<br><br>— from Grievance Redressal Policy'
+    },
+    {
+      id: 'grievance-definition',
+      category: 'Grievance Redressal Policy',
+      keywords: ['what is grievance', 'grievance definition', 'grievance meaning', 'dissatisfaction workplace', 'unfair treatment', 'grievance supervisor', 'grievance colleague', 'grievance policy implementation', 'grievance organisational practice', 'grievance omission', 'grievance affect work', 'grievance morale', 'grievance performance'],
+      answer: 'A <strong>grievance</strong> is defined as any dissatisfaction, concern, complaint, or feeling of unfairness related to:<br><br>• Workplace environment<br>• Managerial actions, decisions, or omissions<br>• Employment practices<br>• Colleague behaviour<br>• Policy implementation<br><br>that affects an employee\'s <strong>work experience, morale, or performance</strong>.<br><br>A grievance can arise from actions, decisions, or omissions by supervisors, colleagues, or organizational practices.<br><br>— from Grievance Redressal Policy'
+    },
+    {
+      id: 'grievance-types',
+      category: 'Grievance Redressal Policy',
+      keywords: ['grievance types', 'what can i complain about', 'unfair treatment supervisor', 'workplace conflict', 'workload complaint', 'payroll grievance', 'leave complaint', 'office infrastructure', 'facilities complaint', 'attendance policy', 'role clarity', 'communication gap', 'work environment grievance', 'benefits grievance', 'policy implementation grievance'],
+      answer: 'Grievances may include (but are not limited to):<br><br>• <strong>Unfair or biased treatment</strong> by supervisors<br>• <strong>Workplace conflicts</strong>, behavioural issues, or communication gaps<br>• Concerns about <strong>workload, job responsibilities, or role clarity</strong><br>• <strong>Leave, attendance, payroll, or benefits</strong> related concerns<br>• Dissatisfaction with <strong>implementation of company policies</strong><br>• Issues with <strong>work environment, facilities, or infrastructure</strong><br>• Any <strong>employment-related concern</strong> not covered by POSH or EEO<br><br>The list is not exhaustive — other workplace concerns may also qualify.<br><br>— from Grievance Redressal Policy'
+    },
+    {
+      id: 'grievance-committee',
+      category: 'Grievance Redressal Policy',
+      keywords: ['grievance committee', 'grievance redressal committee', 'committee members', 'zaki shah chairperson', 'krunal dalwadi', 'prateek kumar', 'priyanka majalkar committee', 'who is on grievance committee', 'committee chairperson', 'grievance committee members', 'grievance redressal committee members'],
+      answer: 'The <strong>Grievance Redressal Committee</strong> consists of 4 members:<br><br>• <strong>Zaki Shah</strong> — Chairperson<br>• <strong>Krunal Dalwadi</strong> — Member<br>• <strong>Prateek Kumar</strong> — Member<br>• <strong>Priyanka Majalkar</strong> — Member<br><br>The committee comprises senior and impartial members who review grievances objectively and recommend appropriate resolution measures.<br><br>— from Grievance Redressal Policy'
+    },
+    {
+      id: 'grievance-procedure',
+      category: 'Grievance Redressal Policy',
+      keywords: ['grievance procedure', 'how to raise grievance', 'grievance steps', 'grievance process', 'reporting manager grievance', 'escalate to hr', 'grievance escalation', 'hr referral', 'committee referral', 'grievance step 1', 'grievance step 2', 'grievance step 3', 'uncomfortable manager grievance', 'skip manager grievance'],
+      answer: 'The procedure has <strong>3 steps</strong>:<br><br><strong>Step 1:</strong> Discuss the issue with your <strong>Reporting Manager</strong> (wherever appropriate and comfortable)<br><br><strong>Step 2:</strong> If unresolved or uncomfortable, escalate to <strong>HR</strong> for review<br><br><strong>Step 3:</strong> HR may refer the matter to the <strong>Grievance Redressal Committee</strong> for further investigation and resolution<br><br><strong>Important:</strong> You can skip Step 1 and go directly to HR if you\'re uncomfortable speaking to your manager. Escalation to the committee is at HR\'s discretion, not automatic.<br><br>— from Grievance Redressal Policy'
+    },
+    {
+      id: 'grievance-mode',
+      category: 'Grievance Redressal Policy',
+      keywords: ['grievance mode', 'how to submit grievance', 'grievance email', 'written complaint grievance', 'in-person grievance', 'grievance submission', 'grievance format', 'grievance via email', 'grievance in person', 'grievance written'],
+      answer: 'Grievances can be raised through:<br><br>• <strong>Email</strong> communication to HR<br>• <strong>Written complaint</strong> submitted to HR<br>• <strong>In-person discussion</strong> with HR or committee members<br><br>The grievance should clearly mention the <strong>issue</strong>, <strong>individuals involved</strong> (if any), and <strong>relevant details</strong> for proper review.<br><br>— from Grievance Redressal Policy'
+    },
+    {
+      id: 'grievance-confidentiality',
+      category: 'Grievance Redressal Policy',
+      keywords: ['grievance confidentiality', 'confidential grievance', 'identity protection grievance', 'need to know grievance', 'grievance privacy', 'anonymous grievance', 'grievance identity protected', 'grievance information shared'],
+      answer: 'Grievances are handled with <strong>strict confidentiality</strong>:<br><br>• Information is shared <strong>only with individuals directly involved</strong> in the resolution process, on a need-to-know basis<br>• Identity is protected <strong>to the extent possible</strong><br>• <strong>Note:</strong> Absolute anonymity is not guaranteed in all cases — the policy states identity shall be protected "to the extent possible"<br><br>— from Grievance Redressal Policy'
+    },
+    {
+      id: 'grievance-retaliation',
+      category: 'Grievance Redressal Policy',
+      keywords: ['grievance retaliation', 'protection raising grievance', 'retaliation prohibited', 'discrimination grievance', 'adverse action grievance', 'grievance protection', 'retaliation misconduct', 'retaliate grievance', 'grievance retaliation consequences'],
+      answer: 'The Company <strong>strictly prohibits</strong> any form of retaliation, discrimination, or adverse action against an employee for raising a genuine grievance.<br><br><strong>Key points:</strong><br>• Retaliation is treated as <strong>serious misconduct</strong><br>• It may attract <strong>disciplinary action</strong> against the retaliator<br>• Protection covers all forms: retaliation, discrimination, or adverse action<br><br>— from Grievance Redressal Policy'
+    },
+    {
+      id: 'grievance-timeline',
+      category: 'Grievance Redressal Policy',
+      keywords: ['grievance timeline', 'grievance acknowledgement', 'how long grievance resolve', 'grievance resolution time', '2 working days', '7-10 working days', 'extended timeline grievance', 'grievance acknowledgement time', 'grievance response time', 'grievance resolution target'],
+      answer: 'The resolution timeline:<br><br>• <strong>Acknowledgement:</strong> Within <strong>2 working days</strong> of submission<br>• <strong>Target resolution:</strong> Within <strong>7–10 working days</strong> depending on complexity<br>• <strong>Extended cases:</strong> If detailed investigation is needed and takes longer, employees will be <strong>informed about the extended timeline</strong><br><br>The 7–10 day target is not a fixed guarantee — complex cases may take longer with the employee informed accordingly.<br><br>— from Grievance Redressal Policy'
+    },
+    {
+      id: 'grievance-records',
+      category: 'Grievance Redressal Policy',
+      keywords: ['grievance records', 'grievance documentation', 'who maintains grievance records', 'hr grievance records', 'grievance records maintained', 'grievance documentation hr'],
+      answer: 'HR maintains records of:<br><br>• <strong>Grievances received</strong><br>• <strong>Actions taken</strong><br>• <strong>Resolutions provided</strong><br><br>All records are maintained while ensuring <strong>confidentiality of sensitive information</strong>.<br><br>— from Grievance Redressal Policy'
+    },
+    {
+      id: 'grievance-exception',
+      category: 'Grievance Redressal Policy',
+      keywords: ['grievance exception', 'policy exception grievance', 'management exception grievance', 'case by case grievance', 'exception approval hr', 'grievance policy override', 'exception grievance process'],
+      answer: 'Exceptions to this policy:<br><br>• Granted at <strong>Management\'s sole discretion</strong><br>• Must be <strong>approved by HR</strong><br>• Evaluated on a <strong>case-by-case basis</strong> depending on the nature and seriousness of the grievance<br><br>Management cannot unilaterally grant exceptions without HR approval.<br><br>— from Grievance Redressal Policy'
+    },
+    {
+      id: 'grievance-scenarios',
+      category: 'Grievance Redressal Policy',
+      keywords: ['grievance scenarios', 'grievance examples', 'grievance practical', 'grievance real life', 'grievance true false', 'sexual harassment which policy', 'fraud report which policy', 'discrimination which policy', 'biased supervisor grievance', 'collective grievance', 'new employee grievance', 'grievance acknowledgement days', 'grievance retaliation example', 'grievance identity revealed', 'infrastructure grievance', 'grievance committee who reviews'],
+      answer: 'Key practical scenarios:<br><br><strong>Q: Sexual harassment complaint — which policy?</strong><br>A: POSH Policy, not this Grievance Redressal Policy.<br><br><strong>Q: Reporting fraud by a manager?</strong><br>A: Whistleblower / Vigil Mechanism, not this policy.<br><br><strong>Q: Biased treatment by supervisor?</strong><br>A: Yes, this is a covered grievance type under this policy.<br><br><strong>Q: Group unhappy with new attendance policy?</strong><br>A: Yes, grievances can be raised collectively if the concern impacts a group.<br><br><strong>Q: New employee (joined last week) wants to raise a grievance?</strong><br>A: Yes, all employees are eligible regardless of tenure.<br><br><strong>Q: Can I skip my manager and go to HR?</strong><br>A: Yes, if you\'re uncomfortable, you may escalate directly to HR.<br><br><strong>Q: Grievance emailed Monday — by when acknowledged?</strong><br>A: Within 2 working days.<br><br>— from Grievance Redressal Policy'
+    },
+    {
+      id: 'grievance-exclusions-detailed',
+      category: 'Grievance Redressal Policy',
+      keywords: ['posh vs grievance', 'eeo vs grievance', 'whistleblower vs grievance', 'code of conduct vs grievance', 'which policy complaint', 'sexual harassment report where', 'eeo complaint where', 'fraud report where', 'misconduct report where', 'discrimination report where', 'grievance not for posh', 'grievance not for eeo', 'grievance not for whistleblower'],
+      answer: 'Which policy to use for different concerns:<br><br>• <strong>Sexual harassment</strong> → POSH Policy<br>• <strong>Discrimination (disability, gender identity)</strong> → EEO Policy<br>• <strong>Fraud, misconduct, unethical practices</strong> → Whistleblower / Vigil Mechanism<br>• <strong>Behavioural standards, ethics</strong> → Code of Conduct<br>• <strong>All other workplace grievances</strong> → This Grievance Redressal Policy<br><br>— from Grievance Redressal Policy'
+    },
+
+    // ===== CROSS-CUTTING / META =====
+    {
+      id: 'about-bot',
+      category: null,
+      keywords: ['codebase', 'source code', 'how do you work', 'how you work', 'how are you built', 'your code', 'github', 'repository', 'backend', 'frontend', 'api', 'technology stack', 'your architecture', 'technical details', 'tell me about yourself', 'who created you', 'who built you'],
+      answer: 'I''m here to help you with questions about Sea Turtle''s HR policies — specifically our <strong>Leave Policy</strong>, <strong>POSH Policy</strong>, <strong>Exit Policy</strong>, <strong>Salary Advance Policy</strong>, <strong>Code of Conduct</strong>, and <strong>Grievance Redressal Policy</strong>.<br><br>I can''t share technical details about how I work, but I''m happy to answer any questions you have about:<br>• Leave entitlements and processes<br>• POSH (Prevention of Sexual Harassment) procedures<br>• Exit process, resignation, F&F, and more<br>• Salary advance eligibility, limits, and repayment<br>• Code of Conduct, ethical standards, and misconduct classification<br>• Grievance redressal process and committee details<br><br>Is there something specific about our company policies I can help you with?'
+    },
+    {
+      id: 'capabilities',
+      category: null,
+      keywords: ['what can i do', 'what can you do', 'what can i ask', 'how can you help', 'what do you do', 'help me', 'capabilities', 'features', 'options', 'i need help', 'what should i ask', 'guide me', 'not sure what to ask', 'help', 'confused', 'what to ask'],
+      answer: 'Here''s what I can help you with:<br><br><strong>Leave Policy Questions:</strong><br>• Different types of leave (Annual, Medical, Maternity, Paternity, and more)<br>• How many days you''re entitled to<br>• How to apply for leave<br>• Carry-forward rules<br>• Special leave types (Marriage, Bereavement, Adoption, Celebratory Off, etc.)<br><br><strong>POSH Policy Questions:</strong><br>• What constitutes sexual harassment<br>• How to file a complaint<br>• Who to contact (ICC members)<br>• The investigation process and timelines<br>• Your rights and protections<br><br><strong>Exit Policy Questions:</strong><br>• How to resign and the notice period<br>• Types of exits (voluntary and involuntary)<br>• Full & Final settlement timeline<br>• Asset clearance and documentation<br>• Leaves during notice period<br><br><strong>Salary Advance Policy Questions:</strong><br>• Advance eligibility and limits<br>• Permissible reasons for requesting an advance<br>• How to apply and approval process<br>• Recovery and repayment through salary deduction<br>• Rules during separation or termination<br><br><strong>Code of Conduct Questions:</strong><br>• Ethical standards and expected behavior<br>• Anti-corruption and anti-fraud rules<br>• Misconduct classification (Level 1, 2, 3)<br>• Escalation matrix and reporting process<br>• Confidentiality and investigation procedures<br><br><strong>Grievance Redressal Policy Questions:</strong><br>• How to raise a workplace grievance<br>• Grievance Redressal Committee details<br>• Confidentiality and protection against retaliation<br>• Resolution timelines and documentation<br>• What''s covered and what''s excluded<br><br>Example questions:<br>• "How much maternity leave am I entitled to?"<br>• "What happens during a POSH investigation?"<br>• "How do I resign from the company?"<br>• "Can I get a salary advance?"<br>• "What is considered gross misconduct?"<br>• "How do I raise a grievance?"<br><br>Just ask me anything about these policies!'
+    },
+    {
+      id: 'what-policies',
+      category: null,
+      keywords: ['what policies', 'what policies do you have', 'which policies', 'list policies', 'available policies', 'policies you cover', 'what policy', 'policies available', 'company policies'],
+      answer: 'I can help you with questions about <strong>six key HR policies</strong> at Sea Turtle Pvt Ltd:<br><br><strong>1. Leave Policy</strong> (Effective 1 Jan 2026)<br>• Annual Leave, Medical Leave, Period Leave, Celebratory Off, Marriage Leave<br>• Maternity, Paternity, Adoption, Bereavement Leave & more<br><br><strong>2. POSH Policy</strong> (Prevention of Sexual Harassment, Effective 30 June 2026)<br>• Based on the Sexual Harassment of Women at Workplace Act, 2013<br>• Reporting process, ICC contacts, investigation timelines & protections<br><br><strong>3. Exit Policy</strong> (Circulated 3 Nov 2025)<br>• Resignation process, notice period, types of exits<br>• F&F settlement, asset clearance, documentation<br><br><strong>4. Salary Advance Policy</strong> (Effective 1 June 2026)<br>• Advance eligibility, limits, and permissible reasons<br>• Application process, approval authority, and recovery<br><br><strong>5. Code of Conduct</strong> (Effective 1 Jan 2026)<br>• Ethical standards, anti-corruption, anti-fraud rules<br>• Misconduct classification, escalation matrix, and investigation process<br><br><strong>6. Grievance Redressal Policy</strong> (Effective 1 Jan 2026)<br>• Formal grievance mechanism for workplace concerns<br>• Grievance Redressal Committee, resolution timelines, and confidentiality<br><br>What would you like to know more about?'
+    },
+    {
+      id: 'thanks',
+      category: null,
+      keywords: ['thank you', 'thanks', 'thankyou', 'thank u', 'thanks a lot', 'thank you so much', 'appreciate', 'grateful', 'thanks for your help', 'awesome', 'great thanks'],
+      answer: 'Thank you! Glad I could help. If anything else comes up about our policies, just give me a shout. Have a great day!'
+    },
+    {
+      id: 'howareyou',
+      category: null,
+      keywords: ['how are you', 'how are you doing', 'how do you do', 'how is it going', 'you good', 'you alright', 'how are things', 'whats up'],
+      answer: 'I''m doing great, thanks for asking! Ready and waiting to help you with any questions about our Leave Policy, POSH Policy, Exit Policy, Salary Advance Policy, Code of Conduct, or Grievance Redressal Policy. What''s on your mind?'
+    },
+    {
+      id: 'goodbye',
+      category: null,
+      keywords: ['bye', 'goodbye', 'see you', 'talk later', 'see ya', 'cya', 'gotta go', 'leaving', 'signing off'],
+      answer: 'Take care! It was lovely chatting with you. If you ever need help with our policies again, I''m always here. Have a great one!'
+    },
+    {
+      id: 'hr-email',
+      category: null,
+      keywords: ['hr email', 'email hr', 'hr contact', 'contact hr', 'hr team', 'hr helpline', 'hr address', 'reach hr', 'hr email id', 'mail hr', 'hr support', 'human resources', 'hr department'],
+      answer: 'You can reach the HR team at <strong>hr@zouk.co.in</strong> — they''ll help you with anything that''s beyond what I can answer here!'
+    },
+    {
+      id: 'out-of-scope',
+      category: null,
+      keywords: ['appraisal', 'increment', 'promotion', 'it support', 'remote work', 'work from home', 'wfh', 'reimbursement', 'travel expense', 'payslip', 'salary slip', 'pf', 'provident fund', 'gratuity', 'bonus', 'variable pay', 'comp off', 'compensatory off', 'overtime', 'training policy', 'nda', 'medical insurance', 'health insurance', 'payroll', 'tax'],
+      answer: 'That''s not something I have info on in our current policies, but no worries — reach out to the HR team at <strong>hr@zouk.co.in</strong> and they''ll sort you out!'
+    },
+    {
+      id: 'meta-policy-effective-dates',
+      category: null,
+      keywords: ['when did policy start', 'policy effective date', 'policy from when', 'leave policy effective', 'posh policy effective', 'policy start date', 'leave policy 2026', 'posh policy 2026', 'exit policy effective', 'exit policy date', 'salary advance policy effective', 'salary advance policy date', 'code of conduct effective', 'code of conduct date', 'conduct policy effective', 'grievance policy effective', 'grievance policy date', 'grievance redressal effective'],
+      answer: '<strong>Leave Policy:</strong> Effective <strong>1 January 2026</strong><br><strong>POSH Policy:</strong> Effective <strong>30 June 2026</strong><br><strong>Exit Policy:</strong> Circulated <strong>3 November 2025</strong><br><strong>Salary Advance Policy:</strong> Effective <strong>1 June 2026</strong><br><strong>Code of Conduct:</strong> Effective <strong>1 January 2026</strong><br><strong>Grievance Redressal Policy:</strong> Effective <strong>1 January 2026</strong>'
+    },
+    {
+      id: 'meta-legal-disclaimer',
+      category: null,
+      keywords: ['legally binding', 'is this legal advice', 'bot answer legal', 'can i rely on this', 'official policy', 'binding answer', 'just guidance', 'disclaimer', 'bot accuracy', 'policy precedence', 'bot vs official policy'],
+      answer: 'The information I provide is for <strong>quick guidance only</strong>, based on the current written policies. The <strong>official policy documents and HR/ICC guidance</strong> take precedence in any specific or disputed case. For critical or complex matters, always consult the official policy documents or reach out to HR directly.'
+    },
+    {
+      id: 'meta-bot-scope',
+      category: null,
+      keywords: ['what can this bot do', 'bot limitations', 'non policy questions', 'bot scope', 'things not covered'],
+      answer: 'I''m designed to answer questions about <strong>Leave Policy</strong>, <strong>POSH Policy</strong>, <strong>Exit Policy</strong>, <strong>Salary Advance Policy</strong>, <strong>Code of Conduct</strong>, and <strong>Grievance Redressal Policy</strong> only. For other HR matters like salary, IT support, payroll, reimbursements, or any other topics, please reach out to the HR team at <strong>hr@zouk.co.in</strong>.'
+    },
+    {
+      id: 'meta-policy-creators',
+      category: null,
+      keywords: ['who created policy', 'who approved policy', 'policy author', 'policy creator', 'hr director', 'policy approval authority', 'policy drafted by'],
+      answer: 'The <strong>Leave Policy</strong> and <strong>POSH Policy</strong> were created by the <strong>HR Director</strong> and approved by HR. The <strong>Exit Policy</strong> was created by the <strong>Director — HR</strong> (circulated 3 November 2025). The <strong>Salary Advance Policy</strong> was created by <strong>HR</strong> and approved by the <strong>HR Director</strong> (effective 1 June 2026). The <strong>Code of Conduct</strong> was created by the <strong>HR Director</strong> and applies from <strong>1 January 2026</strong>. The <strong>Grievance Redressal Policy</strong> is effective from <strong>1 January 2026</strong>.'
+    },
+    {
+      id: 'meta-full-policy-copy',
+      category: null,
+      keywords: ['full policy document', 'get policy copy', 'download policy', 'policy pdf', 'official policy text', 'complete policy', 'policy document access', 'where to find policy'],
+      answer: 'For a copy of the full policy document, please reach out to <strong>HR</strong> at <strong>hr@zouk.co.in</strong> or check the <strong>internal policy portal/intranet</strong>. I can answer specific questions about the policies, but the official documents are maintained by HR.'
+    },
+    {
+      id: 'meta-exceptions-authority',
+      category: null,
+      keywords: ['who approves exceptions', 'exception authority', 'management approval', 'policy exception approval', 'who can override policy'],
+      answer: '<strong>Only Management</strong> has the authority to approve exceptions to the policies, with HR approval. The company also reserves the right to amend or update any policy at any time. HR conducts periodic policy reviews.'
+    }
+  ];
+
+  var GREETINGS = ['hi', 'hello', 'hey', 'good morning', 'good afternoon', 'good evening', 'greetings', 'namaste'];
+  var GREETING_RESPONSE = 'Hey there! Great to see you! I''m <strong>Turtle</strong>, your HR Policy Assistant. Ask me anything about our <strong>Leave Policy</strong>, <strong>POSH Policy</strong>, <strong>Exit Policy</strong>, <strong>Salary Advance Policy</strong>, <strong>Code of Conduct</strong>, or <strong>Grievance Redressal Policy</strong> — I''m here to help!';
+  var FALLBACK = 'That''s not something covered in our current HR policies, but no worries — please reach out to our HR team at <strong>hr@zouk.co.in</strong> and they''ll help you out!';
+
+  var REDIRECT_KEYWORDS = ['my complaint', 'my case', 'my icc', 'my posh case', 'disciplinary', 'terminate', 'firing', 'termination', 'suspension', 'show cause', 'my manager is', 'my coworker', 'my colleague is', 'active complaint', 'pending complaint', 'specific case', 'individual case'];
+  var REDIRECT_RESPONSE = 'Thank you for reaching out. For active complaints, disciplinary matters, or individual cases, please connect with the <strong>HR team</strong> at <strong>hr@zouk.co.in</strong> or reach out to the <strong>POSH Internal Committee</strong> members listed in the policy. They are best equipped to assist you with your specific situation.';
+
+  var chatArea = document.getElementById('chatArea');
+  var inputField = document.getElementById('inputField');
+  var sendBtn = document.getElementById('sendBtn');
+  var typingIndicator = document.getElementById('typingIndicator');
+  var isProcessing = false;
+
+  function scrollToBottom() {
+    setTimeout(function() { chatArea.scrollTop = chatArea.scrollHeight; }, 50);
+  }
+
+  function escapeHtml(text) {
+    var div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  function normalize(text) {
+    return text.toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, ' ').replace(/\s+/g, ' ').trim();
+  }
+
+  function addMessage(text, role, sourceTag) {
+    var div = document.createElement('div');
+    div.className = 'message ' + role;
+    var label = document.createElement('div');
+    label.className = 'msg-label';
+    label.textContent = role === 'bot' ? 'Turtle' : 'You';
+    div.appendChild(label);
+    var content = document.createElement('div');
+    content.innerHTML = text;
+    div.appendChild(content);
+    if (role === 'bot' && sourceTag) {
+      var tag = document.createElement('div');
+      tag.className = 'source-tag ' + sourceTag.toLowerCase();
+      tag.textContent = sourceTag;
+      div.appendChild(tag);
+    }
+    if (role === 'bot') {
+      var typing = document.querySelector('.typing-indicator');
+      if (typing) typing.classList.remove('show');
+    }
+    chatArea.insertBefore(div, typingIndicator);
+    scrollToBottom();
+  }
+
+  function showTyping() { typingIndicator.classList.add('show'); scrollToBottom(); }
+  function hideTyping() { typingIndicator.classList.remove('show'); }
+
+  function getAnswer(question) {
+    var q = normalize(question);
+    var words = q.split(' ').filter(function(w) { return w; });
+    var wordSet = new Set(words);
+
+    var isEngGreeting = words.length <= 5 && (
+      words.some(function(w) { return GREETINGS.indexOf(w) !== -1; }) ||
+      GREETINGS.some(function(g) { return g.indexOf(' ') !== -1 && q.indexOf(g) !== -1; })
+    );
+    if (isEngGreeting) return { answer: GREETING_RESPONSE, tag: null };
+
+    for (var i = 0; i < REDIRECT_KEYWORDS.length; i++) {
+      if (q.indexOf(REDIRECT_KEYWORDS[i]) !== -1) return { answer: REDIRECT_RESPONSE, tag: null };
+    }
+
+    var bestScore = 0;
+    var bestEntry = null;
+
+    for (var ki = 0; ki < KB.length; ki++) {
+      var entry = KB[ki];
+      var bestKwScore = 0;
+      for (var kj = 0; kj < entry.keywords.length; kj++) {
+        var kw = entry.keywords[kj];
+        var kwScore = 0;
+        var kwWords = kw.toLowerCase().split(' ').filter(function(w) { return w; });
+        if (kwWords.length > 1) {
+          if (q.indexOf(kw) !== -1) {
+            kwScore = kw.length * 3;
+          } else {
+            var matchCount = kwWords.filter(function(w) { return wordSet.has(w); }).length;
+            if (matchCount === kwWords.length) kwScore = kw.length * 2;
+            else if (matchCount > 0) kwScore = (matchCount / kwWords.length) * kw.length;
+          }
+        } else {
+          if (wordSet.has(kw)) kwScore = kw.length;
+        }
+        if (kwScore > bestKwScore) bestKwScore = kwScore;
+      }
+      if (bestKwScore > 0) bestKwScore = bestKwScore / Math.max(1, words.length);
+      if (bestKwScore > bestScore) { bestScore = bestKwScore; bestEntry = entry; }
+    }
+
+    if (bestEntry && bestScore > 0.2) return { answer: bestEntry.answer, tag: bestEntry.category };
+    return { answer: FALLBACK, tag: null };
+  }
+
+  function handleQuestion(question) {
+    if (!question.trim() || isProcessing) return;
+    isProcessing = true;
+    sendBtn.disabled = true;
+    inputField.disabled = true;
+    var qText = question.trim();
+    addMessage(escapeHtml(qText), 'user');
+    inputField.value = '';
+    inputField.style.height = 'auto';
+    showTyping();
+    setTimeout(function() {
+      var result = getAnswer(qText);
+      hideTyping();
+      addMessage(result.answer, 'bot', result.tag);
+      isProcessing = false;
+      sendBtn.disabled = false;
+      inputField.disabled = false;
+      inputField.focus();
+    }, 400 + Math.random() * 400);
+  }
+
+  sendBtn.addEventListener('click', function() { handleQuestion(inputField.value); });
+  inputField.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); if (!isProcessing) handleQuestion(inputField.value); }
+  });
+  inputField.addEventListener('input', function() {
+    inputField.style.height = 'auto';
+    inputField.style.height = Math.min(inputField.scrollHeight, 120) + 'px';
+  });
+  window.sendSuggestion = function(btn) { if (!isProcessing) handleQuestion(btn.textContent); };
+  inputField.focus();
+})();
+</script>
+</body>
+</html>
