@@ -23,6 +23,7 @@
   {"question":"how many privilege leaves do i get?","expectedId":"annual-leave"},
   {"question":"how many privlege leaves do i get?","expectedId":"annual-leave"},
   {"question":"how many PL do i get per quarter?","expectedId":"annual-leave"},
+  {"question":"Privilege Leave (PL) Employees are entitled to 19 Privilege Leaves (PL) per year. PL is credited quarterly, with 4.75 leaves per quarter. If an employee joins in the middle of a quarter, PL is credited on a pro-rata basis. Example 1: If an employee joins in February, they will receive 3.17 PL for that quarter. Example 2: If an employee joins in September, they will receive 1.58 PL for that quarter.","expectedId":"leave-mid-year-pro-rata"},
   {"question":"if i join in february how many PL will i get?","expectedId":"leave-mid-year-pro-rata"},
   {"question":"how much leave can i carry forward?","expectedId":"leave-balance"},
   {"question":"do weekends count during leave?","expectedId":"leave-count-weekends"},
