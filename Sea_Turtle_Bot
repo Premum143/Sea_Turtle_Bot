@@ -172,9 +172,9 @@
         <div class="subtitle">Turtle — HR Policy Assistant</div>
       </div>
     </div>
-    <div class="welcome-msg">Hey there! I'm <strong>Turtle</strong>, your HR Policy Assistant. Ask me anything about our <strong>Leave Policy</strong>, <strong>POSH Policy</strong>, <strong>Exit Policy</strong>, <strong>Salary Advance Policy</strong>, <strong>Code of Conduct</strong>, or <strong>Grievance Redressal Policy</strong> — in any language you like!</div>
+    <div class="welcome-msg">Hey there! I'm <strong>Turtle</strong>, your HR Policy Assistant. Ask me anything in English about our <strong>Leave Policy</strong>, <strong>POSH Policy</strong>, <strong>Exit Policy</strong>, <strong>Salary Advance Policy</strong>, <strong>Code of Conduct</strong>, or <strong>Grievance Redressal Policy</strong>.</div>
     <div class="suggestions">
-      <button onclick="sendSuggestion(this)">How much annual leave do I get?</button>
+      <button onclick="sendSuggestion(this)">How much privilege leave do I get?</button>
       <button onclick="sendSuggestion(this)">What is the POSH policy?</button>
       <button onclick="sendSuggestion(this)">How do I resign from the company?</button>
       <button onclick="sendSuggestion(this)">Can I get a salary advance?</button>
@@ -201,14 +201,14 @@
     {
       id: 'annual-leave',
       category: 'Leave Policy',
-      keywords: ['annual leave', 'earned leave', 'vacation', 'holiday days', 'leave days per year', 'how many days leave', 'how many leaves', 'leave entitlement', 'annual leave days', 'earned leave days', 'clubbed', 'carry forward', 'carry over', 'carryforward', 'pro rata', 'pro-rated', 'credited quarterly', 'leave policy', 'about leave', 'leave rules', 'tell me about leave', 'paid leave', 'paid leaves', 'paid time off', 'mid year', 'joining', 'prorated', 'unused', 'expire', 'lapse', 'credited', 'public holiday', 'holiday during', 'leave balance', 'leave year', 'calendar year', 'vacation days', 'yearly leave quota', 'quarter', 'per quarter', 'quarterly credited', 'each quarter', 'how many leaves per quarter'],
-      answer: 'You get <strong>19 days of Annual Leave</strong> each year — that works out to roughly <strong>4-5 days per quarter</strong>, credited in advance at the start of each quarter. If you join mid-year, it\'s calculated proportionally from your start date.<br><br>You can carry forward up to <strong>10 unused days</strong> into the next year, anything beyond that lapses. You can also combine annual leave with other leave types (like medical or marriage leave) if you need a longer break.<br><br>Public holidays and weekly offs that fall during your annual leave are <strong>not counted</strong> against your leave balance.<br><br>— from Leave Policy'
+      keywords: ['privilege leave', 'pl', 'pl leave', 'privileged leave', 'annual leave', 'earned leave', 'vacation', 'holiday days', 'leave days per year', 'how many days leave', 'how many leaves', 'leave entitlement', 'privilege leave days', 'annual leave days', 'earned leave days', 'clubbed', 'carry forward', 'carry over', 'carryforward', 'pro rata', 'pro-rated', 'credited quarterly', 'leave policy', 'about leave', 'leave rules', 'tell me about leave', 'paid leave', 'paid leaves', 'paid time off', 'mid quarter', 'mid year', 'joining', 'prorated', 'unused', 'expire', 'lapse', 'credited', 'public holiday', 'holiday during', 'leave balance', 'leave year', 'calendar year', 'vacation days', 'yearly leave quota', 'quarter', 'per quarter', 'quarterly credited', 'each quarter', '4.75 leaves', 'how many leaves per quarter', 'february joining', 'september joining'],
+      answer: 'Employees are entitled to <strong>19 Privilege Leaves (PL)</strong> per year.<br><br><strong>Credit cycle:</strong><br>• PL is credited quarterly at <strong>4.75 leaves per quarter</strong><br>• If an employee joins in the middle of a quarter, PL is credited on a <strong>pro-rata basis</strong><br><br><strong>Examples:</strong><br>• If an employee joins in <strong>February</strong>, they receive <strong>3.17 PL</strong> for that quarter<br>• If an employee joins in <strong>September</strong>, they receive <strong>1.58 PL</strong> for that quarter<br><br>You can carry forward up to <strong>10 unused PL</strong> into the next year; anything beyond that lapses. Public holidays and weekly offs that fall during PL are <strong>not counted</strong> against your leave balance.<br><br>— from Leave Policy'
     },
     {
       id: 'medical-leave',
       category: 'Leave Policy',
       keywords: ['medical leave', 'sick leave', 'casual leave', 'medical certificate', 'doctor note', 'sick days', 'illness', 'unwell', 'medical casual leave', 'sick leave exhausted', 'sick leave over', 'run out of sick leave', 'sick leave khatam', 'medical leave exhausted'],
-      answer: 'You get <strong>8 days of Medical/Casual Leave</strong> each year. If you\'re unwell for more than 3 days in a row, you\'ll need a doctor\'s certificate.<br><br>These don\'t carry forward to next year, so use them when you need them. If you run out, you can combine with Annual Leave or take Leave Without Pay.<br><br>— from Leave Policy'
+      answer: 'You get <strong>8 days of Medical/Casual Leave</strong> each year. If you\'re unwell for more than 3 days in a row, you\'ll need a doctor\'s certificate.<br><br>These don\'t carry forward to next year, so use them when you need them. If you run out, you can combine with Privilege Leave (PL) or take Leave Without Pay.<br><br>— from Leave Policy'
     },
     {
       id: 'menstrual-leave',
@@ -226,25 +226,25 @@
       id: 'marriage-leave',
       category: 'Leave Policy',
       keywords: ['marriage leave', 'wedding leave', 'get married', 'own marriage', 'tying the knot'],
-      answer: 'Yes, you are entitled to <strong>5 working days of Marriage Leave</strong> for your own marriage.<br><br>Here are the details:<br>• <strong>Eligibility:</strong> Only for your own marriage (not for family members)<br>• <strong>Duration:</strong> 5 working days, must be taken as one continuous block<br>• <strong>Timing:</strong> Must be taken during the week of your marriage (or immediately before/after if the date falls on a weekend or holiday)<br>• <strong>Approval:</strong> Needs both your Reporting Manager and HRBP approval<br>• <strong>Clubbing:</strong> Can only be combined with Annual Leave<br>• <strong>Partial usage:</strong> If you take fewer than 5 days, the remaining days lapse<br>• <strong>Carry forward:</strong> Cannot be carried forward'
+      answer: 'Yes, you are entitled to <strong>5 working days of Marriage Leave</strong> for your own marriage.<br><br>Here are the details:<br>• <strong>Eligibility:</strong> Only for your own marriage (not for family members)<br>• <strong>Duration:</strong> 5 working days, must be taken as one continuous block<br>• <strong>Timing:</strong> Must be taken during the week of your marriage (or immediately before/after if the date falls on a weekend or holiday)<br>• <strong>Approval:</strong> Needs both your Reporting Manager and HRBP approval<br>• <strong>Clubbing:</strong> Can only be combined with Privilege Leave (PL)<br>• <strong>Partial usage:</strong> If you take fewer than 5 days, the remaining days lapse<br>• <strong>Carry forward:</strong> Cannot be carried forward'
     },
     {
       id: 'miscarriage-leave',
       category: 'Leave Policy',
       keywords: ['miscarriage leave', 'miscarriage', 'medical termination pregnancy', 'termination of pregnancy', 'pregnancy loss', 'mtp leave', '6 weeks miscarriage', 'miscarriage paid leave'],
-      answer: 'Miscarriage Leave provides up to <strong>6 weeks of paid leave</strong> from the date of miscarriage or medical termination of pregnancy, as per the Maternity Benefit Act, 1961.<br><br><strong>Key details:</strong><br>• Cannot be accumulated or carried forward<br>• Request must be approved by the Reporting Manager and HR Head<br>• Supporting medical documents must be provided<br>• If a medical certificate is not provided, the leave may be treated as Annual Leave or Leave Without Pay depending on leave balance<br><br>— from Leave Policy'
+      answer: 'Miscarriage Leave provides up to <strong>6 weeks of paid leave</strong> from the date of miscarriage or medical termination of pregnancy, as per the Maternity Benefit Act, 1961.<br><br><strong>Key details:</strong><br>• Cannot be accumulated or carried forward<br>• Request must be approved by the Reporting Manager and HR Head<br>• Supporting medical documents must be provided<br>• If a medical certificate is not provided, the leave may be treated as Privilege Leave (PL) or Leave Without Pay depending on leave balance<br><br>— from Leave Policy'
     },
     {
       id: 'maternity-leave',
       category: 'Leave Policy',
       keywords: ['maternity leave', 'maternity', 'pregnancy', 'maternity benefit', 'childbirth', 'maternity days', 'baby', 'delivery', 'second child', 'third child', 'maternity weeks', 'pregnancy leave duration', 'maternity leave extension', 'maternity leave kitni'],
-      answer: 'Yes, you are entitled to <strong>26 weeks of Maternity Leave</strong> for your first two children (12 weeks from the 3rd child onward, per the Maternity Benefit Act 1961).<br><br>Here are the full details:<br>• <strong>Duration:</strong> 26 weeks for first two children, 12 weeks from 3rd child onward<br>• <strong>Calendar days:</strong> Maternity leave is calculated on a calendar day basis — public holidays and weekly offs within the leave period count as part of your maternity leave<br>• <strong>Pre-delivery:</strong> Up to 8 weeks can be taken before delivery<br>• <strong>Eligibility:</strong> Must have worked at least 80 consecutive days before leave starts<br>• <strong>Extra recovery:</strong> Additional 30 days available for pregnancy/delivery-related recovery (adjusted against leave balance/LWP) with documentation<br>• <strong>Apply:</strong> At least 4 weeks in advance<br>• <strong>Tubectomy:</strong> Includes 2 weeks fully paid leave<br>• <strong>Nursing breaks:</strong> Nursing/pumping breaks available until your child turns 12 months'
+      answer: 'Maternity Leave is applicable only to <strong>female employees</strong> who have completed at least <strong>80 consecutive days of service</strong> with the company before the leave starts.<br><br>Here are the full details:<br>• <strong>Duration:</strong> 26 weeks for the first two children, 12 weeks from the 3rd child onward, as per the Maternity Benefit Act, 1961<br>• <strong>Calendar days:</strong> Maternity leave is calculated on a calendar day basis — public holidays and weekly offs within the leave period count as part of maternity leave<br>• <strong>Pre-delivery:</strong> Up to 8 weeks can be taken before delivery<br>• <strong>Extra recovery:</strong> Additional 30 days available for pregnancy/delivery-related recovery, adjusted against leave balance/LWP, with documentation<br>• <strong>Apply:</strong> At least 4 weeks in advance<br>• <strong>Tubectomy:</strong> Includes 2 weeks fully paid leave<br>• <strong>Nursing breaks:</strong> Nursing/pumping breaks are available until the child turns 12 months'
     },
     {
       id: 'paternity-leave',
       category: 'Leave Policy',
       keywords: ['paternity leave', 'paternity', 'father', 'fatherhood', 'new dad', 'father leave'],
-      answer: 'Yes, Paternity Leave is available for <strong>2 weeks</strong>.<br><br>Here are the details from the policy:<br>• <strong>Usage:</strong> The policy states it can be availed in two blocks, which may or may not be taken one after the other<br>• <strong>Timeline:</strong> Must be availed within 6 months of your child being born or adopted<br>• <strong>Availability:</strong> Can be availed twice during your tenure with the organization<br>• <strong>Calendar days:</strong> Public holidays and weekly holidays during the paternity leave period count as part of the leave<br>• <strong>Apply:</strong> At least 2 weeks in advance on the leave portal, with necessary documents submitted to HR after return<br><br>— from Leave Policy'
+      answer: 'Paternity Leave is applicable only to <strong>male employees</strong> who have completed at least <strong>80 consecutive days of service</strong> with the company.<br><br>Here are the details from the policy:<br>• <strong>Duration:</strong> 2 weeks<br>• <strong>Usage:</strong> Can be availed in two blocks, which may or may not be taken one after the other<br>• <strong>Timeline:</strong> Must be availed within 6 months of the child being born or adopted<br>• <strong>Availability:</strong> Can be availed twice during your tenure with the organization<br>• <strong>Calendar days:</strong> Public holidays and weekly holidays during the paternity leave period count as part of the leave<br>• <strong>Apply:</strong> At least 2 weeks in advance on the leave portal, with necessary documents submitted to HR after return<br><br>— from Leave Policy'
     },
     {
       id: 'adoption-leave',
@@ -280,13 +280,13 @@
       id: 'leave-balance',
       category: 'Leave Policy',
       keywords: ['leave balance', 'check leave', 'remaining leave', 'how many days left', 'leave remaining', 'unused leave', 'leave expire', 'leave carry over', 'bache hue leave'],
-      answer: 'Here\'s a summary of how leave balances work:<br><br><strong>Can carry forward:</strong><br>• Annual/Earned Leave: Up to 10 days per year — anything above that lapses<br><br><strong>Cannot carry forward:</strong><br>• Medical/Casual Leave, Menstrual/Period Leave, Celebratory Off, Marriage Leave, and Bereavement Leave<br><br>You can check your exact leave balance anytime on the leave portal.'
+      answer: 'Here\'s a summary of how leave balances work:<br><br><strong>Can carry forward:</strong><br>• Privilege Leave (PL): Up to 10 days per year — anything above that lapses<br><br><strong>Cannot carry forward:</strong><br>• Medical/Casual Leave, Menstrual/Period Leave, Celebratory Off, Marriage Leave, and Bereavement Leave<br><br>You can check your exact leave balance anytime on the leave portal.'
     },
     {
       id: 'leave-count-weekends',
       category: 'Leave Policy',
       keywords: ['weekend count', 'sunday count', 'holiday during leave', 'public holiday leave', 'do weekends count', 'do holidays count', 'leave include weekends', 'weekly off count'],
-      answer: 'No, <strong>public holidays and weekly offs that fall during your leave are not counted</strong> against your leave balance. For example, if you take 5 days of annual leave but there\'s a Sunday and a public holiday in between, only the working days are counted toward your leave balance.<br><br>However, note that <strong>Maternity Leave is calculated on a calendar day basis</strong> — weekends and holidays are counted as part of maternity leave.'
+      answer: 'No, <strong>public holidays and weekly offs that fall during your leave are not counted</strong> against your leave balance. For example, if you take 5 days of Privilege Leave (PL) but there\'s a Sunday and a public holiday in between, only the working days are counted toward your leave balance.<br><br>However, note that <strong>Maternity Leave is calculated on a calendar day basis</strong> — weekends and holidays are counted as part of maternity leave.'
     },
     {
       id: 'tubectomy-leave',
@@ -304,7 +304,7 @@
       id: 'leave-mid-year-pro-rata',
       category: 'Leave Policy',
       keywords: ['mid year joining', 'pro rata leave', 'joined mid year', 'mid year leave calculation', 'proportionate leave', 'join after january'],
-      answer: 'If you join mid-year, your Annual Leave is <strong>calculated proportionally (pro-rata)</strong> based on the remaining months in the calendar year from your date of joining. For example, if you join in July, you would receive approximately half the annual entitlement.'
+      answer: 'Privilege Leave (PL) is credited quarterly at <strong>4.75 leaves per quarter</strong>. If an employee joins in the middle of a quarter, PL is credited on a <strong>pro-rata basis</strong>.<br><br><strong>Examples:</strong><br>• Joining in <strong>February</strong>: <strong>3.17 PL</strong> for that quarter<br>• Joining in <strong>September</strong>: <strong>1.58 PL</strong> for that quarter<br><br>— from Leave Policy'
     },
     {
       id: 'leave-resignation-payout',
@@ -925,13 +925,13 @@
       id: 'capabilities',
       category: null,
       keywords: ['what can i do', 'what can you do', 'what can i ask', 'how can you help', 'what do you do', 'help me', 'capabilities', 'features', 'options', 'i need help', 'what should i ask', 'guide me', 'not sure what to ask', 'help', 'confused', 'what to ask'],
-      answer: 'Here\'s what I can help you with:<br><br><strong>Leave Policy Questions:</strong><br>• Different types of leave (Annual, Medical, Maternity, Paternity, and more)<br>• How many days you\'re entitled to<br>• How to apply for leave<br>• Carry-forward rules<br>• Special leave types (Marriage, Bereavement, Adoption, Celebratory Off, etc.)<br><br><strong>POSH Policy Questions:</strong><br>• What constitutes sexual harassment<br>• How to file a complaint<br>• Who to contact (ICC members)<br>• The investigation process and timelines<br>• Your rights and protections<br><br><strong>Exit Policy Questions:</strong><br>• How to resign and the notice period<br>• Types of exits (voluntary and involuntary)<br>• Full & Final settlement timeline<br>• Asset clearance and documentation<br>• Leaves during notice period<br><br><strong>Salary Advance Policy Questions:</strong><br>• Advance eligibility and limits<br>• Permissible reasons for requesting an advance<br>• How to apply and approval process<br>• Recovery and repayment through salary deduction<br>• Rules during separation or termination<br><br><strong>Code of Conduct Questions:</strong><br>• Ethical standards and expected behavior<br>• Anti-corruption and anti-fraud rules<br>• Misconduct classification (Level 1, 2, 3)<br>• Escalation matrix and reporting process<br>• Confidentiality and investigation procedures<br><br><strong>Grievance Redressal Policy Questions:</strong><br>• How to raise a workplace grievance<br>• Grievance Redressal Committee details<br>• Confidentiality and protection against retaliation<br>• Resolution timelines and documentation<br>• What\'s covered and what\'s excluded<br><br>Example questions:<br>• "How much maternity leave am I entitled to?"<br>• "What happens during a POSH investigation?"<br>• "How do I resign from the company?"<br>• "Can I get a salary advance?"<br>• "What is considered gross misconduct?"<br>• "How do I raise a grievance?"<br><br>Just ask me anything about these policies!'
+      answer: 'Here\'s what I can help you with in English:<br><br><strong>Leave Policy Questions:</strong><br>• Different types of leave (Privilege Leave, Medical, Maternity, Paternity, and more)<br>• How many days you\'re entitled to<br>• How to apply for leave<br>• Carry-forward rules<br>• Special leave types (Marriage, Bereavement, Adoption, Celebratory Off, etc.)<br><br><strong>POSH Policy Questions:</strong><br>• What constitutes sexual harassment<br>• How to file a complaint<br>• Who to contact (ICC members)<br>• The investigation process and timelines<br>• Your rights and protections<br><br><strong>Exit Policy Questions:</strong><br>• How to resign and the notice period<br>• Types of exits (voluntary and involuntary)<br>• Full & Final settlement timeline<br>• Asset clearance and documentation<br>• Leaves during notice period<br><br><strong>Salary Advance Policy Questions:</strong><br>• Advance eligibility and limits<br>• Permissible reasons for requesting an advance<br>• How to apply and approval process<br>• Recovery and repayment through salary deduction<br>• Rules during separation or termination<br><br><strong>Code of Conduct Questions:</strong><br>• Ethical standards and expected behavior<br>• Anti-corruption and anti-fraud rules<br>• Misconduct classification (Level 1, 2, 3)<br>• Escalation matrix and reporting process<br>• Confidentiality and investigation procedures<br><br><strong>Grievance Redressal Policy Questions:</strong><br>• How to raise a workplace grievance<br>• Grievance Redressal Committee details<br>• Confidentiality and protection against retaliation<br>• Resolution timelines and documentation<br>• What\'s covered and what\'s excluded<br><br>Example questions:<br>• "How much maternity leave am I entitled to?"<br>• "What happens during a POSH investigation?"<br>• "How do I resign from the company?"<br>• "Can I get a salary advance?"<br>• "What is considered gross misconduct?"<br>• "How do I raise a grievance?"<br><br>Just ask me anything about these policies.'
     },
     {
       id: 'what-policies',
       category: null,
       keywords: ['what policies', 'what policies do you have', 'which policies', 'list policies', 'available policies', 'policies you cover', 'what policy', 'policies available', 'company policies'],
-      answer: 'I can help you with questions about <strong>six key HR policies</strong> at Sea Turtle Pvt Ltd:<br><br><strong>1. Leave Policy</strong> (Effective 1 Jan 2026)<br>• Annual Leave, Medical Leave, Period Leave, Celebratory Off, Marriage Leave<br>• Maternity, Paternity, Adoption, Bereavement Leave & more<br><br><strong>2. POSH Policy</strong> (Prevention of Sexual Harassment, Effective 30 June 2026)<br>• Based on the Sexual Harassment of Women at Workplace Act, 2013<br>• Reporting process, ICC contacts, investigation timelines & protections<br><br><strong>3. Exit Policy</strong> (Circulated 3 Nov 2025)<br>• Resignation process, notice period, types of exits<br>• F&F settlement, asset clearance, documentation<br><br><strong>4. Salary Advance Policy</strong> (Effective 1 June 2026)<br>• Advance eligibility, limits, and permissible reasons<br>• Application process, approval authority, and recovery<br><br><strong>5. Code of Conduct</strong> (Effective 1 Jan 2026)<br>• Ethical standards, anti-corruption, anti-fraud rules<br>• Misconduct classification, escalation matrix, and investigation process<br><br><strong>6. Grievance Redressal Policy</strong> (Effective 1 Jan 2026)<br>• Formal grievance mechanism for workplace concerns<br>• Grievance Redressal Committee, resolution timelines, and confidentiality<br><br>What would you like to know more about?'
+      answer: 'I can help you with questions in English about <strong>six key HR policies</strong> at Sea Turtle Pvt Ltd:<br><br><strong>1. Leave Policy</strong> (Effective 1 Jan 2026)<br>• Privilege Leave (PL), Medical Leave, Period Leave, Celebratory Off, Marriage Leave<br>• Maternity, Paternity, Adoption, Bereavement Leave & more<br><br><strong>2. POSH Policy</strong> (Prevention of Sexual Harassment, Effective 30 June 2026)<br>• Based on the Sexual Harassment of Women at Workplace Act, 2013<br>• Reporting process, ICC contacts, investigation timelines & protections<br><br><strong>3. Exit Policy</strong> (Circulated 3 Nov 2025)<br>• Resignation process, notice period, types of exits<br>• F&F settlement, asset clearance, documentation<br><br><strong>4. Salary Advance Policy</strong> (Effective 1 June 2026)<br>• Advance eligibility, limits, and permissible reasons<br>• Application process, approval authority, and recovery<br><br><strong>5. Code of Conduct</strong> (Effective 1 Jan 2026)<br>• Ethical standards, anti-corruption, anti-fraud rules<br>• Misconduct classification, escalation matrix, and investigation process<br><br><strong>6. Grievance Redressal Policy</strong> (Effective 1 Jan 2026)<br>• Formal grievance mechanism for workplace concerns<br>• Grievance Redressal Committee, resolution timelines, and confidentiality<br><br>What would you like to know more about?'
     },
     {
       id: 'thanks',
@@ -1037,8 +1037,12 @@
   ]);
 
   var ALIASES = {
-    al: 'annual leave earned leave',
-    el: 'annual leave earned leave',
+    pl: 'privilege leave annual leave earned leave',
+    priviledge: 'privilege leave',
+    privilage: 'privilege leave',
+    privlege: 'privilege leave',
+    al: 'privilege leave annual leave earned leave',
+    el: 'privilege leave annual leave earned leave',
     cl: 'casual leave medical leave',
     ml: 'medical leave sick leave',
     sl: 'sick leave medical leave',
@@ -1100,7 +1104,11 @@
     notic: 'notice period',
     probaton: 'probation',
     maternaty: 'maternity leave',
+    maternty: 'maternity leave',
+    maternitty: 'maternity leave',
     paternaty: 'paternity leave',
+    paternty: 'paternity leave',
+    paternitty: 'paternity leave',
     miscariage: 'miscarriage leave',
     grivance: 'grievance complaint',
     grevance: 'grievance complaint',
@@ -1160,37 +1168,51 @@
     return new Set(tokens);
   }
 
-  function editDistance(a, b) {
-    if (Math.abs(a.length - b.length) > 1) return 2;
+  function maxAllowedEdits(a, b) {
+    var length = Math.max(a.length, b.length);
+    if (length >= 9) return 2;
+    if (length >= 5) return 1;
+    return 0;
+  }
+
+  function editDistance(a, b, maxEdits) {
+    if (Math.abs(a.length - b.length) > maxEdits) return maxEdits + 1;
     if (a === b) return 0;
-    var edits = 0;
-    var i = 0;
-    var j = 0;
-    while (i < a.length && j < b.length) {
-      if (a[i] === b[j]) {
-        i++;
-        j++;
-      } else {
-        edits++;
-        if (edits > 1) return edits;
-        if (a.length > b.length) i++;
-        else if (b.length > a.length) j++;
-        else {
-          i++;
-          j++;
+    var prev = [];
+    var curr = [];
+    for (var j = 0; j <= b.length; j++) prev[j] = j;
+    for (var i = 1; i <= a.length; i++) {
+      curr[0] = i;
+      var rowMin = curr[0];
+      for (j = 1; j <= b.length; j++) {
+        var cost = a[i - 1] === b[j - 1] ? 0 : 1;
+        curr[j] = Math.min(
+          prev[j] + 1,
+          curr[j - 1] + 1,
+          prev[j - 1] + cost
+        );
+        if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) {
+          curr[j] = Math.min(curr[j], prev[j - 2] + 1);
         }
+        if (curr[j] < rowMin) rowMin = curr[j];
       }
+      if (rowMin > maxEdits) return maxEdits + 1;
+      var tmp = prev;
+      prev = curr;
+      curr = tmp;
     }
-    if (i < a.length || j < b.length) edits++;
-    return edits;
+    return prev[b.length];
   }
 
   function hasToken(set, token) {
     if (set.has(token)) return true;
     if (token.length < 5) return false;
     var found = false;
+    var maxEdits;
     set.forEach(function(candidate) {
-      if (!found && candidate.length >= 5 && editDistance(token, candidate) <= 1) found = true;
+      if (found || candidate.length < 5) return;
+      maxEdits = maxAllowedEdits(token, candidate);
+      if (editDistance(token, candidate, maxEdits) <= maxEdits) found = true;
     });
     return found;
   }
@@ -1255,7 +1277,7 @@
     else if (hasAny(text, [' level 3 ', ' gross misconduct ', ' theft ', ' stealing ', ' chori ', ' physical violence ', ' drugs ', ' alcohol ', ' data breach ', ' hacking ', ' forgery ', ' police '])) entry = findEntryById('coc-level3-gross');
     else if (hasAny(text, [' level 2 ', ' moderate misconduct ', ' abusive language ', ' unauthorized information ', ' repeated level 1 '])) entry = findEntryById('coc-level2-moderate');
     else if (hasAny(text, [' level 1 ', ' minor misconduct ', ' late coming ', ' early leaving ', ' poor attendance '])) entry = findEntryById('coc-level1-minor');
-    else if (hasAny(text, [' joined mid year ', ' mid year ', ' pro rata ', ' prorated ', ' joined in ', ' join after ', ' joining after '])) entry = findEntryById('leave-mid-year-pro-rata');
+    else if (hasAny(text, [' joined mid year ', ' mid year ', ' pro rata ', ' prorated ', ' joined in ', ' join in ', ' join after ', ' joining after ', ' february ', ' september ']) && hasAny(text, [' leave ', ' pl ', ' privilege ', ' annual ', ' quarter ', ' joining ', ' join '])) entry = findEntryById('leave-mid-year-pro-rata');
     else if (hasAny(text, [' carry forward ', ' carry over ', ' carryforward ', ' balance ', ' unused ', ' lapse ', ' expire ']) && hasAny(text, [' leave ', ' chutti ', ' chhutti '])) entry = findEntryById('leave-balance');
     else if (hasAny(text, [' weekend count ', ' sunday count ', ' holiday count ', ' weekly off count ', ' public holiday leave ', ' do weekends count ', ' do holidays count '])) entry = findEntryById('leave-count-weekends');
     else if (hasAny(text, [' miscarriage ', ' miscariage ', ' medical termination pregnancy ', ' pregnancy loss ', ' mtp '])) entry = findEntryById('miscarriage-leave');
@@ -1274,6 +1296,7 @@
     else if (hasAny(text, [' advance ', ' salary advance ', ' advance salary ', ' salary loan ', ' advance money ', ' paisa ', ' paise ']) && hasAny(text, [' misuse ', ' misrepresentation ', ' false ', ' forged ', ' fraudulent ', ' concealment ', ' wrong information '])) entry = findEntryById('sa-misconduct');
     else if (hasAny(text, [' advance ', ' salary advance ', ' advance salary ', ' salary loan ', ' advance money ', ' paisa ', ' paise ']) && hasAny(text, [' resign ', ' resignation ', ' separation ', ' terminate ', ' termination ', ' retirement ', ' abscond ', ' outstanding ', ' leaving ', ' notice period '])) entry = findEntryById('sa-separation');
     else if (hasAny(text, [' advance ', ' salary advance ', ' advance salary ', ' salary loan ', ' advance money ', ' paisa ', ' paise ']) && hasAny(text, [' apply ', ' application ', ' form ', ' portal ', ' process ', ' kaise '])) entry = findEntryById('sa-application-process');
+    else if (hasAny(text, [' abscond ', ' absconds ', ' absconding ', ' job abandonment ', ' stopped coming ', ' no show ', ' absent without notice '])) entry = findEntryById('exit-absconding');
     else if (hasAny(text, [' staring ', ' stare ', ' leering ', ' ogling ', ' unwanted gaze ', ' unwanted attention ']) && hasAny(text, [' harassment ', ' posh ', ' uncomfortable '])) entry = findEntryById('posh-staring');
     else if (hasAny(text, [' fraud ', ' theft ', ' misconduct ', ' violation ', ' data breach ']) && hasAny(text, [' report ', ' escalate ', ' where ', ' kahan ', ' whom ', ' email '])) entry = findEntryById('coc-escalation');
     else if (hasAny(text, [' grievance ', ' grivance ', ' grevance ']) && hasAny(text, [' confidential ', ' confidentiality ', ' private ', ' identity ', ' anonymous '])) entry = findEntryById('grievance-confidentiality');
